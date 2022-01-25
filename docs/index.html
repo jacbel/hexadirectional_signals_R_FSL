@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Detecting Hexadirectional Signals in the Human Brain using R and FSL</title>
+  <meta name="description" content="Detecting Hexadirectional Signals in the Human Brain using R and FSL" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Detecting Hexadirectional Signals in the Human Brain using R and FSL" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Detecting Hexadirectional Signals in the Human Brain using R and FSL" />
+  
+  
+  
+
+<meta name="author" content="Jacob Bellmund" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+
+<link rel="next" href="example-data.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Overview</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#requirements"><i class="fa fa-check"></i><b>1.1</b> Requirements</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#workflow"><i class="fa fa-check"></i><b>1.2</b> Workflow</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="index.html"><a href="index.html#cbs-imac-or-macbook"><i class="fa fa-check"></i><b>1.2.1</b> CBS iMac or Macbook</a></li>
+<li class="chapter" data-level="1.2.2" data-path="index.html"><a href="index.html#remote-linux"><i class="fa fa-check"></i><b>1.2.2</b> Remote Linux</a></li>
+<li class="chapter" data-level="1.2.3" data-path="index.html"><a href="index.html#running-the-analysis"><i class="fa fa-check"></i><b>1.2.3</b> Running the analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#required-packages"><i class="fa fa-check"></i><b>1.3</b> Required packages</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="example-data.html"><a href="example-data.html"><i class="fa fa-check"></i><b>2</b> Example Data</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="example-data.html"><a href="example-data.html#download-example-data"><i class="fa fa-check"></i><b>2.1</b> Download Example Data</a></li>
+<li class="chapter" data-level="2.2" data-path="example-data.html"><a href="example-data.html#rearrange-data"><i class="fa fa-check"></i><b>2.2</b> Rearrange data</a></li>
+<li class="chapter" data-level="2.3" data-path="example-data.html"><a href="example-data.html#event-tables"><i class="fa fa-check"></i><b>2.3</b> Event Tables</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="example-data.html"><a href="example-data.html#trajectory-duration"><i class="fa fa-check"></i><b>2.3.1</b> Trajectory duration</a></li>
+<li class="chapter" data-level="2.3.2" data-path="example-data.html"><a href="example-data.html#angular-sampling"><i class="fa fa-check"></i><b>2.3.2</b> Angular Sampling</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="example-data.html"><a href="example-data.html#fmri"><i class="fa fa-check"></i><b>2.4</b> fMRI</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="example-data.html"><a href="example-data.html#merge-images-of-each-run"><i class="fa fa-check"></i><b>2.4.1</b> Merge images of each run</a></li>
+<li class="chapter" data-level="2.4.2" data-path="example-data.html"><a href="example-data.html#calculate-tsnr"><i class="fa fa-check"></i><b>2.4.2</b> Calculate tSNR</a></li>
+<li class="chapter" data-level="2.4.3" data-path="example-data.html"><a href="example-data.html#create-quick-brain-mask"><i class="fa fa-check"></i><b>2.4.3</b> Create quick brain mask</a></li>
+<li class="chapter" data-level="2.4.4" data-path="example-data.html"><a href="example-data.html#mask-4d-functionals"><i class="fa fa-check"></i><b>2.4.4</b> Mask 4D functionals</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="glm-1.html"><a href="glm-1.html"><i class="fa fa-check"></i><b>3</b> GLM 1</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="glm-1.html"><a href="glm-1.html#first-half-of-each-run"><i class="fa fa-check"></i><b>3.1</b> First half of each run</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="glm-1.html"><a href="glm-1.html#ev-files-for-feat"><i class="fa fa-check"></i><b>3.1.1</b> EV files for FEAT</a></li>
+<li class="chapter" data-level="3.1.2" data-path="glm-1.html"><a href="glm-1.html#set-up-the-glm-using-fsl-feat"><i class="fa fa-check"></i><b>3.1.2</b> Set up the GLM using FSL FEAT</a></li>
+<li class="chapter" data-level="3.1.3" data-path="glm-1.html"><a href="glm-1.html#run-glm1"><i class="fa fa-check"></i><b>3.1.3</b> Run GLM1</a></li>
+<li class="chapter" data-level="3.1.4" data-path="glm-1.html"><a href="glm-1.html#results-glm-1"><i class="fa fa-check"></i><b>3.1.4</b> Results GLM 1</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="estimate-orientation.html"><a href="estimate-orientation.html"><i class="fa fa-check"></i><b>4</b> Estimate orientation</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="estimate-orientation.html"><a href="estimate-orientation.html#load-pes-of-parametric-modulators"><i class="fa fa-check"></i><b>4.1</b> Load PEs of parametric modulators</a></li>
+<li class="chapter" data-level="4.2" data-path="estimate-orientation.html"><a href="estimate-orientation.html#compute-voxelwise-orientation"><i class="fa fa-check"></i><b>4.2</b> Compute Voxelwise Orientation</a></li>
+<li class="chapter" data-level="4.3" data-path="estimate-orientation.html"><a href="estimate-orientation.html#average-grid-orientations"><i class="fa fa-check"></i><b>4.3</b> Average grid orientations</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="estimate-orientation.html"><a href="estimate-orientation.html#wholebrain-average-orientation"><i class="fa fa-check"></i><b>4.3.1</b> Wholebrain average orientation</a></li>
+<li class="chapter" data-level="4.3.2" data-path="estimate-orientation.html"><a href="estimate-orientation.html#entorhinal-cortex-average-orientation"><i class="fa fa-check"></i><b>4.3.2</b> Entorhinal Cortex average orientation</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="estimate-orientation.html"><a href="estimate-orientation.html#brain-plot-of-estimated-orientations"><i class="fa fa-check"></i><b>4.4</b> Brain plot of estimated orientations</a></li>
+<li class="chapter" data-level="4.5" data-path="estimate-orientation.html"><a href="estimate-orientation.html#store-estimated-grid-orientation"><i class="fa fa-check"></i><b>4.5</b> Store estimated grid orientation</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="glm-2.html"><a href="glm-2.html"><i class="fa fa-check"></i><b>5</b> GLM 2</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="glm-2.html"><a href="glm-2.html#second-half-of-each-run"><i class="fa fa-check"></i><b>5.1</b> Second half of each run</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="glm-2.html"><a href="glm-2.html#parametric-modulation-with-cosine-regressor"><i class="fa fa-check"></i><b>5.1.1</b> Parametric modulation with cosine regressor</a></li>
+<li class="chapter" data-level="5.1.2" data-path="glm-2.html"><a href="glm-2.html#set-up-the-glm-using-fsl-feat-1"><i class="fa fa-check"></i><b>5.1.2</b> Set up the GLM using FSL FEAT</a></li>
+<li class="chapter" data-level="5.1.3" data-path="glm-2.html"><a href="glm-2.html#run-glm2"><i class="fa fa-check"></i><b>5.1.3</b> Run GLM2</a></li>
+<li class="chapter" data-level="5.1.4" data-path="glm-2.html"><a href="glm-2.html#glm-2-results"><i class="fa fa-check"></i><b>5.1.4</b> GLM 2 results</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="credit.html"><a href="credit.html"><i class="fa fa-check"></i><b>6</b> Credit</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="credit.html"><a href="credit.html#gridcat"><i class="fa fa-check"></i><b>6.1</b> GridCAT</a></li>
+<li class="chapter" data-level="6.2" data-path="credit.html"><a href="credit.html#hosting-on-gitpages"><i class="fa fa-check"></i><b>6.2</b> Hosting on GitPages</a></li>
+<li class="chapter" data-level="6.3" data-path="credit.html"><a href="credit.html#publishing-on-github-pages"><i class="fa fa-check"></i><b>6.3</b> Publishing on GitHub Pages</a></li>
+<li class="chapter" data-level="6.4" data-path="credit.html"><a href="credit.html#list-of-r-packages"><i class="fa fa-check"></i><b>6.4</b> List of R packages</a></li>
+<li class="chapter" data-level="6.5" data-path="credit.html"><a href="credit.html#references"><i class="fa fa-check"></i><b>6.5</b> References</a></li>
+<li class="chapter" data-level="6.6" data-path="credit.html"><a href="credit.html#session-info"><i class="fa fa-check"></i><b>6.6</b> Session Info</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Detecting Hexadirectional Signals in the Human Brain using R and FSL</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="header">
+<h1 class="title">Detecting Hexadirectional Signals in the Human Brain using R and FSL</h1>
+<p class="author"><em>Jacob Bellmund</em></p>
+</div>
+<div id="overview" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Overview</h1>
+<p>Grid-like hexadirectional signals are thought of as a proxy-measure for the activity of grid cell populations (<a href="https://www.nature.com/articles/nature08704">Doeller et al., Nature, 2010</a>). The goal of this project is to showcase the analysis pipeline to detect these hexadirectional signals using FSL and R.</p>
+<p><img src="static/analysis_logic.png" style="width:100.0%" />
+Visualization by Jacob Bellmund, licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.</p>
+<blockquote>
+<p>The main idea of the analysis is illustrated in the figure above. In brief, the characteristic six-fold symmetric firing patterns of grid cells might, on the population level, result in a six-fold (i.e. hexadirectional) modulation of activity that can be picked up with fMRI (top left). Thus, we will analyze fMRI data as a function of movement direction through a virtual environment in a spatial navigation task. However, the orientation (or phase) of the hexadirectional signal relative to the virtual environment is unknown. One partition of the data will be use to estimate the orientation of the hexadirectional signal. This is accomplished by implementing a GLM that models navigation events, so movement trajectories through the virtual environment. Crucially, it includes two parametric modulators for these events, which are defined by the sine and cosine of the direction of the trajectory in 60°-space. So these regressors search for activity peaks every 60° as a function of the trajectory direction (top right). The parameter estimates of the sine and the cosine regressor are then combined to estimate the orientation of an underlying hexadirectional signal in the first data partition (bottom right). This estimate is then validated on the second data partition, where we test whether BOLD activity is higher when the participant moves along directions that are close to the estimated orientation. This can be done in different ways: Either using a cosine regressor that tests for a parametric 60° modulation, so high activity when running at 0°, 60°, 120° and so on relative to the estimated orientation. A second way of testing this modulation would be to use a contrast between trajectories aligned (within 15°) of the estimated orientation and misaligned (between 15° and 30° from the estimated orientation.</p>
+</blockquote>
+<p>Thus, the three major steps the code goes through are:</p>
+<ul>
+<li>GLM 1: fit sine and cosine regressor at given periodicity for navigation trajectories</li>
+<li>Estimate orientation of the periodic signal</li>
+<li>GLM 2: test signal modulations as a function of trajectory direction relative to estimated orientation</li>
+</ul>
+<div id="requirements" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> Requirements</h2>
+<p>The code requires <a href="https://fsl.fmrib.ox.ac.uk/fsl/fslwiki">FSL</a> to be installed and to be accessible from R. Additional packages will be installed, see below. If you don’t have FSL installed, you will have to do that first. See <a href="https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FslInstallation">here</a> for detailed instructions.</p>
+<p>The code will automatically download example data that is based on the <a href="https://www.nitrc.org/projects/gridcat">GridCAT analysis toolbox</a> for Matlab (<a href="https://www.frontiersin.org/articles/10.3389/fninf.2017.00047/full">Stangl et al., Frontiers in Neuroinformatics, 2017</a>).</p>
+<p>Overall, you will need around 11 GB of free disk space.</p>
+</div>
+<div id="workflow" class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> Workflow</h2>
+<p>I have tested this analysis pipeline on Mac OS and Linux. Below are some basic usage instructions for scientists at the MPI CBS that might be helpful for others, too. See <a href="index.html#running-the-analysis">1.2.3</a> for how to start the analysis once everything is configured.</p>
+<div id="cbs-imac-or-macbook" class="section level3" number="1.2.1">
+<h3><span class="header-section-number">1.2.1</span> CBS iMac or Macbook</h3>
+<p>On our CBS iMacs and Macbooks FSL should be installed per default, though you might have to <a href="https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FslInstallation/ShellSetup">configure FSL</a> when using it for the first time. Start RStudio from the terminal using <code>open -na Rstudio</code>.</p>
+</div>
+<div id="remote-linux" class="section level3" number="1.2.2">
+<h3><span class="header-section-number">1.2.2</span> Remote Linux</h3>
+<p>You can also run the pipeline via the CBS NoMachine Remote Linux service. When logged on to a remote Linux session, hop on a least-utilized latest-generation (-sL) compute server by typing <code>getserver -sL</code> in a fresh console window. I have checked that everything works when using the FSL version stored in <code>/usr/share/fsl/5.0/bin/fsl</code>, so configure your <code>.bash_profile</code> file in <code>hu_yourusername</code> accordingly. You can open RStudio by typing <code>R+ --version 3.6.1 rstudio</code> (you can also try different R versions of course, but not tested). For some reason, FSL does not work properly when using <code>/usr/lib/fsl/5.0/fsl</code>, which is what you get if you type <code>FSL --cluster</code> to start the FSL environment on the server. This is an issue we might have to solve when we later want to parallelize the analysis.</p>
+</div>
+<div id="running-the-analysis" class="section level3" number="1.2.3">
+<h3><span class="header-section-number">1.2.3</span> Running the analysis</h3>
+<p>Once you are in RStudio, open the R project file called <code>hexadirectional_signals.Rproj</code> in the folder <code>hexadirectional_signals_pipeline</code>. This will set your working directory to this folder. From here you can run the entire analysis when typing <code>bookdown::render_book()</code> in the RStudio console. Thus, the <a href="https://bookdown.org/">bookdown package</a> needs to be installed prior to running the analysis via <code>install.packages("bookdown")</code>. This command will install the package to the default library location.</p>
+<p>Other required packages (see next section) will be installed if necessary and loaded when rendering the book. If this fails, e.g. because user input is required, try running the section below manually once to make sure all packages are installed correctly.</p>
+</div>
+</div>
+<div id="required-packages" class="section level2" number="1.3">
+<h2><span class="header-section-number">1.3</span> Required packages</h2>
+<p>We begin by loading the required packages (after installing them if necessary).</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="index.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(bookdown)){<span class="fu">install.packages</span>(<span class="st">&quot;bookdown&quot;</span>); <span class="fu">library</span>(<span class="st">&quot;bookdown&quot;</span>)}</span>
+<span id="cb1-2"><a href="index.html#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(tidyverse)){<span class="fu">install.packages</span>(<span class="st">&quot;tidyverse&quot;</span>); <span class="fu">library</span>(<span class="st">&quot;tidyverse&quot;</span>)}</span>
+<span id="cb1-3"><a href="index.html#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(here)){<span class="fu">install.packages</span>(<span class="st">&quot;here&quot;</span>); <span class="fu">library</span>(<span class="st">&quot;here&quot;</span>)}</span>
+<span id="cb1-4"><a href="index.html#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(fslr)){<span class="fu">install.packages</span>(<span class="st">&quot;fslr&quot;</span>); <span class="fu">library</span>(<span class="st">&quot;fslr&quot;</span>)}</span>
+<span id="cb1-5"><a href="index.html#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(oro.nifti)){<span class="fu">install.packages</span>(<span class="st">&quot;oro.nifti&quot;</span>); <span class="fu">library</span>(<span class="st">&quot;oro.nifti&quot;</span>)}</span>
+<span id="cb1-6"><a href="index.html#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(cowplot)){<span class="fu">install.packages</span>(<span class="st">&quot;cowplot&quot;</span>); <span class="fu">library</span>(<span class="st">&quot;cowplot&quot;</span>)}</span>
+<span id="cb1-7"><a href="index.html#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(useful)){<span class="fu">install.packages</span>(<span class="st">&quot;useful&quot;</span>); <span class="fu">library</span>(<span class="st">&quot;useful&quot;</span>)}</span>
+<span id="cb1-8"><a href="index.html#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(circular)){<span class="fu">install.packages</span>(<span class="st">&quot;circular&quot;</span>); <span class="fu">library</span>(<span class="st">&quot;circular&quot;</span>)}</span>
+<span id="cb1-9"><a href="index.html#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(remotes)){<span class="fu">install.packages</span>(<span class="st">&quot;remotes&quot;</span>); <span class="fu">library</span>(<span class="st">&quot;remotes&quot;</span>)}</span>
+<span id="cb1-10"><a href="index.html#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(grateful)){remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;Pakillo/grateful&quot;</span>); <span class="fu">library</span>(<span class="st">&quot;grateful&quot;</span>)}</span>
+<span id="cb1-11"><a href="index.html#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">#if (!require(tidylog)){install.packages(&quot;tidylog&quot;); library(&quot;tidylog&quot;, warn.conflicts = FALSE)} # very helpful logs of dplyr functions, but too much output for now</span></span></code></pre></div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+<a href="example-data.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

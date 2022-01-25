@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>6 Credit | Detecting Hexadirectional Signals in the Human Brain using R and FSL</title>
+  <meta name="description" content="6 Credit | Detecting Hexadirectional Signals in the Human Brain using R and FSL" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="6 Credit | Detecting Hexadirectional Signals in the Human Brain using R and FSL" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="6 Credit | Detecting Hexadirectional Signals in the Human Brain using R and FSL" />
+  
+  
+  
+
+<meta name="author" content="Jacob Bellmund" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="glm-2.html"/>
+
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Overview</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#requirements"><i class="fa fa-check"></i><b>1.1</b> Requirements</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#workflow"><i class="fa fa-check"></i><b>1.2</b> Workflow</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="index.html"><a href="index.html#cbs-imac-or-macbook"><i class="fa fa-check"></i><b>1.2.1</b> CBS iMac or Macbook</a></li>
+<li class="chapter" data-level="1.2.2" data-path="index.html"><a href="index.html#remote-linux"><i class="fa fa-check"></i><b>1.2.2</b> Remote Linux</a></li>
+<li class="chapter" data-level="1.2.3" data-path="index.html"><a href="index.html#running-the-analysis"><i class="fa fa-check"></i><b>1.2.3</b> Running the analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#required-packages"><i class="fa fa-check"></i><b>1.3</b> Required packages</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="example-data.html"><a href="example-data.html"><i class="fa fa-check"></i><b>2</b> Example Data</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="example-data.html"><a href="example-data.html#download-example-data"><i class="fa fa-check"></i><b>2.1</b> Download Example Data</a></li>
+<li class="chapter" data-level="2.2" data-path="example-data.html"><a href="example-data.html#rearrange-data"><i class="fa fa-check"></i><b>2.2</b> Rearrange data</a></li>
+<li class="chapter" data-level="2.3" data-path="example-data.html"><a href="example-data.html#event-tables"><i class="fa fa-check"></i><b>2.3</b> Event Tables</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="example-data.html"><a href="example-data.html#trajectory-duration"><i class="fa fa-check"></i><b>2.3.1</b> Trajectory duration</a></li>
+<li class="chapter" data-level="2.3.2" data-path="example-data.html"><a href="example-data.html#angular-sampling"><i class="fa fa-check"></i><b>2.3.2</b> Angular Sampling</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="example-data.html"><a href="example-data.html#fmri"><i class="fa fa-check"></i><b>2.4</b> fMRI</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="example-data.html"><a href="example-data.html#merge-images-of-each-run"><i class="fa fa-check"></i><b>2.4.1</b> Merge images of each run</a></li>
+<li class="chapter" data-level="2.4.2" data-path="example-data.html"><a href="example-data.html#calculate-tsnr"><i class="fa fa-check"></i><b>2.4.2</b> Calculate tSNR</a></li>
+<li class="chapter" data-level="2.4.3" data-path="example-data.html"><a href="example-data.html#create-quick-brain-mask"><i class="fa fa-check"></i><b>2.4.3</b> Create quick brain mask</a></li>
+<li class="chapter" data-level="2.4.4" data-path="example-data.html"><a href="example-data.html#mask-4d-functionals"><i class="fa fa-check"></i><b>2.4.4</b> Mask 4D functionals</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="glm-1.html"><a href="glm-1.html"><i class="fa fa-check"></i><b>3</b> GLM 1</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="glm-1.html"><a href="glm-1.html#first-half-of-each-run"><i class="fa fa-check"></i><b>3.1</b> First half of each run</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="glm-1.html"><a href="glm-1.html#ev-files-for-feat"><i class="fa fa-check"></i><b>3.1.1</b> EV files for FEAT</a></li>
+<li class="chapter" data-level="3.1.2" data-path="glm-1.html"><a href="glm-1.html#set-up-the-glm-using-fsl-feat"><i class="fa fa-check"></i><b>3.1.2</b> Set up the GLM using FSL FEAT</a></li>
+<li class="chapter" data-level="3.1.3" data-path="glm-1.html"><a href="glm-1.html#run-glm1"><i class="fa fa-check"></i><b>3.1.3</b> Run GLM1</a></li>
+<li class="chapter" data-level="3.1.4" data-path="glm-1.html"><a href="glm-1.html#results-glm-1"><i class="fa fa-check"></i><b>3.1.4</b> Results GLM 1</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="estimate-orientation.html"><a href="estimate-orientation.html"><i class="fa fa-check"></i><b>4</b> Estimate orientation</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="estimate-orientation.html"><a href="estimate-orientation.html#load-pes-of-parametric-modulators"><i class="fa fa-check"></i><b>4.1</b> Load PEs of parametric modulators</a></li>
+<li class="chapter" data-level="4.2" data-path="estimate-orientation.html"><a href="estimate-orientation.html#compute-voxelwise-orientation"><i class="fa fa-check"></i><b>4.2</b> Compute Voxelwise Orientation</a></li>
+<li class="chapter" data-level="4.3" data-path="estimate-orientation.html"><a href="estimate-orientation.html#average-grid-orientations"><i class="fa fa-check"></i><b>4.3</b> Average grid orientations</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="estimate-orientation.html"><a href="estimate-orientation.html#wholebrain-average-orientation"><i class="fa fa-check"></i><b>4.3.1</b> Wholebrain average orientation</a></li>
+<li class="chapter" data-level="4.3.2" data-path="estimate-orientation.html"><a href="estimate-orientation.html#entorhinal-cortex-average-orientation"><i class="fa fa-check"></i><b>4.3.2</b> Entorhinal Cortex average orientation</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="estimate-orientation.html"><a href="estimate-orientation.html#brain-plot-of-estimated-orientations"><i class="fa fa-check"></i><b>4.4</b> Brain plot of estimated orientations</a></li>
+<li class="chapter" data-level="4.5" data-path="estimate-orientation.html"><a href="estimate-orientation.html#store-estimated-grid-orientation"><i class="fa fa-check"></i><b>4.5</b> Store estimated grid orientation</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="glm-2.html"><a href="glm-2.html"><i class="fa fa-check"></i><b>5</b> GLM 2</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="glm-2.html"><a href="glm-2.html#second-half-of-each-run"><i class="fa fa-check"></i><b>5.1</b> Second half of each run</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="glm-2.html"><a href="glm-2.html#parametric-modulation-with-cosine-regressor"><i class="fa fa-check"></i><b>5.1.1</b> Parametric modulation with cosine regressor</a></li>
+<li class="chapter" data-level="5.1.2" data-path="glm-2.html"><a href="glm-2.html#set-up-the-glm-using-fsl-feat-1"><i class="fa fa-check"></i><b>5.1.2</b> Set up the GLM using FSL FEAT</a></li>
+<li class="chapter" data-level="5.1.3" data-path="glm-2.html"><a href="glm-2.html#run-glm2"><i class="fa fa-check"></i><b>5.1.3</b> Run GLM2</a></li>
+<li class="chapter" data-level="5.1.4" data-path="glm-2.html"><a href="glm-2.html#glm-2-results"><i class="fa fa-check"></i><b>5.1.4</b> GLM 2 results</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="credit.html"><a href="credit.html"><i class="fa fa-check"></i><b>6</b> Credit</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="credit.html"><a href="credit.html#gridcat"><i class="fa fa-check"></i><b>6.1</b> GridCAT</a></li>
+<li class="chapter" data-level="6.2" data-path="credit.html"><a href="credit.html#hosting-on-gitpages"><i class="fa fa-check"></i><b>6.2</b> Hosting on GitPages</a></li>
+<li class="chapter" data-level="6.3" data-path="credit.html"><a href="credit.html#publishing-on-github-pages"><i class="fa fa-check"></i><b>6.3</b> Publishing on GitHub Pages</a></li>
+<li class="chapter" data-level="6.4" data-path="credit.html"><a href="credit.html#list-of-r-packages"><i class="fa fa-check"></i><b>6.4</b> List of R packages</a></li>
+<li class="chapter" data-level="6.5" data-path="credit.html"><a href="credit.html#references"><i class="fa fa-check"></i><b>6.5</b> References</a></li>
+<li class="chapter" data-level="6.6" data-path="credit.html"><a href="credit.html#session-info"><i class="fa fa-check"></i><b>6.6</b> Session Info</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Detecting Hexadirectional Signals in the Human Brain using R and FSL</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="credit" class="section level1" number="6">
+<h1><span class="header-section-number">6</span> Credit</h1>
+<div id="gridcat" class="section level2" number="6.1">
+<h2><span class="header-section-number">6.1</span> GridCAT</h2>
+<p>This example pipeline uses the data that accompanies the GridCAT toolbox.</p>
+<p>Here is the reference to the toolbox:</p>
+<blockquote>
+<p>Stangl, M., Shine, J., &amp; Wolbers, T. (2017). The GridCAT: A Toolbox for Automated Analysis of Human Grid Cell Codes in fMRI. Frontiers in Neuroinformatics, 11. <a href="https://doi.org/10.3389/fninf.2017.00047" class="uri">https://doi.org/10.3389/fninf.2017.00047</a></p>
+</blockquote>
+<p>The data can be downloaded from <a href="https://www.nitrc.org/projects/gridcat/">here</a>.</p>
+</div>
+<div id="hosting-on-gitpages" class="section level2" number="6.2">
+<h2><span class="header-section-number">6.2</span> Hosting on GitPages</h2>
+</div>
+<div id="publishing-on-github-pages" class="section level2" number="6.3">
+<h2><span class="header-section-number">6.3</span> Publishing on GitHub Pages</h2>
+<p>To be able to host the HTML output using GitPages, we need to include a file called <code>.nojekyll</code> in the docs folder where the HTML documentation is stored.</p>
+<p>Let’s create this file if it doesn’t exist yet.</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="credit.html#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">file.exists</span>(<span class="fu">here</span>(<span class="st">&quot;docs&quot;</span>, <span class="st">&quot;.nojekyll&quot;</span>))){</span>
+<span id="cb56-2"><a href="credit.html#cb56-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">file.create</span>(<span class="fu">here</span>(<span class="st">&quot;docs&quot;</span>, <span class="st">&#39;.nojekyll&#39;</span>))</span>
+<span id="cb56-3"><a href="credit.html#cb56-3" aria-hidden="true" tabindex="-1"></a>}  </span></code></pre></div>
+</div>
+<div id="list-of-r-packages" class="section level2" number="6.4">
+<h2><span class="header-section-number">6.4</span> List of R packages</h2>
+<p>Here is a list of packages used in the analysis and references to them. It is created using the <a href="https://github.com/Pakillo/grateful">grateful package</a>.</p>
+<p>Unfortunately, not all packages provide all information, so there are a few warning messages. The code below generates a markdown file with references that we read in and print below.</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="credit.html#cb57-1" aria-hidden="true" tabindex="-1"></a>grateful<span class="sc">::</span><span class="fu">get_csl</span>(<span class="st">&quot;apa-6th-edition&quot;</span>)</span>
+<span id="cb57-2"><a href="credit.html#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">file.copy</span>(<span class="at">from=</span><span class="fu">here</span>(<span class="st">&quot;apa-6th-edition.csl&quot;</span>), <span class="at">to=</span><span class="fu">here</span>(<span class="st">&quot;code&quot;</span>, <span class="st">&quot;apa-6th-edition.csl&quot;</span>))</span>
+<span id="cb57-3"><a href="credit.html#cb57-3" aria-hidden="true" tabindex="-1"></a>grateful<span class="sc">::</span><span class="fu">cite_packages</span>(<span class="at">all.pkg =</span> <span class="cn">FALSE</span>, <span class="at">include.rmd=</span><span class="cn">FALSE</span>, <span class="at">style =</span> <span class="st">&quot;apa-6th-edition&quot;</span>,</span>
+<span id="cb57-4"><a href="credit.html#cb57-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">out.format =</span> <span class="st">&quot;md&quot;</span>, <span class="at">out.dir =</span> <span class="fu">here</span>(<span class="st">&quot;code&quot;</span>))</span></code></pre></div>
+<pre><code>## 
+## 
+## processing file: refs.Rmd</code></pre>
+<pre><code>## output file: refs.knit.md</code></pre>
+<pre><code>## 
+## Output created: code/citations.md</code></pre>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="credit.html#cb61-1" aria-hidden="true" tabindex="-1"></a>used_pkgs <span class="ot">&lt;-</span><span class="fu">readLines</span>(<span class="fu">here</span>(<span class="st">&quot;code&quot;</span>, <span class="st">&quot;citations.md&quot;</span>))</span>
+<span id="cb61-2"><a href="credit.html#cb61-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-3"><a href="credit.html#cb61-3" aria-hidden="true" tabindex="-1"></a><span class="co"># the chunk above produced some output we delete because we don&#39;t need it</span></span>
+<span id="cb61-4"><a href="credit.html#cb61-4" aria-hidden="true" tabindex="-1"></a><span class="fu">file.remove</span>(<span class="fu">here</span>(<span class="st">&quot;code&quot;</span>, <span class="st">&quot;apa-6th-edition.csl&quot;</span>))</span></code></pre></div>
+<p>[1] TRUE</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="credit.html#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="co">#file.remove(here(&quot;apa-6th-edition.csl&quot;))</span></span>
+<span id="cb62-2"><a href="credit.html#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="fu">file.remove</span>(<span class="fu">here</span>(<span class="st">&quot;code&quot;</span>, <span class="st">&quot;pkg-refs.bib&quot;</span>))</span></code></pre></div>
+<p>[1] TRUE</p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="credit.html#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">file.remove</span>(<span class="fu">here</span>(<span class="st">&quot;code&quot;</span>, <span class="st">&quot;citations.md&quot;</span>))</span></code></pre></div>
+<p>[1] TRUE</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="credit.html#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="co"># print the references</span></span>
+<span id="cb64-2"><a href="credit.html#cb64-2" aria-hidden="true" tabindex="-1"></a>ref_line <span class="ot">&lt;-</span> <span class="fu">which</span>(used_pkgs<span class="sc">==</span><span class="st">&quot;References&quot;</span>)</span>
+<span id="cb64-3"><a href="credit.html#cb64-3" aria-hidden="true" tabindex="-1"></a>used_pkgs[ref_line] <span class="ot">&lt;-</span> <span class="st">&quot;### References {-}&quot;</span></span>
+<span id="cb64-4"><a href="credit.html#cb64-4" aria-hidden="true" tabindex="-1"></a>used_pkgs[ref_line<span class="sc">+</span><span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">&quot;&quot;</span></span>
+<span id="cb64-5"><a href="credit.html#cb64-5" aria-hidden="true" tabindex="-1"></a><span class="fu">paste</span>(used_pkgs, <span class="at">collapse =</span> <span class="st">&#39;</span><span class="sc">\n</span><span class="st">&#39;</span>) <span class="sc">%&gt;%</span> <span class="fu">cat</span>()</span></code></pre></div>
+<ul>
+<li>base (R Core Team, 2021)</li>
+<li>grateful (Rodríguez-Sánchez &amp; Hutchins, 2020)</li>
+<li>remotes (Csárdi et al., 2021)</li>
+<li>circular (Agostinelli &amp; Lund, 2017)</li>
+<li>useful (Lander, 2018)</li>
+<li>cowplot (Wilke, 2020)</li>
+<li>fslr (<strong>fslr?</strong>)</li>
+<li>neurobase (Muschelli, 2021)</li>
+<li>oro.nifti (Whitcher, Schmid, &amp; Thornton, 2011)</li>
+<li>here (Müller, 2020)</li>
+<li>forcats (Wickham, 2021a)</li>
+<li>stringr (Wickham, 2019)</li>
+<li>dplyr (Wickham, François, Henry, &amp; Müller, 2021)</li>
+<li>purrr (Henry &amp; Wickham, 2020)</li>
+<li>readr (Wickham, Hester, &amp; Bryan, 2021)</li>
+<li>tidyr (Wickham, 2021b)</li>
+<li>tibble (Müller &amp; Wickham, 2021)</li>
+<li>ggplot2 (Wickham, 2016)</li>
+<li>tidyverse (Wickham et al., 2019)</li>
+<li>bookdown (Xie, 2016)</li>
+</ul>
+</div>
+<div id="references" class="section level2" number="6.5">
+<h2><span class="header-section-number">6.5</span> References</h2>
+<p>Agostinelli, C., &amp; Lund, U. (2017). <em>R package <code>circular</code>: Circular
+statistics (version 0.4-93)</em>. CA: Department of Environmental Sciences,
+Informatics; Statistics, Ca’ Foscari University, Venice, Italy. UL:
+Department of Statistics, California Polytechnic State University, San
+Luis Obispo, California, USA. Retrieved from
+<a href="https://r-forge.r-project.org/projects/circular/" class="uri">https://r-forge.r-project.org/projects/circular/</a></p>
+<p>Csárdi, G., Hester, J., Wickham, H., Chang, W., Morgan, M., &amp; Tenenbaum,
+D. (2021). <em>Remotes: R package installation from remote repositories,
+including ’GitHub’</em>. Retrieved from
+<a href="https://CRAN.R-project.org/package=remotes" class="uri">https://CRAN.R-project.org/package=remotes</a></p>
+<p>Henry, L., &amp; Wickham, H. (2020). <em>Purrr: Functional programming tools</em>.
+Retrieved from <a href="https://CRAN.R-project.org/package=purrr" class="uri">https://CRAN.R-project.org/package=purrr</a></p>
+<p>Lander, J. P. (2018). <em>Useful: A collection of handy, useful functions</em>.
+Retrieved from <a href="https://CRAN.R-project.org/package=useful" class="uri">https://CRAN.R-project.org/package=useful</a></p>
+<p>Müller, K. (2020). <em>Here: A simpler way to find your files</em>. Retrieved
+from <a href="https://CRAN.R-project.org/package=here" class="uri">https://CRAN.R-project.org/package=here</a></p>
+<p>Müller, K., &amp; Wickham, H. (2021). <em>Tibble: Simple data frames</em>.
+Retrieved from <a href="https://CRAN.R-project.org/package=tibble" class="uri">https://CRAN.R-project.org/package=tibble</a></p>
+<p>Muschelli, J. (2021). <em>Neurobase: ’Neuroconductor’ base package with
+helper functions for ’nifti’ objects</em>. Retrieved from
+<a href="https://CRAN.R-project.org/package=neurobase" class="uri">https://CRAN.R-project.org/package=neurobase</a></p>
+<p>R Core Team. (2021). <em>R: A language and environment for statistical
+computing</em>. Vienna, Austria: R Foundation for Statistical Computing.
+Retrieved from <a href="https://www.R-project.org/" class="uri">https://www.R-project.org/</a></p>
+<p>Rodríguez-Sánchez, F., &amp; Hutchins, S. D. (2020). <em>Grateful: Facilitate
+citation of r packages</em>. Retrieved from
+<a href="https://github.com/Pakillo/grateful" class="uri">https://github.com/Pakillo/grateful</a></p>
+<p>Whitcher, B., Schmid, V. J., &amp; Thornton, A. (2011). Working with the
+DICOM and NIfTI data standards in R. <em>Journal of Statistical Software</em>,
+<em>44</em>(6), 1–28. Retrieved from <a href="https://www.jstatsoft.org/v44/i06/" class="uri">https://www.jstatsoft.org/v44/i06/</a></p>
+<p>Wickham, H. (2016). <em>ggplot2: Elegant graphics for data analysis</em>.
+Springer-Verlag New York. Retrieved from <a href="https://ggplot2.tidyverse.org" class="uri">https://ggplot2.tidyverse.org</a></p>
+<p>Wickham, H. (2019). <em>Stringr: Simple, consistent wrappers for common
+string operations</em>. Retrieved from
+<a href="https://CRAN.R-project.org/package=stringr" class="uri">https://CRAN.R-project.org/package=stringr</a></p>
+<p>Wickham, H. (2021a). <em>Forcats: Tools for working with categorical
+variables (factors)</em>. Retrieved from
+<a href="https://CRAN.R-project.org/package=forcats" class="uri">https://CRAN.R-project.org/package=forcats</a></p>
+<p>Wickham, H. (2021b). <em>Tidyr: Tidy messy data</em>. Retrieved from
+<a href="https://CRAN.R-project.org/package=tidyr" class="uri">https://CRAN.R-project.org/package=tidyr</a></p>
+<p>Wickham, H., Averick, M., Bryan, J., Chang, W., McGowan, L. D.,
+François, R., … Yutani, H. (2019). Welcome to the <span class="nocase">tidyverse</span>. <em>Journal of Open Source Software</em>,
+<em>4</em>(43), 1686. <a href="https://doi.org/10.21105/joss.01686" class="uri">https://doi.org/10.21105/joss.01686</a></p>
+<p>Wickham, H., François, R., Henry, L., &amp; Müller, K. (2021). <em>Dplyr: A
+grammar of data manipulation</em>. Retrieved from
+<a href="https://CRAN.R-project.org/package=dplyr" class="uri">https://CRAN.R-project.org/package=dplyr</a></p>
+<p>Wickham, H., Hester, J., &amp; Bryan, J. (2021). <em>Readr: Read rectangular
+text data</em>. Retrieved from <a href="https://CRAN.R-project.org/package=readr" class="uri">https://CRAN.R-project.org/package=readr</a></p>
+<p>Wilke, C. O. (2020). <em>Cowplot: Streamlined plot theme and plot
+annotations for ’ggplot2’</em>. Retrieved from
+<a href="https://CRAN.R-project.org/package=cowplot" class="uri">https://CRAN.R-project.org/package=cowplot</a></p>
+<p>Xie, Y. (2016). <em>Bookdown: Authoring books and technical documents with
+R markdown</em>. Boca Raton, Florida: Chapman; Hall/CRC. Retrieved from
+<a href="https://bookdown.org/yihui/bookdown" class="uri">https://bookdown.org/yihui/bookdown</a></p>
+</div>
+<div id="session-info" class="section level2" number="6.6">
+<h2><span class="header-section-number">6.6</span> Session Info</h2>
+<p>Lastly, we run session info, using the version from the devtools package.</p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="credit.html#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code></pre></div>
+<pre><code>## R version 4.1.1 (2021-08-10)
+## Platform: x86_64-apple-darwin17.0 (64-bit)
+## Running under: macOS Big Sur 11.6.1
+## 
+## Matrix products: default
+## LAPACK: /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRlapack.dylib
+## 
+## locale:
+## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+##  [1] grateful_0.0.3   remotes_2.4.2    circular_0.4-93  useful_1.2.6     cowplot_1.1.1    fslr_2.24.1     
+##  [7] neurobase_1.32.1 oro.nifti_0.11.0 here_1.0.1       forcats_0.5.1    stringr_1.4.0    dplyr_1.0.7     
+## [13] purrr_0.3.4      readr_2.1.1      tidyr_1.1.4      tibble_3.1.6     ggplot2_3.3.5    tidyverse_1.3.1 
+## [19] bookdown_0.24   
+## 
+## loaded via a namespace (and not attached):
+##  [1] nlme_3.1-152       bitops_1.0-7       matrixStats_0.61.0 fs_1.5.2           lubridate_1.8.0    bit64_4.0.5       
+##  [7] httr_1.4.2         rprojroot_2.0.2    tools_4.1.1        backports_1.4.1    utf8_1.2.2         R6_2.5.1          
+## [13] mgcv_1.8-36        DBI_1.1.2          colorspace_2.0-2   withr_2.4.3        tidyselect_1.1.1   bit_4.0.4         
+## [19] compiler_4.1.1     cli_3.1.0          rvest_1.0.2        xml2_1.3.3         labeling_0.4.2     scales_1.1.1      
+## [25] mvtnorm_1.1-3      digest_0.6.29      rmarkdown_2.11     R.utils_2.11.0     RNifti_1.3.1       pkgconfig_2.0.3   
+## [31] htmltools_0.5.2    dbplyr_2.1.1       fastmap_1.1.0      highr_0.9          rlang_0.4.12       readxl_1.3.1      
+## [37] rstudioapi_0.13    jquerylib_0.1.4    generics_0.1.1     farver_2.1.0       jsonlite_1.7.2     vroom_1.5.7       
+## [43] R.oo_1.24.0        magrittr_2.0.1     Matrix_1.3-4       Rcpp_1.0.7         munsell_0.5.0      fansi_0.5.0       
+## [49] abind_1.4-5        lifecycle_1.0.1    R.methodsS3_1.8.1  stringi_1.7.6      yaml_2.2.1         plyr_1.8.6        
+## [55] grid_4.1.1         parallel_4.1.1     crayon_1.4.2       lattice_0.20-44    haven_2.4.3        splines_4.1.1     
+## [61] hms_1.1.1          knitr_1.37         pillar_1.6.4       boot_1.3-28        reprex_2.0.1       glue_1.6.0        
+## [67] evaluate_0.14      modelr_0.1.8       vctrs_0.3.8        tzdb_0.2.0         cellranger_1.1.0   gtable_0.3.0      
+## [73] assertthat_0.2.1   xfun_0.29          broom_0.7.11       ellipsis_0.3.2</code></pre>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="glm-2.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

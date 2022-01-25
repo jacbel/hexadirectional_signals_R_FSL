@@ -1,0 +1,62 @@
+# Credit
+
+## GridCAT
+
+This example pipeline uses the data that accompanies the GridCAT toolbox.
+
+Here is the reference to the toolbox:  
+
+>Stangl, M., Shine, J., & Wolbers, T. (2017). The GridCAT: A Toolbox for Automated Analysis of Human Grid Cell Codes in fMRI. Frontiers in Neuroinformatics, 11. https://doi.org/10.3389/fninf.2017.00047
+
+The data can be downloaded from [here](https://www.nitrc.org/projects/gridcat/).
+
+## Hosting on GitPages
+
+## Publishing on GitHub Pages
+
+To be able to host the HTML output using GitPages, we need to include a file called ```.nojekyll``` in the docs folder where the HTML documentation is stored.
+
+Let's create this file if it doesn't exist yet.
+
+```{r}
+
+if (!file.exists(here("docs", ".nojekyll"))){
+  file.create(here("docs", '.nojekyll'))
+}  
+```
+
+## List of R packages
+Here is a list of packages used in the analysis and references to them. It is created using the [grateful package](https://github.com/Pakillo/grateful).  
+
+Unfortunately, not all packages provide all information, so there are a few warning messages. The code below generates a markdown file with references that we read in and print below. 
+
+```{r create_bibliography, results='hide'}
+grateful::get_csl("apa-6th-edition")
+file.copy(from=here("apa-6th-edition.csl"), to=here("code", "apa-6th-edition.csl"))
+grateful::cite_packages(all.pkg = FALSE, include.rmd=FALSE, style = "apa-6th-edition",
+                        out.format = "md", out.dir = here("code"))
+```
+
+```{r print_bibliography, results = 'asis'}
+used_pkgs <-readLines(here("code", "citations.md"))
+
+# the chunk above produced some output we delete because we don't need it
+file.remove(here("code", "apa-6th-edition.csl"))
+#file.remove(here("apa-6th-edition.csl"))
+file.remove(here("code", "pkg-refs.bib"))
+file.remove(here("code", "citations.md"))
+
+# print the references
+ref_line <- which(used_pkgs=="References")
+used_pkgs[ref_line] <- "### References {-}"
+used_pkgs[ref_line+1] <- ""
+paste(used_pkgs, collapse = '\n') %>% cat()
+```
+
+## Session Info
+
+Lastly, we run session info, using the version from the devtools package.
+
+```{r session_info}
+sessionInfo()
+```

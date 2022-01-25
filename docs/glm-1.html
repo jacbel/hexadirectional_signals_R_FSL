@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>3 GLM 1 | Detecting Hexadirectional Signals in the Human Brain using R and FSL</title>
+  <meta name="description" content="3 GLM 1 | Detecting Hexadirectional Signals in the Human Brain using R and FSL" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="3 GLM 1 | Detecting Hexadirectional Signals in the Human Brain using R and FSL" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="3 GLM 1 | Detecting Hexadirectional Signals in the Human Brain using R and FSL" />
+  
+  
+  
+
+<meta name="author" content="Jacob Bellmund" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="example-data.html"/>
+<link rel="next" href="estimate-orientation.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Overview</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#requirements"><i class="fa fa-check"></i><b>1.1</b> Requirements</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#workflow"><i class="fa fa-check"></i><b>1.2</b> Workflow</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="index.html"><a href="index.html#cbs-imac-or-macbook"><i class="fa fa-check"></i><b>1.2.1</b> CBS iMac or Macbook</a></li>
+<li class="chapter" data-level="1.2.2" data-path="index.html"><a href="index.html#remote-linux"><i class="fa fa-check"></i><b>1.2.2</b> Remote Linux</a></li>
+<li class="chapter" data-level="1.2.3" data-path="index.html"><a href="index.html#running-the-analysis"><i class="fa fa-check"></i><b>1.2.3</b> Running the analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#required-packages"><i class="fa fa-check"></i><b>1.3</b> Required packages</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="example-data.html"><a href="example-data.html"><i class="fa fa-check"></i><b>2</b> Example Data</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="example-data.html"><a href="example-data.html#download-example-data"><i class="fa fa-check"></i><b>2.1</b> Download Example Data</a></li>
+<li class="chapter" data-level="2.2" data-path="example-data.html"><a href="example-data.html#rearrange-data"><i class="fa fa-check"></i><b>2.2</b> Rearrange data</a></li>
+<li class="chapter" data-level="2.3" data-path="example-data.html"><a href="example-data.html#event-tables"><i class="fa fa-check"></i><b>2.3</b> Event Tables</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="example-data.html"><a href="example-data.html#trajectory-duration"><i class="fa fa-check"></i><b>2.3.1</b> Trajectory duration</a></li>
+<li class="chapter" data-level="2.3.2" data-path="example-data.html"><a href="example-data.html#angular-sampling"><i class="fa fa-check"></i><b>2.3.2</b> Angular Sampling</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="example-data.html"><a href="example-data.html#fmri"><i class="fa fa-check"></i><b>2.4</b> fMRI</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="example-data.html"><a href="example-data.html#merge-images-of-each-run"><i class="fa fa-check"></i><b>2.4.1</b> Merge images of each run</a></li>
+<li class="chapter" data-level="2.4.2" data-path="example-data.html"><a href="example-data.html#calculate-tsnr"><i class="fa fa-check"></i><b>2.4.2</b> Calculate tSNR</a></li>
+<li class="chapter" data-level="2.4.3" data-path="example-data.html"><a href="example-data.html#create-quick-brain-mask"><i class="fa fa-check"></i><b>2.4.3</b> Create quick brain mask</a></li>
+<li class="chapter" data-level="2.4.4" data-path="example-data.html"><a href="example-data.html#mask-4d-functionals"><i class="fa fa-check"></i><b>2.4.4</b> Mask 4D functionals</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="glm-1.html"><a href="glm-1.html"><i class="fa fa-check"></i><b>3</b> GLM 1</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="glm-1.html"><a href="glm-1.html#first-half-of-each-run"><i class="fa fa-check"></i><b>3.1</b> First half of each run</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="glm-1.html"><a href="glm-1.html#ev-files-for-feat"><i class="fa fa-check"></i><b>3.1.1</b> EV files for FEAT</a></li>
+<li class="chapter" data-level="3.1.2" data-path="glm-1.html"><a href="glm-1.html#set-up-the-glm-using-fsl-feat"><i class="fa fa-check"></i><b>3.1.2</b> Set up the GLM using FSL FEAT</a></li>
+<li class="chapter" data-level="3.1.3" data-path="glm-1.html"><a href="glm-1.html#run-glm1"><i class="fa fa-check"></i><b>3.1.3</b> Run GLM1</a></li>
+<li class="chapter" data-level="3.1.4" data-path="glm-1.html"><a href="glm-1.html#results-glm-1"><i class="fa fa-check"></i><b>3.1.4</b> Results GLM 1</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="estimate-orientation.html"><a href="estimate-orientation.html"><i class="fa fa-check"></i><b>4</b> Estimate orientation</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="estimate-orientation.html"><a href="estimate-orientation.html#load-pes-of-parametric-modulators"><i class="fa fa-check"></i><b>4.1</b> Load PEs of parametric modulators</a></li>
+<li class="chapter" data-level="4.2" data-path="estimate-orientation.html"><a href="estimate-orientation.html#compute-voxelwise-orientation"><i class="fa fa-check"></i><b>4.2</b> Compute Voxelwise Orientation</a></li>
+<li class="chapter" data-level="4.3" data-path="estimate-orientation.html"><a href="estimate-orientation.html#average-grid-orientations"><i class="fa fa-check"></i><b>4.3</b> Average grid orientations</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="estimate-orientation.html"><a href="estimate-orientation.html#wholebrain-average-orientation"><i class="fa fa-check"></i><b>4.3.1</b> Wholebrain average orientation</a></li>
+<li class="chapter" data-level="4.3.2" data-path="estimate-orientation.html"><a href="estimate-orientation.html#entorhinal-cortex-average-orientation"><i class="fa fa-check"></i><b>4.3.2</b> Entorhinal Cortex average orientation</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="estimate-orientation.html"><a href="estimate-orientation.html#brain-plot-of-estimated-orientations"><i class="fa fa-check"></i><b>4.4</b> Brain plot of estimated orientations</a></li>
+<li class="chapter" data-level="4.5" data-path="estimate-orientation.html"><a href="estimate-orientation.html#store-estimated-grid-orientation"><i class="fa fa-check"></i><b>4.5</b> Store estimated grid orientation</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="glm-2.html"><a href="glm-2.html"><i class="fa fa-check"></i><b>5</b> GLM 2</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="glm-2.html"><a href="glm-2.html#second-half-of-each-run"><i class="fa fa-check"></i><b>5.1</b> Second half of each run</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="glm-2.html"><a href="glm-2.html#parametric-modulation-with-cosine-regressor"><i class="fa fa-check"></i><b>5.1.1</b> Parametric modulation with cosine regressor</a></li>
+<li class="chapter" data-level="5.1.2" data-path="glm-2.html"><a href="glm-2.html#set-up-the-glm-using-fsl-feat-1"><i class="fa fa-check"></i><b>5.1.2</b> Set up the GLM using FSL FEAT</a></li>
+<li class="chapter" data-level="5.1.3" data-path="glm-2.html"><a href="glm-2.html#run-glm2"><i class="fa fa-check"></i><b>5.1.3</b> Run GLM2</a></li>
+<li class="chapter" data-level="5.1.4" data-path="glm-2.html"><a href="glm-2.html#glm-2-results"><i class="fa fa-check"></i><b>5.1.4</b> GLM 2 results</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="credit.html"><a href="credit.html"><i class="fa fa-check"></i><b>6</b> Credit</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="credit.html"><a href="credit.html#gridcat"><i class="fa fa-check"></i><b>6.1</b> GridCAT</a></li>
+<li class="chapter" data-level="6.2" data-path="credit.html"><a href="credit.html#hosting-on-gitpages"><i class="fa fa-check"></i><b>6.2</b> Hosting on GitPages</a></li>
+<li class="chapter" data-level="6.3" data-path="credit.html"><a href="credit.html#publishing-on-github-pages"><i class="fa fa-check"></i><b>6.3</b> Publishing on GitHub Pages</a></li>
+<li class="chapter" data-level="6.4" data-path="credit.html"><a href="credit.html#list-of-r-packages"><i class="fa fa-check"></i><b>6.4</b> List of R packages</a></li>
+<li class="chapter" data-level="6.5" data-path="credit.html"><a href="credit.html#references"><i class="fa fa-check"></i><b>6.5</b> References</a></li>
+<li class="chapter" data-level="6.6" data-path="credit.html"><a href="credit.html#session-info"><i class="fa fa-check"></i><b>6.6</b> Session Info</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Detecting Hexadirectional Signals in the Human Brain using R and FSL</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="glm-1" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> GLM 1</h1>
+<p>The central step of GLM 1 is to run a model including a regressor for navigation periods (defined as translational movements) and two (linear) parametric modulators for that regressor. The parametric modulators are the sine and the cosine of the movement direction of the navigation periods. The beta estimates of these regressors will be used to estimate the orientation of a six-fold signal that will be subject to further analyses in GLM 2.</p>
+<p>GLM 1 and GLM 2 operate on independent data partitions and there are multiple ways to partition the data:<br />
+- use odd/even runs to train/test
+- split each run in half
+- use odd/even trajectories to train/test</p>
+<p>As far as I know, there are no systematic investigations into which method is best (most sensitive, most robust…). Depending on how the estimation and testing procedure is implemented, assumptions about the underlying grid can differ. If the data split is across runs, one assumes that the orientation of the hexadirectional signal is stable over multiple runs. This is not an unreasonable assumption given what we know about grid cells. On the other hand, if the split is within runs (odd/even trajectories or first/second half) it is in principle possible to estimate and test for each run separately, which relaxes the assumption of a grid that is stable over longer periods of time (i.e. runs).</p>
+<div id="first-half-of-each-run" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> First half of each run</h2>
+<p>In keeping with the GridCAT manual, let’s for now split each run in a first and a second half based on the number of navigation periods.</p>
+<div id="ev-files-for-feat" class="section level3" number="3.1.1">
+<h3><span class="header-section-number">3.1.1</span> EV files for FEAT</h3>
+<p>For each regressor, FSL FEAT expects an EV (EV = explanatory variable, i.e. regressor) file with 3-column format for each regressor. Let’s load the modified event file and write out the regressors we will want to use. These are:</p>
+<ul>
+<li>navigation EV for all timepoints of translational movement in the entire run</li>
+<li>sine for movement direction for navigation EV to be used as parametric modulator for first half of onsets of navigation EV</li>
+<li>cosine for movement direction for navigation EV to be used as parametric modulator for first half of onsets of navigation EV</li>
+<li>feedback EV modeling time points when participants received feedback (entire run)</li>
+</ul>
+<p>To look at an n-fold periodic signal, the trajectory angle is multiplied by the desired periodicity (e.g. 6 for hexadirectional analysis) before calculating the (co)sine. Thus, there is a pair of parametric modulators for each periodicity you want to check.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="glm-1.html#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># we want to look for six-fold signals, other periodicities are controls</span></span>
+<span id="cb18-2"><a href="glm-1.html#cb18-2" aria-hidden="true" tabindex="-1"></a>periodicities <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">6</span>)</span>
+<span id="cb18-3"><a href="glm-1.html#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="glm-1.html#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i_sub <span class="cf">in</span> subjects){</span>
+<span id="cb18-5"><a href="glm-1.html#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i_run <span class="cf">in</span> runs){</span>
+<span id="cb18-6"><a href="glm-1.html#cb18-6" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb18-7"><a href="glm-1.html#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># create directory for EV files</span></span>
+<span id="cb18-8"><a href="glm-1.html#cb18-8" aria-hidden="true" tabindex="-1"></a>    ev_dir <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;glm1&quot;</span>, <span class="st">&quot;glm1_firsthalf&quot;</span>, <span class="st">&quot;feat_ev&quot;</span>, i_sub, i_run)</span>
+<span id="cb18-9"><a href="glm-1.html#cb18-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(<span class="sc">!</span><span class="fu">dir.exists</span>(ev_dir)){<span class="fu">dir.create</span>(ev_dir, <span class="at">recursive =</span> <span class="cn">TRUE</span>)}</span>
+<span id="cb18-10"><a href="glm-1.html#cb18-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-11"><a href="glm-1.html#cb18-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># read the event table file</span></span>
+<span id="cb18-12"><a href="glm-1.html#cb18-12" aria-hidden="true" tabindex="-1"></a>    fn <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;EventTables&quot;</span>, i_sub, <span class="fu">paste0</span>(<span class="st">&quot;eventTable_&quot;</span>, i_run, <span class="st">&quot;_jb.txt&quot;</span>))</span>
+<span id="cb18-13"><a href="glm-1.html#cb18-13" aria-hidden="true" tabindex="-1"></a>    event_table <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(fn, <span class="at">delim =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">col_names =</span> <span class="cn">TRUE</span>, <span class="at">col_types =</span> <span class="fu">c</span>(<span class="st">&quot;fddd&quot;</span>))</span>
+<span id="cb18-14"><a href="glm-1.html#cb18-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-15"><a href="glm-1.html#cb18-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># write the navigation (translation) regressor to file in 3-column format for FSL</span></span>
+<span id="cb18-16"><a href="glm-1.html#cb18-16" aria-hidden="true" tabindex="-1"></a>    fn <span class="ot">&lt;-</span> <span class="fu">file.path</span>(ev_dir, <span class="st">&quot;translation.txt&quot;</span>)</span>
+<span id="cb18-17"><a href="glm-1.html#cb18-17" aria-hidden="true" tabindex="-1"></a>    event_table <span class="sc">%&gt;%</span> <span class="fu">filter</span>(name<span class="sc">==</span><span class="st">&quot;translation&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb18-18"><a href="glm-1.html#cb18-18" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(<span class="fu">c</span>(onset, duration)) <span class="sc">%&gt;%</span></span>
+<span id="cb18-19"><a href="glm-1.html#cb18-19" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">weight=</span><span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb18-20"><a href="glm-1.html#cb18-20" aria-hidden="true" tabindex="-1"></a>      <span class="fu">write_delim</span>(<span class="at">file =</span> fn, <span class="at">delim =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">col_names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb18-21"><a href="glm-1.html#cb18-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-22"><a href="glm-1.html#cb18-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># write the feedback regressor to file in 3-column format for FSL</span></span>
+<span id="cb18-23"><a href="glm-1.html#cb18-23" aria-hidden="true" tabindex="-1"></a>    fn <span class="ot">&lt;-</span> <span class="fu">file.path</span>(ev_dir, <span class="st">&quot;feedback.txt&quot;</span>)</span>
+<span id="cb18-24"><a href="glm-1.html#cb18-24" aria-hidden="true" tabindex="-1"></a>    event_table <span class="sc">%&gt;%</span> <span class="fu">filter</span>(name<span class="sc">==</span><span class="st">&quot;feedback&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb18-25"><a href="glm-1.html#cb18-25" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(<span class="fu">c</span>(onset, duration)) <span class="sc">%&gt;%</span></span>
+<span id="cb18-26"><a href="glm-1.html#cb18-26" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">weight=</span><span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb18-27"><a href="glm-1.html#cb18-27" aria-hidden="true" tabindex="-1"></a>      <span class="fu">write_delim</span>(<span class="at">file =</span> fn, <span class="at">delim =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">col_names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb18-28"><a href="glm-1.html#cb18-28" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-29"><a href="glm-1.html#cb18-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (i_period <span class="cf">in</span> periodicities){</span>
+<span id="cb18-30"><a href="glm-1.html#cb18-30" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb18-31"><a href="glm-1.html#cb18-31" aria-hidden="true" tabindex="-1"></a>      <span class="co"># add sine and cosine of running angle</span></span>
+<span id="cb18-32"><a href="glm-1.html#cb18-32" aria-hidden="true" tabindex="-1"></a>      event_table <span class="ot">&lt;-</span> event_table <span class="sc">%&gt;%</span></span>
+<span id="cb18-33"><a href="glm-1.html#cb18-33" aria-hidden="true" tabindex="-1"></a>        <span class="co"># CAVE: transform angles to radians before calculating (co)sine!</span></span>
+<span id="cb18-34"><a href="glm-1.html#cb18-34" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(<span class="at">sine =</span> <span class="fu">sin</span>((i_period <span class="sc">*</span> angle)<span class="sc">*</span>pi<span class="sc">/</span><span class="dv">180</span>), </span>
+<span id="cb18-35"><a href="glm-1.html#cb18-35" aria-hidden="true" tabindex="-1"></a>               <span class="at">cosine =</span> <span class="fu">cos</span>((i_period <span class="sc">*</span> angle)<span class="sc">*</span>pi<span class="sc">/</span><span class="dv">180</span>))</span>
+<span id="cb18-36"><a href="glm-1.html#cb18-36" aria-hidden="true" tabindex="-1"></a>      <span class="fu">head</span>(event_table, <span class="at">n=</span><span class="dv">10</span>)</span>
+<span id="cb18-37"><a href="glm-1.html#cb18-37" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb18-38"><a href="glm-1.html#cb18-38" aria-hidden="true" tabindex="-1"></a>      <span class="co"># write the sine of translation angle regressor to file in 3-column format for FSL for first half of trials</span></span>
+<span id="cb18-39"><a href="glm-1.html#cb18-39" aria-hidden="true" tabindex="-1"></a>      fn <span class="ot">&lt;-</span> <span class="fu">file.path</span>(ev_dir, <span class="fu">paste0</span>(<span class="st">&quot;translation_sine_&quot;</span>, i_period, <span class="st">&quot;fold_half1.txt&quot;</span>))</span>
+<span id="cb18-40"><a href="glm-1.html#cb18-40" aria-hidden="true" tabindex="-1"></a>      event_table <span class="sc">%&gt;%</span> <span class="fu">filter</span>(name<span class="sc">==</span><span class="st">&quot;translation&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb18-41"><a href="glm-1.html#cb18-41" aria-hidden="true" tabindex="-1"></a>        <span class="fu">slice_head</span>(<span class="at">n=</span><span class="fu">nrow</span>(.)<span class="sc">/</span><span class="dv">2</span>) <span class="sc">%&gt;%</span> <span class="co"># first half</span></span>
+<span id="cb18-42"><a href="glm-1.html#cb18-42" aria-hidden="true" tabindex="-1"></a>        <span class="fu">select</span>(<span class="fu">c</span>(onset, duration, sine)) <span class="sc">%&gt;%</span></span>
+<span id="cb18-43"><a href="glm-1.html#cb18-43" aria-hidden="true" tabindex="-1"></a>        <span class="fu">write_delim</span>(<span class="at">file =</span> fn, <span class="at">delim =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">col_names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb18-44"><a href="glm-1.html#cb18-44" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb18-45"><a href="glm-1.html#cb18-45" aria-hidden="true" tabindex="-1"></a>      <span class="co"># write the cosine of translation angle regressor to file in 3-column format for FSL for first half of trials</span></span>
+<span id="cb18-46"><a href="glm-1.html#cb18-46" aria-hidden="true" tabindex="-1"></a>      fn <span class="ot">&lt;-</span> <span class="fu">file.path</span>(ev_dir, <span class="fu">paste0</span>(<span class="st">&quot;translation_cosine_&quot;</span>, i_period, <span class="st">&quot;fold_half1.txt&quot;</span>))</span>
+<span id="cb18-47"><a href="glm-1.html#cb18-47" aria-hidden="true" tabindex="-1"></a>      event_table <span class="sc">%&gt;%</span> <span class="fu">filter</span>(name<span class="sc">==</span><span class="st">&quot;translation&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb18-48"><a href="glm-1.html#cb18-48" aria-hidden="true" tabindex="-1"></a>        <span class="fu">slice_head</span>(<span class="at">n=</span><span class="fu">nrow</span>(.)<span class="sc">/</span><span class="dv">2</span>) <span class="sc">%&gt;%</span> <span class="co"># first half</span></span>
+<span id="cb18-49"><a href="glm-1.html#cb18-49" aria-hidden="true" tabindex="-1"></a>        <span class="fu">select</span>(<span class="fu">c</span>(onset, duration, cosine)) <span class="sc">%&gt;%</span></span>
+<span id="cb18-50"><a href="glm-1.html#cb18-50" aria-hidden="true" tabindex="-1"></a>        <span class="fu">write_delim</span>(<span class="at">file =</span> fn, <span class="at">delim =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">col_names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb18-51"><a href="glm-1.html#cb18-51" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb18-52"><a href="glm-1.html#cb18-52" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb18-53"><a href="glm-1.html#cb18-53" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+<div id="set-up-the-glm-using-fsl-feat" class="section level3" number="3.1.2">
+<h3><span class="header-section-number">3.1.2</span> Set up the GLM using FSL FEAT</h3>
+<p>The text below is based on clicking through the FEAT GUI for one run and copying the content of the resulting fsf-file to the chunk below. In this text, we replace lines/variables that need to be altered for each subject with a placeholder. These can then easily be filled in for each run of each subject. The chunk below could be shortened by removing the lines that are irrelevant for GLM 1, e.g. preprocessing, which is not carried out here.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="glm-1.html#cb19-1" aria-hidden="true" tabindex="-1"></a>dsgn <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
+<span id="cb19-2"><a href="glm-1.html#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="st"># FEAT version number</span></span>
+<span id="cb19-3"><a href="glm-1.html#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(version) 6.00</span></span>
+<span id="cb19-4"><a href="glm-1.html#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="glm-1.html#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="st"># Are we in MELODIC?</span></span>
+<span id="cb19-6"><a href="glm-1.html#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(inmelodic) 0</span></span>
+<span id="cb19-7"><a href="glm-1.html#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="glm-1.html#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="st"># Analysis level</span></span>
+<span id="cb19-9"><a href="glm-1.html#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="st"># 1 : First-level analysis</span></span>
+<span id="cb19-10"><a href="glm-1.html#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="st"># 2 : Higher-level analysis</span></span>
+<span id="cb19-11"><a href="glm-1.html#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(level) 1</span></span>
+<span id="cb19-12"><a href="glm-1.html#cb19-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-13"><a href="glm-1.html#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="st"># Which stages to run</span></span>
+<span id="cb19-14"><a href="glm-1.html#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="st"># 0 : No first-level analysis (registration and/or group stats only)</span></span>
+<span id="cb19-15"><a href="glm-1.html#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="st"># 7 : Full first-level analysis</span></span>
+<span id="cb19-16"><a href="glm-1.html#cb19-16" aria-hidden="true" tabindex="-1"></a><span class="st"># 1 : Pre-processing</span></span>
+<span id="cb19-17"><a href="glm-1.html#cb19-17" aria-hidden="true" tabindex="-1"></a><span class="st"># 2 : Statistics</span></span>
+<span id="cb19-18"><a href="glm-1.html#cb19-18" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(analysis) 2</span></span>
+<span id="cb19-19"><a href="glm-1.html#cb19-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-20"><a href="glm-1.html#cb19-20" aria-hidden="true" tabindex="-1"></a><span class="st"># Use relative filenames</span></span>
+<span id="cb19-21"><a href="glm-1.html#cb19-21" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(relative_yn) 0</span></span>
+<span id="cb19-22"><a href="glm-1.html#cb19-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-23"><a href="glm-1.html#cb19-23" aria-hidden="true" tabindex="-1"></a><span class="st"># Balloon help</span></span>
+<span id="cb19-24"><a href="glm-1.html#cb19-24" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(help_yn) 1</span></span>
+<span id="cb19-25"><a href="glm-1.html#cb19-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-26"><a href="glm-1.html#cb19-26" aria-hidden="true" tabindex="-1"></a><span class="st"># Run Featwatcher</span></span>
+<span id="cb19-27"><a href="glm-1.html#cb19-27" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(featwatcher_yn) 1</span></span>
+<span id="cb19-28"><a href="glm-1.html#cb19-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-29"><a href="glm-1.html#cb19-29" aria-hidden="true" tabindex="-1"></a><span class="st"># Cleanup first-level standard-space images</span></span>
+<span id="cb19-30"><a href="glm-1.html#cb19-30" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(sscleanup_yn) 0</span></span>
+<span id="cb19-31"><a href="glm-1.html#cb19-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-32"><a href="glm-1.html#cb19-32" aria-hidden="true" tabindex="-1"></a><span class="st"># Output directory</span></span>
+<span id="cb19-33"><a href="glm-1.html#cb19-33" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(outputdir) &quot;@out_dir@&quot;</span></span>
+<span id="cb19-34"><a href="glm-1.html#cb19-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-35"><a href="glm-1.html#cb19-35" aria-hidden="true" tabindex="-1"></a><span class="st"># TR(s)</span></span>
+<span id="cb19-36"><a href="glm-1.html#cb19-36" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(tr) @tr@ </span></span>
+<span id="cb19-37"><a href="glm-1.html#cb19-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-38"><a href="glm-1.html#cb19-38" aria-hidden="true" tabindex="-1"></a><span class="st"># Total volumes</span></span>
+<span id="cb19-39"><a href="glm-1.html#cb19-39" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(npts) @n_vols@</span></span>
+<span id="cb19-40"><a href="glm-1.html#cb19-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-41"><a href="glm-1.html#cb19-41" aria-hidden="true" tabindex="-1"></a><span class="st"># Delete volumes</span></span>
+<span id="cb19-42"><a href="glm-1.html#cb19-42" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(ndelete) 0</span></span>
+<span id="cb19-43"><a href="glm-1.html#cb19-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-44"><a href="glm-1.html#cb19-44" aria-hidden="true" tabindex="-1"></a><span class="st"># Perfusion tag/control order</span></span>
+<span id="cb19-45"><a href="glm-1.html#cb19-45" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(tagfirst) 1</span></span>
+<span id="cb19-46"><a href="glm-1.html#cb19-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-47"><a href="glm-1.html#cb19-47" aria-hidden="true" tabindex="-1"></a><span class="st"># Number of first-level analyses</span></span>
+<span id="cb19-48"><a href="glm-1.html#cb19-48" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(multiple) 1</span></span>
+<span id="cb19-49"><a href="glm-1.html#cb19-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-50"><a href="glm-1.html#cb19-50" aria-hidden="true" tabindex="-1"></a><span class="st"># Higher-level input type</span></span>
+<span id="cb19-51"><a href="glm-1.html#cb19-51" aria-hidden="true" tabindex="-1"></a><span class="st"># 1 : Inputs are lower-level FEAT directories</span></span>
+<span id="cb19-52"><a href="glm-1.html#cb19-52" aria-hidden="true" tabindex="-1"></a><span class="st"># 2 : Inputs are cope images from FEAT directories</span></span>
+<span id="cb19-53"><a href="glm-1.html#cb19-53" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(inputtype) 2</span></span>
+<span id="cb19-54"><a href="glm-1.html#cb19-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-55"><a href="glm-1.html#cb19-55" aria-hidden="true" tabindex="-1"></a><span class="st"># Carry out pre-stats processing?</span></span>
+<span id="cb19-56"><a href="glm-1.html#cb19-56" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(filtering_yn) 0</span></span>
+<span id="cb19-57"><a href="glm-1.html#cb19-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-58"><a href="glm-1.html#cb19-58" aria-hidden="true" tabindex="-1"></a><span class="st"># Brain/background threshold, %</span></span>
+<span id="cb19-59"><a href="glm-1.html#cb19-59" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(brain_thresh) 10</span></span>
+<span id="cb19-60"><a href="glm-1.html#cb19-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-61"><a href="glm-1.html#cb19-61" aria-hidden="true" tabindex="-1"></a><span class="st"># Critical z for design efficiency calculation</span></span>
+<span id="cb19-62"><a href="glm-1.html#cb19-62" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(critical_z) 5.3</span></span>
+<span id="cb19-63"><a href="glm-1.html#cb19-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-64"><a href="glm-1.html#cb19-64" aria-hidden="true" tabindex="-1"></a><span class="st"># Noise level</span></span>
+<span id="cb19-65"><a href="glm-1.html#cb19-65" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(noise) 0.66</span></span>
+<span id="cb19-66"><a href="glm-1.html#cb19-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-67"><a href="glm-1.html#cb19-67" aria-hidden="true" tabindex="-1"></a><span class="st"># Noise AR(1)</span></span>
+<span id="cb19-68"><a href="glm-1.html#cb19-68" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(noisear) 0.34</span></span>
+<span id="cb19-69"><a href="glm-1.html#cb19-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-70"><a href="glm-1.html#cb19-70" aria-hidden="true" tabindex="-1"></a><span class="st"># Motion correction</span></span>
+<span id="cb19-71"><a href="glm-1.html#cb19-71" aria-hidden="true" tabindex="-1"></a><span class="st"># 0 : None</span></span>
+<span id="cb19-72"><a href="glm-1.html#cb19-72" aria-hidden="true" tabindex="-1"></a><span class="st"># 1 : MCFLIRT</span></span>
+<span id="cb19-73"><a href="glm-1.html#cb19-73" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(mc) 1</span></span>
+<span id="cb19-74"><a href="glm-1.html#cb19-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-75"><a href="glm-1.html#cb19-75" aria-hidden="true" tabindex="-1"></a><span class="st"># Spin-history (currently obsolete)</span></span>
+<span id="cb19-76"><a href="glm-1.html#cb19-76" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(sh_yn) 0</span></span>
+<span id="cb19-77"><a href="glm-1.html#cb19-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-78"><a href="glm-1.html#cb19-78" aria-hidden="true" tabindex="-1"></a><span class="st"># B0 fieldmap unwarping?</span></span>
+<span id="cb19-79"><a href="glm-1.html#cb19-79" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(regunwarp_yn) 0</span></span>
+<span id="cb19-80"><a href="glm-1.html#cb19-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-81"><a href="glm-1.html#cb19-81" aria-hidden="true" tabindex="-1"></a><span class="st"># GDC Test</span></span>
+<span id="cb19-82"><a href="glm-1.html#cb19-82" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(gdc) &quot;&quot;</span></span>
+<span id="cb19-83"><a href="glm-1.html#cb19-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-84"><a href="glm-1.html#cb19-84" aria-hidden="true" tabindex="-1"></a><span class="st"># EPI dwell time (ms)</span></span>
+<span id="cb19-85"><a href="glm-1.html#cb19-85" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(dwell) 0.7</span></span>
+<span id="cb19-86"><a href="glm-1.html#cb19-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-87"><a href="glm-1.html#cb19-87" aria-hidden="true" tabindex="-1"></a><span class="st"># EPI TE (ms)</span></span>
+<span id="cb19-88"><a href="glm-1.html#cb19-88" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(te) 35</span></span>
+<span id="cb19-89"><a href="glm-1.html#cb19-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-90"><a href="glm-1.html#cb19-90" aria-hidden="true" tabindex="-1"></a><span class="st"># % Signal loss threshold</span></span>
+<span id="cb19-91"><a href="glm-1.html#cb19-91" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(signallossthresh) 10</span></span>
+<span id="cb19-92"><a href="glm-1.html#cb19-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-93"><a href="glm-1.html#cb19-93" aria-hidden="true" tabindex="-1"></a><span class="st"># Unwarp direction</span></span>
+<span id="cb19-94"><a href="glm-1.html#cb19-94" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(unwarp_dir) y-</span></span>
+<span id="cb19-95"><a href="glm-1.html#cb19-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-96"><a href="glm-1.html#cb19-96" aria-hidden="true" tabindex="-1"></a><span class="st"># Slice timing correction</span></span>
+<span id="cb19-97"><a href="glm-1.html#cb19-97" aria-hidden="true" tabindex="-1"></a><span class="st"># 0 : None</span></span>
+<span id="cb19-98"><a href="glm-1.html#cb19-98" aria-hidden="true" tabindex="-1"></a><span class="st"># 1 : Regular up (0, 1, 2, 3, ...)</span></span>
+<span id="cb19-99"><a href="glm-1.html#cb19-99" aria-hidden="true" tabindex="-1"></a><span class="st"># 2 : Regular down</span></span>
+<span id="cb19-100"><a href="glm-1.html#cb19-100" aria-hidden="true" tabindex="-1"></a><span class="st"># 3 : Use slice order file</span></span>
+<span id="cb19-101"><a href="glm-1.html#cb19-101" aria-hidden="true" tabindex="-1"></a><span class="st"># 4 : Use slice timings file</span></span>
+<span id="cb19-102"><a href="glm-1.html#cb19-102" aria-hidden="true" tabindex="-1"></a><span class="st"># 5 : Interleaved (0, 2, 4 ... 1, 3, 5 ... )</span></span>
+<span id="cb19-103"><a href="glm-1.html#cb19-103" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(st) 0</span></span>
+<span id="cb19-104"><a href="glm-1.html#cb19-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-105"><a href="glm-1.html#cb19-105" aria-hidden="true" tabindex="-1"></a><span class="st"># Slice timings file</span></span>
+<span id="cb19-106"><a href="glm-1.html#cb19-106" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(st_file) &quot;&quot;</span></span>
+<span id="cb19-107"><a href="glm-1.html#cb19-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-108"><a href="glm-1.html#cb19-108" aria-hidden="true" tabindex="-1"></a><span class="st"># BET brain extraction</span></span>
+<span id="cb19-109"><a href="glm-1.html#cb19-109" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(bet_yn) 1</span></span>
+<span id="cb19-110"><a href="glm-1.html#cb19-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-111"><a href="glm-1.html#cb19-111" aria-hidden="true" tabindex="-1"></a><span class="st"># Spatial smoothing FWHM (mm)</span></span>
+<span id="cb19-112"><a href="glm-1.html#cb19-112" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(smooth) 5</span></span>
+<span id="cb19-113"><a href="glm-1.html#cb19-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-114"><a href="glm-1.html#cb19-114" aria-hidden="true" tabindex="-1"></a><span class="st"># Intensity normalization</span></span>
+<span id="cb19-115"><a href="glm-1.html#cb19-115" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(norm_yn) 0</span></span>
+<span id="cb19-116"><a href="glm-1.html#cb19-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-117"><a href="glm-1.html#cb19-117" aria-hidden="true" tabindex="-1"></a><span class="st"># Perfusion subtraction</span></span>
+<span id="cb19-118"><a href="glm-1.html#cb19-118" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(perfsub_yn) 0</span></span>
+<span id="cb19-119"><a href="glm-1.html#cb19-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-120"><a href="glm-1.html#cb19-120" aria-hidden="true" tabindex="-1"></a><span class="st"># Highpass temporal filtering</span></span>
+<span id="cb19-121"><a href="glm-1.html#cb19-121" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(temphp_yn) 1</span></span>
+<span id="cb19-122"><a href="glm-1.html#cb19-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-123"><a href="glm-1.html#cb19-123" aria-hidden="true" tabindex="-1"></a><span class="st"># Lowpass temporal filtering</span></span>
+<span id="cb19-124"><a href="glm-1.html#cb19-124" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(templp_yn) 0</span></span>
+<span id="cb19-125"><a href="glm-1.html#cb19-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-126"><a href="glm-1.html#cb19-126" aria-hidden="true" tabindex="-1"></a><span class="st"># MELODIC ICA data exploration</span></span>
+<span id="cb19-127"><a href="glm-1.html#cb19-127" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(melodic_yn) 0</span></span>
+<span id="cb19-128"><a href="glm-1.html#cb19-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-129"><a href="glm-1.html#cb19-129" aria-hidden="true" tabindex="-1"></a><span class="st"># Carry out main stats?</span></span>
+<span id="cb19-130"><a href="glm-1.html#cb19-130" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(stats_yn) 1</span></span>
+<span id="cb19-131"><a href="glm-1.html#cb19-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-132"><a href="glm-1.html#cb19-132" aria-hidden="true" tabindex="-1"></a><span class="st"># Carry out prewhitening?</span></span>
+<span id="cb19-133"><a href="glm-1.html#cb19-133" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(prewhiten_yn) 1</span></span>
+<span id="cb19-134"><a href="glm-1.html#cb19-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-135"><a href="glm-1.html#cb19-135" aria-hidden="true" tabindex="-1"></a><span class="st"># Add motion parameters to model</span></span>
+<span id="cb19-136"><a href="glm-1.html#cb19-136" aria-hidden="true" tabindex="-1"></a><span class="st"># 0 : No</span></span>
+<span id="cb19-137"><a href="glm-1.html#cb19-137" aria-hidden="true" tabindex="-1"></a><span class="st"># 1 : Yes</span></span>
+<span id="cb19-138"><a href="glm-1.html#cb19-138" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(motionevs) 0</span></span>
+<span id="cb19-139"><a href="glm-1.html#cb19-139" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(motionevsbeta) &quot;&quot;</span></span>
+<span id="cb19-140"><a href="glm-1.html#cb19-140" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(scriptevsbeta) &quot;&quot;</span></span>
+<span id="cb19-141"><a href="glm-1.html#cb19-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-142"><a href="glm-1.html#cb19-142" aria-hidden="true" tabindex="-1"></a><span class="st"># Robust outlier detection in FLAME?</span></span>
+<span id="cb19-143"><a href="glm-1.html#cb19-143" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(robust_yn) 0</span></span>
+<span id="cb19-144"><a href="glm-1.html#cb19-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-145"><a href="glm-1.html#cb19-145" aria-hidden="true" tabindex="-1"></a><span class="st"># Higher-level modelling</span></span>
+<span id="cb19-146"><a href="glm-1.html#cb19-146" aria-hidden="true" tabindex="-1"></a><span class="st"># 3 : Fixed effects</span></span>
+<span id="cb19-147"><a href="glm-1.html#cb19-147" aria-hidden="true" tabindex="-1"></a><span class="st"># 0 : Mixed Effects: Simple OLS</span></span>
+<span id="cb19-148"><a href="glm-1.html#cb19-148" aria-hidden="true" tabindex="-1"></a><span class="st"># 2 : Mixed Effects: FLAME 1</span></span>
+<span id="cb19-149"><a href="glm-1.html#cb19-149" aria-hidden="true" tabindex="-1"></a><span class="st"># 1 : Mixed Effects: FLAME 1+2</span></span>
+<span id="cb19-150"><a href="glm-1.html#cb19-150" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(mixed_yn) 2</span></span>
+<span id="cb19-151"><a href="glm-1.html#cb19-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-152"><a href="glm-1.html#cb19-152" aria-hidden="true" tabindex="-1"></a><span class="st"># Higher-level permutations</span></span>
+<span id="cb19-153"><a href="glm-1.html#cb19-153" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(randomisePermutations) 5000</span></span>
+<span id="cb19-154"><a href="glm-1.html#cb19-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-155"><a href="glm-1.html#cb19-155" aria-hidden="true" tabindex="-1"></a><span class="st"># Number of EVs</span></span>
+<span id="cb19-156"><a href="glm-1.html#cb19-156" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(evs_orig) 4</span></span>
+<span id="cb19-157"><a href="glm-1.html#cb19-157" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(evs_real) 8</span></span>
+<span id="cb19-158"><a href="glm-1.html#cb19-158" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(evs_vox) 0</span></span>
+<span id="cb19-159"><a href="glm-1.html#cb19-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-160"><a href="glm-1.html#cb19-160" aria-hidden="true" tabindex="-1"></a><span class="st"># Number of contrasts</span></span>
+<span id="cb19-161"><a href="glm-1.html#cb19-161" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(ncon_orig) 3</span></span>
+<span id="cb19-162"><a href="glm-1.html#cb19-162" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(ncon_real) 3</span></span>
+<span id="cb19-163"><a href="glm-1.html#cb19-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-164"><a href="glm-1.html#cb19-164" aria-hidden="true" tabindex="-1"></a><span class="st"># Number of F-tests</span></span>
+<span id="cb19-165"><a href="glm-1.html#cb19-165" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(nftests_orig) 1</span></span>
+<span id="cb19-166"><a href="glm-1.html#cb19-166" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(nftests_real) 1</span></span>
+<span id="cb19-167"><a href="glm-1.html#cb19-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-168"><a href="glm-1.html#cb19-168" aria-hidden="true" tabindex="-1"></a><span class="st"># Add constant column to design matrix? (obsolete)</span></span>
+<span id="cb19-169"><a href="glm-1.html#cb19-169" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(constcol) 0</span></span>
+<span id="cb19-170"><a href="glm-1.html#cb19-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-171"><a href="glm-1.html#cb19-171" aria-hidden="true" tabindex="-1"></a><span class="st"># Carry out post-stats steps?</span></span>
+<span id="cb19-172"><a href="glm-1.html#cb19-172" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(poststats_yn) 0</span></span>
+<span id="cb19-173"><a href="glm-1.html#cb19-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-174"><a href="glm-1.html#cb19-174" aria-hidden="true" tabindex="-1"></a><span class="st"># Pre-threshold masking?</span></span>
+<span id="cb19-175"><a href="glm-1.html#cb19-175" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(threshmask) &quot;&quot;</span></span>
+<span id="cb19-176"><a href="glm-1.html#cb19-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-177"><a href="glm-1.html#cb19-177" aria-hidden="true" tabindex="-1"></a><span class="st"># Thresholding</span></span>
+<span id="cb19-178"><a href="glm-1.html#cb19-178" aria-hidden="true" tabindex="-1"></a><span class="st"># 0 : None</span></span>
+<span id="cb19-179"><a href="glm-1.html#cb19-179" aria-hidden="true" tabindex="-1"></a><span class="st"># 1 : Uncorrected</span></span>
+<span id="cb19-180"><a href="glm-1.html#cb19-180" aria-hidden="true" tabindex="-1"></a><span class="st"># 2 : Voxel</span></span>
+<span id="cb19-181"><a href="glm-1.html#cb19-181" aria-hidden="true" tabindex="-1"></a><span class="st"># 3 : Cluster</span></span>
+<span id="cb19-182"><a href="glm-1.html#cb19-182" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(thresh) 3</span></span>
+<span id="cb19-183"><a href="glm-1.html#cb19-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-184"><a href="glm-1.html#cb19-184" aria-hidden="true" tabindex="-1"></a><span class="st"># P threshold</span></span>
+<span id="cb19-185"><a href="glm-1.html#cb19-185" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(prob_thresh) 0.05</span></span>
+<span id="cb19-186"><a href="glm-1.html#cb19-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-187"><a href="glm-1.html#cb19-187" aria-hidden="true" tabindex="-1"></a><span class="st"># Z threshold</span></span>
+<span id="cb19-188"><a href="glm-1.html#cb19-188" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(z_thresh) 3.1</span></span>
+<span id="cb19-189"><a href="glm-1.html#cb19-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-190"><a href="glm-1.html#cb19-190" aria-hidden="true" tabindex="-1"></a><span class="st"># Z min/max for colour rendering</span></span>
+<span id="cb19-191"><a href="glm-1.html#cb19-191" aria-hidden="true" tabindex="-1"></a><span class="st"># 0 : Use actual Z min/max</span></span>
+<span id="cb19-192"><a href="glm-1.html#cb19-192" aria-hidden="true" tabindex="-1"></a><span class="st"># 1 : Use preset Z min/max</span></span>
+<span id="cb19-193"><a href="glm-1.html#cb19-193" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(zdisplay) 0</span></span>
+<span id="cb19-194"><a href="glm-1.html#cb19-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-195"><a href="glm-1.html#cb19-195" aria-hidden="true" tabindex="-1"></a><span class="st"># Z min in colour rendering</span></span>
+<span id="cb19-196"><a href="glm-1.html#cb19-196" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(zmin) 2</span></span>
+<span id="cb19-197"><a href="glm-1.html#cb19-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-198"><a href="glm-1.html#cb19-198" aria-hidden="true" tabindex="-1"></a><span class="st"># Z max in colour rendering</span></span>
+<span id="cb19-199"><a href="glm-1.html#cb19-199" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(zmax) 8</span></span>
+<span id="cb19-200"><a href="glm-1.html#cb19-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-201"><a href="glm-1.html#cb19-201" aria-hidden="true" tabindex="-1"></a><span class="st"># Colour rendering type</span></span>
+<span id="cb19-202"><a href="glm-1.html#cb19-202" aria-hidden="true" tabindex="-1"></a><span class="st"># 0 : Solid blobs</span></span>
+<span id="cb19-203"><a href="glm-1.html#cb19-203" aria-hidden="true" tabindex="-1"></a><span class="st"># 1 : Transparent blobs</span></span>
+<span id="cb19-204"><a href="glm-1.html#cb19-204" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(rendertype) 1</span></span>
+<span id="cb19-205"><a href="glm-1.html#cb19-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-206"><a href="glm-1.html#cb19-206" aria-hidden="true" tabindex="-1"></a><span class="st"># Background image for higher-level stats overlays</span></span>
+<span id="cb19-207"><a href="glm-1.html#cb19-207" aria-hidden="true" tabindex="-1"></a><span class="st"># 1 : Mean highres</span></span>
+<span id="cb19-208"><a href="glm-1.html#cb19-208" aria-hidden="true" tabindex="-1"></a><span class="st"># 2 : First highres</span></span>
+<span id="cb19-209"><a href="glm-1.html#cb19-209" aria-hidden="true" tabindex="-1"></a><span class="st"># 3 : Mean functional</span></span>
+<span id="cb19-210"><a href="glm-1.html#cb19-210" aria-hidden="true" tabindex="-1"></a><span class="st"># 4 : First functional</span></span>
+<span id="cb19-211"><a href="glm-1.html#cb19-211" aria-hidden="true" tabindex="-1"></a><span class="st"># 5 : Standard space template</span></span>
+<span id="cb19-212"><a href="glm-1.html#cb19-212" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(bgimage) 1</span></span>
+<span id="cb19-213"><a href="glm-1.html#cb19-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-214"><a href="glm-1.html#cb19-214" aria-hidden="true" tabindex="-1"></a><span class="st"># Create time series plots</span></span>
+<span id="cb19-215"><a href="glm-1.html#cb19-215" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(tsplot_yn) 1</span></span>
+<span id="cb19-216"><a href="glm-1.html#cb19-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-217"><a href="glm-1.html#cb19-217" aria-hidden="true" tabindex="-1"></a><span class="st"># Registration to initial structural</span></span>
+<span id="cb19-218"><a href="glm-1.html#cb19-218" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(reginitial_highres_yn) 0</span></span>
+<span id="cb19-219"><a href="glm-1.html#cb19-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-220"><a href="glm-1.html#cb19-220" aria-hidden="true" tabindex="-1"></a><span class="st"># Search space for registration to initial structural</span></span>
+<span id="cb19-221"><a href="glm-1.html#cb19-221" aria-hidden="true" tabindex="-1"></a><span class="st"># 0   : No search</span></span>
+<span id="cb19-222"><a href="glm-1.html#cb19-222" aria-hidden="true" tabindex="-1"></a><span class="st"># 90  : Normal search</span></span>
+<span id="cb19-223"><a href="glm-1.html#cb19-223" aria-hidden="true" tabindex="-1"></a><span class="st"># 180 : Full search</span></span>
+<span id="cb19-224"><a href="glm-1.html#cb19-224" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(reginitial_highres_search) 90</span></span>
+<span id="cb19-225"><a href="glm-1.html#cb19-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-226"><a href="glm-1.html#cb19-226" aria-hidden="true" tabindex="-1"></a><span class="st"># Degrees of Freedom for registration to initial structural</span></span>
+<span id="cb19-227"><a href="glm-1.html#cb19-227" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(reginitial_highres_dof) 3</span></span>
+<span id="cb19-228"><a href="glm-1.html#cb19-228" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-229"><a href="glm-1.html#cb19-229" aria-hidden="true" tabindex="-1"></a><span class="st"># Registration to main structural</span></span>
+<span id="cb19-230"><a href="glm-1.html#cb19-230" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(reghighres_yn) 0</span></span>
+<span id="cb19-231"><a href="glm-1.html#cb19-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-232"><a href="glm-1.html#cb19-232" aria-hidden="true" tabindex="-1"></a><span class="st"># Search space for registration to main structural</span></span>
+<span id="cb19-233"><a href="glm-1.html#cb19-233" aria-hidden="true" tabindex="-1"></a><span class="st"># 0   : No search</span></span>
+<span id="cb19-234"><a href="glm-1.html#cb19-234" aria-hidden="true" tabindex="-1"></a><span class="st"># 90  : Normal search</span></span>
+<span id="cb19-235"><a href="glm-1.html#cb19-235" aria-hidden="true" tabindex="-1"></a><span class="st"># 180 : Full search</span></span>
+<span id="cb19-236"><a href="glm-1.html#cb19-236" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(reghighres_search) 90</span></span>
+<span id="cb19-237"><a href="glm-1.html#cb19-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-238"><a href="glm-1.html#cb19-238" aria-hidden="true" tabindex="-1"></a><span class="st"># Degrees of Freedom for registration to main structural</span></span>
+<span id="cb19-239"><a href="glm-1.html#cb19-239" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(reghighres_dof) BBR</span></span>
+<span id="cb19-240"><a href="glm-1.html#cb19-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-241"><a href="glm-1.html#cb19-241" aria-hidden="true" tabindex="-1"></a><span class="st"># Registration to standard image?</span></span>
+<span id="cb19-242"><a href="glm-1.html#cb19-242" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(regstandard_yn) 1</span></span>
+<span id="cb19-243"><a href="glm-1.html#cb19-243" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-244"><a href="glm-1.html#cb19-244" aria-hidden="true" tabindex="-1"></a><span class="st"># Use alternate reference images?</span></span>
+<span id="cb19-245"><a href="glm-1.html#cb19-245" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(alternateReference_yn) 0</span></span>
+<span id="cb19-246"><a href="glm-1.html#cb19-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-247"><a href="glm-1.html#cb19-247" aria-hidden="true" tabindex="-1"></a><span class="st"># Standard image</span></span>
+<span id="cb19-248"><a href="glm-1.html#cb19-248" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(regstandard) &quot;/usr/local/fsl/data/standard/MNI152_T1_2mm_brain&quot;</span></span>
+<span id="cb19-249"><a href="glm-1.html#cb19-249" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-250"><a href="glm-1.html#cb19-250" aria-hidden="true" tabindex="-1"></a><span class="st"># Search space for registration to standard space</span></span>
+<span id="cb19-251"><a href="glm-1.html#cb19-251" aria-hidden="true" tabindex="-1"></a><span class="st"># 0   : No search</span></span>
+<span id="cb19-252"><a href="glm-1.html#cb19-252" aria-hidden="true" tabindex="-1"></a><span class="st"># 90  : Normal search</span></span>
+<span id="cb19-253"><a href="glm-1.html#cb19-253" aria-hidden="true" tabindex="-1"></a><span class="st"># 180 : Full search</span></span>
+<span id="cb19-254"><a href="glm-1.html#cb19-254" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(regstandard_search) 90</span></span>
+<span id="cb19-255"><a href="glm-1.html#cb19-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-256"><a href="glm-1.html#cb19-256" aria-hidden="true" tabindex="-1"></a><span class="st"># Degrees of Freedom for registration to standard space</span></span>
+<span id="cb19-257"><a href="glm-1.html#cb19-257" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(regstandard_dof) 3</span></span>
+<span id="cb19-258"><a href="glm-1.html#cb19-258" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-259"><a href="glm-1.html#cb19-259" aria-hidden="true" tabindex="-1"></a><span class="st"># Do nonlinear registration from structural to standard space?</span></span>
+<span id="cb19-260"><a href="glm-1.html#cb19-260" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(regstandard_nonlinear_yn) 0</span></span>
+<span id="cb19-261"><a href="glm-1.html#cb19-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-262"><a href="glm-1.html#cb19-262" aria-hidden="true" tabindex="-1"></a><span class="st"># Control nonlinear warp field resolution</span></span>
+<span id="cb19-263"><a href="glm-1.html#cb19-263" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(regstandard_nonlinear_warpres) 10 </span></span>
+<span id="cb19-264"><a href="glm-1.html#cb19-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-265"><a href="glm-1.html#cb19-265" aria-hidden="true" tabindex="-1"></a><span class="st"># High pass filter cutoff</span></span>
+<span id="cb19-266"><a href="glm-1.html#cb19-266" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(paradigm_hp) 100</span></span>
+<span id="cb19-267"><a href="glm-1.html#cb19-267" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-268"><a href="glm-1.html#cb19-268" aria-hidden="true" tabindex="-1"></a><span class="st"># Total voxels</span></span>
+<span id="cb19-269"><a href="glm-1.html#cb19-269" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(totalVoxels) 179159040</span></span>
+<span id="cb19-270"><a href="glm-1.html#cb19-270" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-271"><a href="glm-1.html#cb19-271" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-272"><a href="glm-1.html#cb19-272" aria-hidden="true" tabindex="-1"></a><span class="st"># Number of lower-level copes feeding into higher-level analysis</span></span>
+<span id="cb19-273"><a href="glm-1.html#cb19-273" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(ncopeinputs) 0</span></span>
+<span id="cb19-274"><a href="glm-1.html#cb19-274" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-275"><a href="glm-1.html#cb19-275" aria-hidden="true" tabindex="-1"></a><span class="st"># 4D AVW data or FEAT directory (1)</span></span>
+<span id="cb19-276"><a href="glm-1.html#cb19-276" aria-hidden="true" tabindex="-1"></a><span class="st">set feat_files(1) &quot;@func_fn@&quot;</span></span>
+<span id="cb19-277"><a href="glm-1.html#cb19-277" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-278"><a href="glm-1.html#cb19-278" aria-hidden="true" tabindex="-1"></a><span class="st"># Add confound EVs text file</span></span>
+<span id="cb19-279"><a href="glm-1.html#cb19-279" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(confoundevs) 1</span></span>
+<span id="cb19-280"><a href="glm-1.html#cb19-280" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-281"><a href="glm-1.html#cb19-281" aria-hidden="true" tabindex="-1"></a><span class="st"># Confound EVs text file for analysis 1</span></span>
+<span id="cb19-282"><a href="glm-1.html#cb19-282" aria-hidden="true" tabindex="-1"></a><span class="st">set confoundev_files(1) &quot;@conf_ev_fn@&quot;</span></span>
+<span id="cb19-283"><a href="glm-1.html#cb19-283" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-284"><a href="glm-1.html#cb19-284" aria-hidden="true" tabindex="-1"></a><span class="st"># EV 1 title</span></span>
+<span id="cb19-285"><a href="glm-1.html#cb19-285" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(evtitle1) &quot;navigation&quot;</span></span>
+<span id="cb19-286"><a href="glm-1.html#cb19-286" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-287"><a href="glm-1.html#cb19-287" aria-hidden="true" tabindex="-1"></a><span class="st"># Basic waveform shape (EV 1)</span></span>
+<span id="cb19-288"><a href="glm-1.html#cb19-288" aria-hidden="true" tabindex="-1"></a><span class="st"># 0 : Square</span></span>
+<span id="cb19-289"><a href="glm-1.html#cb19-289" aria-hidden="true" tabindex="-1"></a><span class="st"># 1 : Sinusoid</span></span>
+<span id="cb19-290"><a href="glm-1.html#cb19-290" aria-hidden="true" tabindex="-1"></a><span class="st"># 2 : Custom (1 entry per volume)</span></span>
+<span id="cb19-291"><a href="glm-1.html#cb19-291" aria-hidden="true" tabindex="-1"></a><span class="st"># 3 : Custom (3 column format)</span></span>
+<span id="cb19-292"><a href="glm-1.html#cb19-292" aria-hidden="true" tabindex="-1"></a><span class="st"># 4 : Interaction</span></span>
+<span id="cb19-293"><a href="glm-1.html#cb19-293" aria-hidden="true" tabindex="-1"></a><span class="st"># 10 : Empty (all zeros)</span></span>
+<span id="cb19-294"><a href="glm-1.html#cb19-294" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(shape1) 3</span></span>
+<span id="cb19-295"><a href="glm-1.html#cb19-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-296"><a href="glm-1.html#cb19-296" aria-hidden="true" tabindex="-1"></a><span class="st"># Convolution (EV 1)</span></span>
+<span id="cb19-297"><a href="glm-1.html#cb19-297" aria-hidden="true" tabindex="-1"></a><span class="st"># 0 : None</span></span>
+<span id="cb19-298"><a href="glm-1.html#cb19-298" aria-hidden="true" tabindex="-1"></a><span class="st"># 1 : Gaussian</span></span>
+<span id="cb19-299"><a href="glm-1.html#cb19-299" aria-hidden="true" tabindex="-1"></a><span class="st"># 2 : Gamma</span></span>
+<span id="cb19-300"><a href="glm-1.html#cb19-300" aria-hidden="true" tabindex="-1"></a><span class="st"># 3 : Double-Gamma HRF</span></span>
+<span id="cb19-301"><a href="glm-1.html#cb19-301" aria-hidden="true" tabindex="-1"></a><span class="st"># 4 : Gamma basis functions</span></span>
+<span id="cb19-302"><a href="glm-1.html#cb19-302" aria-hidden="true" tabindex="-1"></a><span class="st"># 5 : Sine basis functions</span></span>
+<span id="cb19-303"><a href="glm-1.html#cb19-303" aria-hidden="true" tabindex="-1"></a><span class="st"># 6 : FIR basis functions</span></span>
+<span id="cb19-304"><a href="glm-1.html#cb19-304" aria-hidden="true" tabindex="-1"></a><span class="st"># 8 : Alternate Double-Gamma</span></span>
+<span id="cb19-305"><a href="glm-1.html#cb19-305" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(convolve1) 2</span></span>
+<span id="cb19-306"><a href="glm-1.html#cb19-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-307"><a href="glm-1.html#cb19-307" aria-hidden="true" tabindex="-1"></a><span class="st"># Convolve phase (EV 1)</span></span>
+<span id="cb19-308"><a href="glm-1.html#cb19-308" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(convolve_phase1) 0</span></span>
+<span id="cb19-309"><a href="glm-1.html#cb19-309" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-310"><a href="glm-1.html#cb19-310" aria-hidden="true" tabindex="-1"></a><span class="st"># Apply temporal filtering (EV 1)</span></span>
+<span id="cb19-311"><a href="glm-1.html#cb19-311" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(tempfilt_yn1) 1</span></span>
+<span id="cb19-312"><a href="glm-1.html#cb19-312" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-313"><a href="glm-1.html#cb19-313" aria-hidden="true" tabindex="-1"></a><span class="st"># Add temporal derivative (EV 1)</span></span>
+<span id="cb19-314"><a href="glm-1.html#cb19-314" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(deriv_yn1) 1</span></span>
+<span id="cb19-315"><a href="glm-1.html#cb19-315" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-316"><a href="glm-1.html#cb19-316" aria-hidden="true" tabindex="-1"></a><span class="st"># Custom EV file (EV 1)</span></span>
+<span id="cb19-317"><a href="glm-1.html#cb19-317" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(custom1) &quot;@navi_ev_fn@&quot;</span></span>
+<span id="cb19-318"><a href="glm-1.html#cb19-318" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-319"><a href="glm-1.html#cb19-319" aria-hidden="true" tabindex="-1"></a><span class="st"># Gamma sigma (EV 1)</span></span>
+<span id="cb19-320"><a href="glm-1.html#cb19-320" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(gammasigma1) 3</span></span>
+<span id="cb19-321"><a href="glm-1.html#cb19-321" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-322"><a href="glm-1.html#cb19-322" aria-hidden="true" tabindex="-1"></a><span class="st"># Gamma delay (EV 1)</span></span>
+<span id="cb19-323"><a href="glm-1.html#cb19-323" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(gammadelay1) 6</span></span>
+<span id="cb19-324"><a href="glm-1.html#cb19-324" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-325"><a href="glm-1.html#cb19-325" aria-hidden="true" tabindex="-1"></a><span class="st"># Orthogonalise EV 1 wrt EV 0</span></span>
+<span id="cb19-326"><a href="glm-1.html#cb19-326" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(ortho1.0) 0</span></span>
+<span id="cb19-327"><a href="glm-1.html#cb19-327" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-328"><a href="glm-1.html#cb19-328" aria-hidden="true" tabindex="-1"></a><span class="st"># Orthogonalise EV 1 wrt EV 1</span></span>
+<span id="cb19-329"><a href="glm-1.html#cb19-329" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(ortho1.1) 0</span></span>
+<span id="cb19-330"><a href="glm-1.html#cb19-330" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-331"><a href="glm-1.html#cb19-331" aria-hidden="true" tabindex="-1"></a><span class="st"># Orthogonalise EV 1 wrt EV 2</span></span>
+<span id="cb19-332"><a href="glm-1.html#cb19-332" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(ortho1.2) 0</span></span>
+<span id="cb19-333"><a href="glm-1.html#cb19-333" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-334"><a href="glm-1.html#cb19-334" aria-hidden="true" tabindex="-1"></a><span class="st"># Orthogonalise EV 1 wrt EV 3</span></span>
+<span id="cb19-335"><a href="glm-1.html#cb19-335" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(ortho1.3) 0</span></span>
+<span id="cb19-336"><a href="glm-1.html#cb19-336" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-337"><a href="glm-1.html#cb19-337" aria-hidden="true" tabindex="-1"></a><span class="st"># Orthogonalise EV 1 wrt EV 4</span></span>
+<span id="cb19-338"><a href="glm-1.html#cb19-338" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(ortho1.4) 0</span></span>
+<span id="cb19-339"><a href="glm-1.html#cb19-339" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-340"><a href="glm-1.html#cb19-340" aria-hidden="true" tabindex="-1"></a><span class="st"># EV 2 title</span></span>
+<span id="cb19-341"><a href="glm-1.html#cb19-341" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(evtitle2) &quot;sine&quot;</span></span>
+<span id="cb19-342"><a href="glm-1.html#cb19-342" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-343"><a href="glm-1.html#cb19-343" aria-hidden="true" tabindex="-1"></a><span class="st"># Basic waveform shape (EV 2)</span></span>
+<span id="cb19-344"><a href="glm-1.html#cb19-344" aria-hidden="true" tabindex="-1"></a><span class="st"># 0 : Square</span></span>
+<span id="cb19-345"><a href="glm-1.html#cb19-345" aria-hidden="true" tabindex="-1"></a><span class="st"># 1 : Sinusoid</span></span>
+<span id="cb19-346"><a href="glm-1.html#cb19-346" aria-hidden="true" tabindex="-1"></a><span class="st"># 2 : Custom (1 entry per volume)</span></span>
+<span id="cb19-347"><a href="glm-1.html#cb19-347" aria-hidden="true" tabindex="-1"></a><span class="st"># 3 : Custom (3 column format)</span></span>
+<span id="cb19-348"><a href="glm-1.html#cb19-348" aria-hidden="true" tabindex="-1"></a><span class="st"># 4 : Interaction</span></span>
+<span id="cb19-349"><a href="glm-1.html#cb19-349" aria-hidden="true" tabindex="-1"></a><span class="st"># 10 : Empty (all zeros)</span></span>
+<span id="cb19-350"><a href="glm-1.html#cb19-350" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(shape2) 3</span></span>
+<span id="cb19-351"><a href="glm-1.html#cb19-351" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-352"><a href="glm-1.html#cb19-352" aria-hidden="true" tabindex="-1"></a><span class="st"># Convolution (EV 2)</span></span>
+<span id="cb19-353"><a href="glm-1.html#cb19-353" aria-hidden="true" tabindex="-1"></a><span class="st"># 0 : None</span></span>
+<span id="cb19-354"><a href="glm-1.html#cb19-354" aria-hidden="true" tabindex="-1"></a><span class="st"># 1 : Gaussian</span></span>
+<span id="cb19-355"><a href="glm-1.html#cb19-355" aria-hidden="true" tabindex="-1"></a><span class="st"># 2 : Gamma</span></span>
+<span id="cb19-356"><a href="glm-1.html#cb19-356" aria-hidden="true" tabindex="-1"></a><span class="st"># 3 : Double-Gamma HRF</span></span>
+<span id="cb19-357"><a href="glm-1.html#cb19-357" aria-hidden="true" tabindex="-1"></a><span class="st"># 4 : Gamma basis functions</span></span>
+<span id="cb19-358"><a href="glm-1.html#cb19-358" aria-hidden="true" tabindex="-1"></a><span class="st"># 5 : Sine basis functions</span></span>
+<span id="cb19-359"><a href="glm-1.html#cb19-359" aria-hidden="true" tabindex="-1"></a><span class="st"># 6 : FIR basis functions</span></span>
+<span id="cb19-360"><a href="glm-1.html#cb19-360" aria-hidden="true" tabindex="-1"></a><span class="st"># 8 : Alternate Double-Gamma</span></span>
+<span id="cb19-361"><a href="glm-1.html#cb19-361" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(convolve2) 2</span></span>
+<span id="cb19-362"><a href="glm-1.html#cb19-362" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-363"><a href="glm-1.html#cb19-363" aria-hidden="true" tabindex="-1"></a><span class="st"># Convolve phase (EV 2)</span></span>
+<span id="cb19-364"><a href="glm-1.html#cb19-364" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(convolve_phase2) 0</span></span>
+<span id="cb19-365"><a href="glm-1.html#cb19-365" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-366"><a href="glm-1.html#cb19-366" aria-hidden="true" tabindex="-1"></a><span class="st"># Apply temporal filtering (EV 2)</span></span>
+<span id="cb19-367"><a href="glm-1.html#cb19-367" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(tempfilt_yn2) 1</span></span>
+<span id="cb19-368"><a href="glm-1.html#cb19-368" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-369"><a href="glm-1.html#cb19-369" aria-hidden="true" tabindex="-1"></a><span class="st"># Add temporal derivative (EV 2)</span></span>
+<span id="cb19-370"><a href="glm-1.html#cb19-370" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(deriv_yn2) 1</span></span>
+<span id="cb19-371"><a href="glm-1.html#cb19-371" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-372"><a href="glm-1.html#cb19-372" aria-hidden="true" tabindex="-1"></a><span class="st"># Custom EV file (EV 2)</span></span>
+<span id="cb19-373"><a href="glm-1.html#cb19-373" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(custom2) &quot;@sine_ev_fn@&quot;</span></span>
+<span id="cb19-374"><a href="glm-1.html#cb19-374" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-375"><a href="glm-1.html#cb19-375" aria-hidden="true" tabindex="-1"></a><span class="st"># Gamma sigma (EV 2)</span></span>
+<span id="cb19-376"><a href="glm-1.html#cb19-376" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(gammasigma2) 3</span></span>
+<span id="cb19-377"><a href="glm-1.html#cb19-377" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-378"><a href="glm-1.html#cb19-378" aria-hidden="true" tabindex="-1"></a><span class="st"># Gamma delay (EV 2)</span></span>
+<span id="cb19-379"><a href="glm-1.html#cb19-379" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(gammadelay2) 6</span></span>
+<span id="cb19-380"><a href="glm-1.html#cb19-380" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-381"><a href="glm-1.html#cb19-381" aria-hidden="true" tabindex="-1"></a><span class="st"># Orthogonalise EV 2 wrt EV 0</span></span>
+<span id="cb19-382"><a href="glm-1.html#cb19-382" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(ortho2.0) 0</span></span>
+<span id="cb19-383"><a href="glm-1.html#cb19-383" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-384"><a href="glm-1.html#cb19-384" aria-hidden="true" tabindex="-1"></a><span class="st"># Orthogonalise EV 2 wrt EV 1</span></span>
+<span id="cb19-385"><a href="glm-1.html#cb19-385" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(ortho2.1) 0</span></span>
+<span id="cb19-386"><a href="glm-1.html#cb19-386" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-387"><a href="glm-1.html#cb19-387" aria-hidden="true" tabindex="-1"></a><span class="st"># Orthogonalise EV 2 wrt EV 2</span></span>
+<span id="cb19-388"><a href="glm-1.html#cb19-388" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(ortho2.2) 0</span></span>
+<span id="cb19-389"><a href="glm-1.html#cb19-389" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-390"><a href="glm-1.html#cb19-390" aria-hidden="true" tabindex="-1"></a><span class="st"># Orthogonalise EV 2 wrt EV 3</span></span>
+<span id="cb19-391"><a href="glm-1.html#cb19-391" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(ortho2.3) 0</span></span>
+<span id="cb19-392"><a href="glm-1.html#cb19-392" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-393"><a href="glm-1.html#cb19-393" aria-hidden="true" tabindex="-1"></a><span class="st"># Orthogonalise EV 2 wrt EV 4</span></span>
+<span id="cb19-394"><a href="glm-1.html#cb19-394" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(ortho2.4) 0</span></span>
+<span id="cb19-395"><a href="glm-1.html#cb19-395" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-396"><a href="glm-1.html#cb19-396" aria-hidden="true" tabindex="-1"></a><span class="st"># EV 3 title</span></span>
+<span id="cb19-397"><a href="glm-1.html#cb19-397" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(evtitle3) &quot;cosine&quot;</span></span>
+<span id="cb19-398"><a href="glm-1.html#cb19-398" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-399"><a href="glm-1.html#cb19-399" aria-hidden="true" tabindex="-1"></a><span class="st"># Basic waveform shape (EV 3)</span></span>
+<span id="cb19-400"><a href="glm-1.html#cb19-400" aria-hidden="true" tabindex="-1"></a><span class="st"># 0 : Square</span></span>
+<span id="cb19-401"><a href="glm-1.html#cb19-401" aria-hidden="true" tabindex="-1"></a><span class="st"># 1 : Sinusoid</span></span>
+<span id="cb19-402"><a href="glm-1.html#cb19-402" aria-hidden="true" tabindex="-1"></a><span class="st"># 2 : Custom (1 entry per volume)</span></span>
+<span id="cb19-403"><a href="glm-1.html#cb19-403" aria-hidden="true" tabindex="-1"></a><span class="st"># 3 : Custom (3 column format)</span></span>
+<span id="cb19-404"><a href="glm-1.html#cb19-404" aria-hidden="true" tabindex="-1"></a><span class="st"># 4 : Interaction</span></span>
+<span id="cb19-405"><a href="glm-1.html#cb19-405" aria-hidden="true" tabindex="-1"></a><span class="st"># 10 : Empty (all zeros)</span></span>
+<span id="cb19-406"><a href="glm-1.html#cb19-406" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(shape3) 3</span></span>
+<span id="cb19-407"><a href="glm-1.html#cb19-407" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-408"><a href="glm-1.html#cb19-408" aria-hidden="true" tabindex="-1"></a><span class="st"># Convolution (EV 3)</span></span>
+<span id="cb19-409"><a href="glm-1.html#cb19-409" aria-hidden="true" tabindex="-1"></a><span class="st"># 0 : None</span></span>
+<span id="cb19-410"><a href="glm-1.html#cb19-410" aria-hidden="true" tabindex="-1"></a><span class="st"># 1 : Gaussian</span></span>
+<span id="cb19-411"><a href="glm-1.html#cb19-411" aria-hidden="true" tabindex="-1"></a><span class="st"># 2 : Gamma</span></span>
+<span id="cb19-412"><a href="glm-1.html#cb19-412" aria-hidden="true" tabindex="-1"></a><span class="st"># 3 : Double-Gamma HRF</span></span>
+<span id="cb19-413"><a href="glm-1.html#cb19-413" aria-hidden="true" tabindex="-1"></a><span class="st"># 4 : Gamma basis functions</span></span>
+<span id="cb19-414"><a href="glm-1.html#cb19-414" aria-hidden="true" tabindex="-1"></a><span class="st"># 5 : Sine basis functions</span></span>
+<span id="cb19-415"><a href="glm-1.html#cb19-415" aria-hidden="true" tabindex="-1"></a><span class="st"># 6 : FIR basis functions</span></span>
+<span id="cb19-416"><a href="glm-1.html#cb19-416" aria-hidden="true" tabindex="-1"></a><span class="st"># 8 : Alternate Double-Gamma</span></span>
+<span id="cb19-417"><a href="glm-1.html#cb19-417" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(convolve3) 2</span></span>
+<span id="cb19-418"><a href="glm-1.html#cb19-418" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-419"><a href="glm-1.html#cb19-419" aria-hidden="true" tabindex="-1"></a><span class="st"># Convolve phase (EV 3)</span></span>
+<span id="cb19-420"><a href="glm-1.html#cb19-420" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(convolve_phase3) 0</span></span>
+<span id="cb19-421"><a href="glm-1.html#cb19-421" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-422"><a href="glm-1.html#cb19-422" aria-hidden="true" tabindex="-1"></a><span class="st"># Apply temporal filtering (EV 3)</span></span>
+<span id="cb19-423"><a href="glm-1.html#cb19-423" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(tempfilt_yn3) 1</span></span>
+<span id="cb19-424"><a href="glm-1.html#cb19-424" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-425"><a href="glm-1.html#cb19-425" aria-hidden="true" tabindex="-1"></a><span class="st"># Add temporal derivative (EV 3)</span></span>
+<span id="cb19-426"><a href="glm-1.html#cb19-426" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(deriv_yn3) 1</span></span>
+<span id="cb19-427"><a href="glm-1.html#cb19-427" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-428"><a href="glm-1.html#cb19-428" aria-hidden="true" tabindex="-1"></a><span class="st"># Custom EV file (EV 3)</span></span>
+<span id="cb19-429"><a href="glm-1.html#cb19-429" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(custom3) &quot;@cosine_ev_fn@&quot;</span></span>
+<span id="cb19-430"><a href="glm-1.html#cb19-430" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-431"><a href="glm-1.html#cb19-431" aria-hidden="true" tabindex="-1"></a><span class="st"># Gamma sigma (EV 3)</span></span>
+<span id="cb19-432"><a href="glm-1.html#cb19-432" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(gammasigma3) 3</span></span>
+<span id="cb19-433"><a href="glm-1.html#cb19-433" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-434"><a href="glm-1.html#cb19-434" aria-hidden="true" tabindex="-1"></a><span class="st"># Gamma delay (EV 3)</span></span>
+<span id="cb19-435"><a href="glm-1.html#cb19-435" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(gammadelay3) 6</span></span>
+<span id="cb19-436"><a href="glm-1.html#cb19-436" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-437"><a href="glm-1.html#cb19-437" aria-hidden="true" tabindex="-1"></a><span class="st"># Orthogonalise EV 3 wrt EV 0</span></span>
+<span id="cb19-438"><a href="glm-1.html#cb19-438" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(ortho3.0) 0</span></span>
+<span id="cb19-439"><a href="glm-1.html#cb19-439" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-440"><a href="glm-1.html#cb19-440" aria-hidden="true" tabindex="-1"></a><span class="st"># Orthogonalise EV 3 wrt EV 1</span></span>
+<span id="cb19-441"><a href="glm-1.html#cb19-441" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(ortho3.1) 0</span></span>
+<span id="cb19-442"><a href="glm-1.html#cb19-442" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-443"><a href="glm-1.html#cb19-443" aria-hidden="true" tabindex="-1"></a><span class="st"># Orthogonalise EV 3 wrt EV 2</span></span>
+<span id="cb19-444"><a href="glm-1.html#cb19-444" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(ortho3.2) 0</span></span>
+<span id="cb19-445"><a href="glm-1.html#cb19-445" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-446"><a href="glm-1.html#cb19-446" aria-hidden="true" tabindex="-1"></a><span class="st"># Orthogonalise EV 3 wrt EV 3</span></span>
+<span id="cb19-447"><a href="glm-1.html#cb19-447" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(ortho3.3) 0</span></span>
+<span id="cb19-448"><a href="glm-1.html#cb19-448" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-449"><a href="glm-1.html#cb19-449" aria-hidden="true" tabindex="-1"></a><span class="st"># Orthogonalise EV 3 wrt EV 4</span></span>
+<span id="cb19-450"><a href="glm-1.html#cb19-450" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(ortho3.4) 0</span></span>
+<span id="cb19-451"><a href="glm-1.html#cb19-451" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-452"><a href="glm-1.html#cb19-452" aria-hidden="true" tabindex="-1"></a><span class="st"># EV 4 title</span></span>
+<span id="cb19-453"><a href="glm-1.html#cb19-453" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(evtitle4) &quot;feedback&quot;</span></span>
+<span id="cb19-454"><a href="glm-1.html#cb19-454" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-455"><a href="glm-1.html#cb19-455" aria-hidden="true" tabindex="-1"></a><span class="st"># Basic waveform shape (EV 4)</span></span>
+<span id="cb19-456"><a href="glm-1.html#cb19-456" aria-hidden="true" tabindex="-1"></a><span class="st"># 0 : Square</span></span>
+<span id="cb19-457"><a href="glm-1.html#cb19-457" aria-hidden="true" tabindex="-1"></a><span class="st"># 1 : Sinusoid</span></span>
+<span id="cb19-458"><a href="glm-1.html#cb19-458" aria-hidden="true" tabindex="-1"></a><span class="st"># 2 : Custom (1 entry per volume)</span></span>
+<span id="cb19-459"><a href="glm-1.html#cb19-459" aria-hidden="true" tabindex="-1"></a><span class="st"># 3 : Custom (3 column format)</span></span>
+<span id="cb19-460"><a href="glm-1.html#cb19-460" aria-hidden="true" tabindex="-1"></a><span class="st"># 4 : Interaction</span></span>
+<span id="cb19-461"><a href="glm-1.html#cb19-461" aria-hidden="true" tabindex="-1"></a><span class="st"># 10 : Empty (all zeros)</span></span>
+<span id="cb19-462"><a href="glm-1.html#cb19-462" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(shape4) 3</span></span>
+<span id="cb19-463"><a href="glm-1.html#cb19-463" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-464"><a href="glm-1.html#cb19-464" aria-hidden="true" tabindex="-1"></a><span class="st"># Convolution (EV 4)</span></span>
+<span id="cb19-465"><a href="glm-1.html#cb19-465" aria-hidden="true" tabindex="-1"></a><span class="st"># 0 : None</span></span>
+<span id="cb19-466"><a href="glm-1.html#cb19-466" aria-hidden="true" tabindex="-1"></a><span class="st"># 1 : Gaussian</span></span>
+<span id="cb19-467"><a href="glm-1.html#cb19-467" aria-hidden="true" tabindex="-1"></a><span class="st"># 2 : Gamma</span></span>
+<span id="cb19-468"><a href="glm-1.html#cb19-468" aria-hidden="true" tabindex="-1"></a><span class="st"># 3 : Double-Gamma HRF</span></span>
+<span id="cb19-469"><a href="glm-1.html#cb19-469" aria-hidden="true" tabindex="-1"></a><span class="st"># 4 : Gamma basis functions</span></span>
+<span id="cb19-470"><a href="glm-1.html#cb19-470" aria-hidden="true" tabindex="-1"></a><span class="st"># 5 : Sine basis functions</span></span>
+<span id="cb19-471"><a href="glm-1.html#cb19-471" aria-hidden="true" tabindex="-1"></a><span class="st"># 6 : FIR basis functions</span></span>
+<span id="cb19-472"><a href="glm-1.html#cb19-472" aria-hidden="true" tabindex="-1"></a><span class="st"># 8 : Alternate Double-Gamma</span></span>
+<span id="cb19-473"><a href="glm-1.html#cb19-473" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(convolve4) 2</span></span>
+<span id="cb19-474"><a href="glm-1.html#cb19-474" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-475"><a href="glm-1.html#cb19-475" aria-hidden="true" tabindex="-1"></a><span class="st"># Convolve phase (EV 4)</span></span>
+<span id="cb19-476"><a href="glm-1.html#cb19-476" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(convolve_phase4) 0</span></span>
+<span id="cb19-477"><a href="glm-1.html#cb19-477" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-478"><a href="glm-1.html#cb19-478" aria-hidden="true" tabindex="-1"></a><span class="st"># Apply temporal filtering (EV 4)</span></span>
+<span id="cb19-479"><a href="glm-1.html#cb19-479" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(tempfilt_yn4) 1</span></span>
+<span id="cb19-480"><a href="glm-1.html#cb19-480" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-481"><a href="glm-1.html#cb19-481" aria-hidden="true" tabindex="-1"></a><span class="st"># Add temporal derivative (EV 4)</span></span>
+<span id="cb19-482"><a href="glm-1.html#cb19-482" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(deriv_yn4) 1</span></span>
+<span id="cb19-483"><a href="glm-1.html#cb19-483" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-484"><a href="glm-1.html#cb19-484" aria-hidden="true" tabindex="-1"></a><span class="st"># Custom EV file (EV 4)</span></span>
+<span id="cb19-485"><a href="glm-1.html#cb19-485" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(custom4) &quot;@feedback_ev_fn@&quot;</span></span>
+<span id="cb19-486"><a href="glm-1.html#cb19-486" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-487"><a href="glm-1.html#cb19-487" aria-hidden="true" tabindex="-1"></a><span class="st"># Gamma sigma (EV 4)</span></span>
+<span id="cb19-488"><a href="glm-1.html#cb19-488" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(gammasigma4) 3</span></span>
+<span id="cb19-489"><a href="glm-1.html#cb19-489" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-490"><a href="glm-1.html#cb19-490" aria-hidden="true" tabindex="-1"></a><span class="st"># Gamma delay (EV 4)</span></span>
+<span id="cb19-491"><a href="glm-1.html#cb19-491" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(gammadelay4) 6</span></span>
+<span id="cb19-492"><a href="glm-1.html#cb19-492" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-493"><a href="glm-1.html#cb19-493" aria-hidden="true" tabindex="-1"></a><span class="st"># Orthogonalise EV 4 wrt EV 0</span></span>
+<span id="cb19-494"><a href="glm-1.html#cb19-494" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(ortho4.0) 0</span></span>
+<span id="cb19-495"><a href="glm-1.html#cb19-495" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-496"><a href="glm-1.html#cb19-496" aria-hidden="true" tabindex="-1"></a><span class="st"># Orthogonalise EV 4 wrt EV 1</span></span>
+<span id="cb19-497"><a href="glm-1.html#cb19-497" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(ortho4.1) 0</span></span>
+<span id="cb19-498"><a href="glm-1.html#cb19-498" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-499"><a href="glm-1.html#cb19-499" aria-hidden="true" tabindex="-1"></a><span class="st"># Orthogonalise EV 4 wrt EV 2</span></span>
+<span id="cb19-500"><a href="glm-1.html#cb19-500" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(ortho4.2) 0</span></span>
+<span id="cb19-501"><a href="glm-1.html#cb19-501" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-502"><a href="glm-1.html#cb19-502" aria-hidden="true" tabindex="-1"></a><span class="st"># Orthogonalise EV 4 wrt EV 3</span></span>
+<span id="cb19-503"><a href="glm-1.html#cb19-503" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(ortho4.3) 0</span></span>
+<span id="cb19-504"><a href="glm-1.html#cb19-504" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-505"><a href="glm-1.html#cb19-505" aria-hidden="true" tabindex="-1"></a><span class="st"># Orthogonalise EV 4 wrt EV 4</span></span>
+<span id="cb19-506"><a href="glm-1.html#cb19-506" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(ortho4.4) 0</span></span>
+<span id="cb19-507"><a href="glm-1.html#cb19-507" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-508"><a href="glm-1.html#cb19-508" aria-hidden="true" tabindex="-1"></a><span class="st"># Contrast &amp; F-tests mode</span></span>
+<span id="cb19-509"><a href="glm-1.html#cb19-509" aria-hidden="true" tabindex="-1"></a><span class="st"># real : control real EVs</span></span>
+<span id="cb19-510"><a href="glm-1.html#cb19-510" aria-hidden="true" tabindex="-1"></a><span class="st"># orig : control original EVs</span></span>
+<span id="cb19-511"><a href="glm-1.html#cb19-511" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(con_mode_old) orig</span></span>
+<span id="cb19-512"><a href="glm-1.html#cb19-512" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(con_mode) orig</span></span>
+<span id="cb19-513"><a href="glm-1.html#cb19-513" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-514"><a href="glm-1.html#cb19-514" aria-hidden="true" tabindex="-1"></a><span class="st"># Display images for contrast_real 1</span></span>
+<span id="cb19-515"><a href="glm-1.html#cb19-515" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(conpic_real.1) 1</span></span>
+<span id="cb19-516"><a href="glm-1.html#cb19-516" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-517"><a href="glm-1.html#cb19-517" aria-hidden="true" tabindex="-1"></a><span class="st"># Title for contrast_real 1</span></span>
+<span id="cb19-518"><a href="glm-1.html#cb19-518" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(conname_real.1) &quot;navigation vs. baseline&quot;</span></span>
+<span id="cb19-519"><a href="glm-1.html#cb19-519" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-520"><a href="glm-1.html#cb19-520" aria-hidden="true" tabindex="-1"></a><span class="st"># Real contrast_real vector 1 element 1</span></span>
+<span id="cb19-521"><a href="glm-1.html#cb19-521" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(con_real1.1) 1</span></span>
+<span id="cb19-522"><a href="glm-1.html#cb19-522" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-523"><a href="glm-1.html#cb19-523" aria-hidden="true" tabindex="-1"></a><span class="st"># Real contrast_real vector 1 element 2</span></span>
+<span id="cb19-524"><a href="glm-1.html#cb19-524" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(con_real1.2) 0</span></span>
+<span id="cb19-525"><a href="glm-1.html#cb19-525" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-526"><a href="glm-1.html#cb19-526" aria-hidden="true" tabindex="-1"></a><span class="st"># Real contrast_real vector 1 element 3</span></span>
+<span id="cb19-527"><a href="glm-1.html#cb19-527" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(con_real1.3) 0</span></span>
+<span id="cb19-528"><a href="glm-1.html#cb19-528" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-529"><a href="glm-1.html#cb19-529" aria-hidden="true" tabindex="-1"></a><span class="st"># Real contrast_real vector 1 element 4</span></span>
+<span id="cb19-530"><a href="glm-1.html#cb19-530" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(con_real1.4) 0</span></span>
+<span id="cb19-531"><a href="glm-1.html#cb19-531" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-532"><a href="glm-1.html#cb19-532" aria-hidden="true" tabindex="-1"></a><span class="st"># Real contrast_real vector 1 element 5</span></span>
+<span id="cb19-533"><a href="glm-1.html#cb19-533" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(con_real1.5) 0</span></span>
+<span id="cb19-534"><a href="glm-1.html#cb19-534" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-535"><a href="glm-1.html#cb19-535" aria-hidden="true" tabindex="-1"></a><span class="st"># Real contrast_real vector 1 element 6</span></span>
+<span id="cb19-536"><a href="glm-1.html#cb19-536" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(con_real1.6) 0</span></span>
+<span id="cb19-537"><a href="glm-1.html#cb19-537" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-538"><a href="glm-1.html#cb19-538" aria-hidden="true" tabindex="-1"></a><span class="st"># Real contrast_real vector 1 element 7</span></span>
+<span id="cb19-539"><a href="glm-1.html#cb19-539" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(con_real1.7) 0</span></span>
+<span id="cb19-540"><a href="glm-1.html#cb19-540" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-541"><a href="glm-1.html#cb19-541" aria-hidden="true" tabindex="-1"></a><span class="st"># Real contrast_real vector 1 element 8</span></span>
+<span id="cb19-542"><a href="glm-1.html#cb19-542" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(con_real1.8) 0</span></span>
+<span id="cb19-543"><a href="glm-1.html#cb19-543" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-544"><a href="glm-1.html#cb19-544" aria-hidden="true" tabindex="-1"></a><span class="st"># F-test 1 element 1</span></span>
+<span id="cb19-545"><a href="glm-1.html#cb19-545" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(ftest_real1.1) 0</span></span>
+<span id="cb19-546"><a href="glm-1.html#cb19-546" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-547"><a href="glm-1.html#cb19-547" aria-hidden="true" tabindex="-1"></a><span class="st"># Display images for contrast_real 2</span></span>
+<span id="cb19-548"><a href="glm-1.html#cb19-548" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(conpic_real.2) 1</span></span>
+<span id="cb19-549"><a href="glm-1.html#cb19-549" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-550"><a href="glm-1.html#cb19-550" aria-hidden="true" tabindex="-1"></a><span class="st"># Title for contrast_real 2</span></span>
+<span id="cb19-551"><a href="glm-1.html#cb19-551" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(conname_real.2) &quot;sine vs. 0&quot;</span></span>
+<span id="cb19-552"><a href="glm-1.html#cb19-552" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-553"><a href="glm-1.html#cb19-553" aria-hidden="true" tabindex="-1"></a><span class="st"># Real contrast_real vector 2 element 1</span></span>
+<span id="cb19-554"><a href="glm-1.html#cb19-554" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(con_real2.1) 0</span></span>
+<span id="cb19-555"><a href="glm-1.html#cb19-555" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-556"><a href="glm-1.html#cb19-556" aria-hidden="true" tabindex="-1"></a><span class="st"># Real contrast_real vector 2 element 2</span></span>
+<span id="cb19-557"><a href="glm-1.html#cb19-557" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(con_real2.2) 0</span></span>
+<span id="cb19-558"><a href="glm-1.html#cb19-558" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-559"><a href="glm-1.html#cb19-559" aria-hidden="true" tabindex="-1"></a><span class="st"># Real contrast_real vector 2 element 3</span></span>
+<span id="cb19-560"><a href="glm-1.html#cb19-560" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(con_real2.3) 1.0</span></span>
+<span id="cb19-561"><a href="glm-1.html#cb19-561" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-562"><a href="glm-1.html#cb19-562" aria-hidden="true" tabindex="-1"></a><span class="st"># Real contrast_real vector 2 element 4</span></span>
+<span id="cb19-563"><a href="glm-1.html#cb19-563" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(con_real2.4) 0</span></span>
+<span id="cb19-564"><a href="glm-1.html#cb19-564" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-565"><a href="glm-1.html#cb19-565" aria-hidden="true" tabindex="-1"></a><span class="st"># Real contrast_real vector 2 element 5</span></span>
+<span id="cb19-566"><a href="glm-1.html#cb19-566" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(con_real2.5) 0</span></span>
+<span id="cb19-567"><a href="glm-1.html#cb19-567" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-568"><a href="glm-1.html#cb19-568" aria-hidden="true" tabindex="-1"></a><span class="st"># Real contrast_real vector 2 element 6</span></span>
+<span id="cb19-569"><a href="glm-1.html#cb19-569" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(con_real2.6) 0</span></span>
+<span id="cb19-570"><a href="glm-1.html#cb19-570" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-571"><a href="glm-1.html#cb19-571" aria-hidden="true" tabindex="-1"></a><span class="st"># Real contrast_real vector 2 element 7</span></span>
+<span id="cb19-572"><a href="glm-1.html#cb19-572" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(con_real2.7) 0</span></span>
+<span id="cb19-573"><a href="glm-1.html#cb19-573" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-574"><a href="glm-1.html#cb19-574" aria-hidden="true" tabindex="-1"></a><span class="st"># Real contrast_real vector 2 element 8</span></span>
+<span id="cb19-575"><a href="glm-1.html#cb19-575" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(con_real2.8) 0</span></span>
+<span id="cb19-576"><a href="glm-1.html#cb19-576" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-577"><a href="glm-1.html#cb19-577" aria-hidden="true" tabindex="-1"></a><span class="st"># F-test 1 element 2</span></span>
+<span id="cb19-578"><a href="glm-1.html#cb19-578" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(ftest_real1.2) 1</span></span>
+<span id="cb19-579"><a href="glm-1.html#cb19-579" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-580"><a href="glm-1.html#cb19-580" aria-hidden="true" tabindex="-1"></a><span class="st"># Display images for contrast_real 3</span></span>
+<span id="cb19-581"><a href="glm-1.html#cb19-581" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(conpic_real.3) 1</span></span>
+<span id="cb19-582"><a href="glm-1.html#cb19-582" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-583"><a href="glm-1.html#cb19-583" aria-hidden="true" tabindex="-1"></a><span class="st"># Title for contrast_real 3</span></span>
+<span id="cb19-584"><a href="glm-1.html#cb19-584" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(conname_real.3) &quot;cosine vs. 0&quot;</span></span>
+<span id="cb19-585"><a href="glm-1.html#cb19-585" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-586"><a href="glm-1.html#cb19-586" aria-hidden="true" tabindex="-1"></a><span class="st"># Real contrast_real vector 3 element 1</span></span>
+<span id="cb19-587"><a href="glm-1.html#cb19-587" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(con_real3.1) 0</span></span>
+<span id="cb19-588"><a href="glm-1.html#cb19-588" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-589"><a href="glm-1.html#cb19-589" aria-hidden="true" tabindex="-1"></a><span class="st"># Real contrast_real vector 3 element 2</span></span>
+<span id="cb19-590"><a href="glm-1.html#cb19-590" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(con_real3.2) 0</span></span>
+<span id="cb19-591"><a href="glm-1.html#cb19-591" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-592"><a href="glm-1.html#cb19-592" aria-hidden="true" tabindex="-1"></a><span class="st"># Real contrast_real vector 3 element 3</span></span>
+<span id="cb19-593"><a href="glm-1.html#cb19-593" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(con_real3.3) 0</span></span>
+<span id="cb19-594"><a href="glm-1.html#cb19-594" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-595"><a href="glm-1.html#cb19-595" aria-hidden="true" tabindex="-1"></a><span class="st"># Real contrast_real vector 3 element 4</span></span>
+<span id="cb19-596"><a href="glm-1.html#cb19-596" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(con_real3.4) 0</span></span>
+<span id="cb19-597"><a href="glm-1.html#cb19-597" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-598"><a href="glm-1.html#cb19-598" aria-hidden="true" tabindex="-1"></a><span class="st"># Real contrast_real vector 3 element 5</span></span>
+<span id="cb19-599"><a href="glm-1.html#cb19-599" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(con_real3.5) 1.0</span></span>
+<span id="cb19-600"><a href="glm-1.html#cb19-600" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-601"><a href="glm-1.html#cb19-601" aria-hidden="true" tabindex="-1"></a><span class="st"># Real contrast_real vector 3 element 6</span></span>
+<span id="cb19-602"><a href="glm-1.html#cb19-602" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(con_real3.6) 0</span></span>
+<span id="cb19-603"><a href="glm-1.html#cb19-603" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-604"><a href="glm-1.html#cb19-604" aria-hidden="true" tabindex="-1"></a><span class="st"># Real contrast_real vector 3 element 7</span></span>
+<span id="cb19-605"><a href="glm-1.html#cb19-605" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(con_real3.7) 0</span></span>
+<span id="cb19-606"><a href="glm-1.html#cb19-606" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-607"><a href="glm-1.html#cb19-607" aria-hidden="true" tabindex="-1"></a><span class="st"># Real contrast_real vector 3 element 8</span></span>
+<span id="cb19-608"><a href="glm-1.html#cb19-608" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(con_real3.8) 0</span></span>
+<span id="cb19-609"><a href="glm-1.html#cb19-609" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-610"><a href="glm-1.html#cb19-610" aria-hidden="true" tabindex="-1"></a><span class="st"># F-test 1 element 3</span></span>
+<span id="cb19-611"><a href="glm-1.html#cb19-611" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(ftest_real1.3) 1</span></span>
+<span id="cb19-612"><a href="glm-1.html#cb19-612" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-613"><a href="glm-1.html#cb19-613" aria-hidden="true" tabindex="-1"></a><span class="st"># Display images for contrast_orig 1</span></span>
+<span id="cb19-614"><a href="glm-1.html#cb19-614" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(conpic_orig.1) 1</span></span>
+<span id="cb19-615"><a href="glm-1.html#cb19-615" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-616"><a href="glm-1.html#cb19-616" aria-hidden="true" tabindex="-1"></a><span class="st"># Title for contrast_orig 1</span></span>
+<span id="cb19-617"><a href="glm-1.html#cb19-617" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(conname_orig.1) &quot;navigation vs. baseline&quot;</span></span>
+<span id="cb19-618"><a href="glm-1.html#cb19-618" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-619"><a href="glm-1.html#cb19-619" aria-hidden="true" tabindex="-1"></a><span class="st"># Real contrast_orig vector 1 element 1</span></span>
+<span id="cb19-620"><a href="glm-1.html#cb19-620" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(con_orig1.1) 1</span></span>
+<span id="cb19-621"><a href="glm-1.html#cb19-621" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-622"><a href="glm-1.html#cb19-622" aria-hidden="true" tabindex="-1"></a><span class="st"># Real contrast_orig vector 1 element 2</span></span>
+<span id="cb19-623"><a href="glm-1.html#cb19-623" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(con_orig1.2) 0</span></span>
+<span id="cb19-624"><a href="glm-1.html#cb19-624" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-625"><a href="glm-1.html#cb19-625" aria-hidden="true" tabindex="-1"></a><span class="st"># Real contrast_orig vector 1 element 3</span></span>
+<span id="cb19-626"><a href="glm-1.html#cb19-626" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(con_orig1.3) 0</span></span>
+<span id="cb19-627"><a href="glm-1.html#cb19-627" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-628"><a href="glm-1.html#cb19-628" aria-hidden="true" tabindex="-1"></a><span class="st"># Real contrast_orig vector 1 element 4</span></span>
+<span id="cb19-629"><a href="glm-1.html#cb19-629" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(con_orig1.4) 0</span></span>
+<span id="cb19-630"><a href="glm-1.html#cb19-630" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-631"><a href="glm-1.html#cb19-631" aria-hidden="true" tabindex="-1"></a><span class="st"># F-test 1 element 1</span></span>
+<span id="cb19-632"><a href="glm-1.html#cb19-632" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(ftest_orig1.1) 0</span></span>
+<span id="cb19-633"><a href="glm-1.html#cb19-633" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-634"><a href="glm-1.html#cb19-634" aria-hidden="true" tabindex="-1"></a><span class="st"># Display images for contrast_orig 2</span></span>
+<span id="cb19-635"><a href="glm-1.html#cb19-635" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(conpic_orig.2) 1</span></span>
+<span id="cb19-636"><a href="glm-1.html#cb19-636" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-637"><a href="glm-1.html#cb19-637" aria-hidden="true" tabindex="-1"></a><span class="st"># Title for contrast_orig 2</span></span>
+<span id="cb19-638"><a href="glm-1.html#cb19-638" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(conname_orig.2) &quot;sine vs. 0&quot;</span></span>
+<span id="cb19-639"><a href="glm-1.html#cb19-639" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-640"><a href="glm-1.html#cb19-640" aria-hidden="true" tabindex="-1"></a><span class="st"># Real contrast_orig vector 2 element 1</span></span>
+<span id="cb19-641"><a href="glm-1.html#cb19-641" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(con_orig2.1) 0</span></span>
+<span id="cb19-642"><a href="glm-1.html#cb19-642" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-643"><a href="glm-1.html#cb19-643" aria-hidden="true" tabindex="-1"></a><span class="st"># Real contrast_orig vector 2 element 2</span></span>
+<span id="cb19-644"><a href="glm-1.html#cb19-644" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(con_orig2.2) 1.0</span></span>
+<span id="cb19-645"><a href="glm-1.html#cb19-645" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-646"><a href="glm-1.html#cb19-646" aria-hidden="true" tabindex="-1"></a><span class="st"># Real contrast_orig vector 2 element 3</span></span>
+<span id="cb19-647"><a href="glm-1.html#cb19-647" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(con_orig2.3) 0</span></span>
+<span id="cb19-648"><a href="glm-1.html#cb19-648" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-649"><a href="glm-1.html#cb19-649" aria-hidden="true" tabindex="-1"></a><span class="st"># Real contrast_orig vector 2 element 4</span></span>
+<span id="cb19-650"><a href="glm-1.html#cb19-650" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(con_orig2.4) 0</span></span>
+<span id="cb19-651"><a href="glm-1.html#cb19-651" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-652"><a href="glm-1.html#cb19-652" aria-hidden="true" tabindex="-1"></a><span class="st"># F-test 1 element 2</span></span>
+<span id="cb19-653"><a href="glm-1.html#cb19-653" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(ftest_orig1.2) 1</span></span>
+<span id="cb19-654"><a href="glm-1.html#cb19-654" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-655"><a href="glm-1.html#cb19-655" aria-hidden="true" tabindex="-1"></a><span class="st"># Display images for contrast_orig 3</span></span>
+<span id="cb19-656"><a href="glm-1.html#cb19-656" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(conpic_orig.3) 1</span></span>
+<span id="cb19-657"><a href="glm-1.html#cb19-657" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-658"><a href="glm-1.html#cb19-658" aria-hidden="true" tabindex="-1"></a><span class="st"># Title for contrast_orig 3</span></span>
+<span id="cb19-659"><a href="glm-1.html#cb19-659" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(conname_orig.3) &quot;cosine vs. 0&quot;</span></span>
+<span id="cb19-660"><a href="glm-1.html#cb19-660" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-661"><a href="glm-1.html#cb19-661" aria-hidden="true" tabindex="-1"></a><span class="st"># Real contrast_orig vector 3 element 1</span></span>
+<span id="cb19-662"><a href="glm-1.html#cb19-662" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(con_orig3.1) 0</span></span>
+<span id="cb19-663"><a href="glm-1.html#cb19-663" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-664"><a href="glm-1.html#cb19-664" aria-hidden="true" tabindex="-1"></a><span class="st"># Real contrast_orig vector 3 element 2</span></span>
+<span id="cb19-665"><a href="glm-1.html#cb19-665" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(con_orig3.2) 0</span></span>
+<span id="cb19-666"><a href="glm-1.html#cb19-666" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-667"><a href="glm-1.html#cb19-667" aria-hidden="true" tabindex="-1"></a><span class="st"># Real contrast_orig vector 3 element 3</span></span>
+<span id="cb19-668"><a href="glm-1.html#cb19-668" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(con_orig3.3) 1.0</span></span>
+<span id="cb19-669"><a href="glm-1.html#cb19-669" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-670"><a href="glm-1.html#cb19-670" aria-hidden="true" tabindex="-1"></a><span class="st"># Real contrast_orig vector 3 element 4</span></span>
+<span id="cb19-671"><a href="glm-1.html#cb19-671" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(con_orig3.4) 0</span></span>
+<span id="cb19-672"><a href="glm-1.html#cb19-672" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-673"><a href="glm-1.html#cb19-673" aria-hidden="true" tabindex="-1"></a><span class="st"># F-test 1 element 3</span></span>
+<span id="cb19-674"><a href="glm-1.html#cb19-674" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(ftest_orig1.3) 1</span></span>
+<span id="cb19-675"><a href="glm-1.html#cb19-675" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-676"><a href="glm-1.html#cb19-676" aria-hidden="true" tabindex="-1"></a><span class="st"># Contrast masking - use &gt;0 instead of thresholding?</span></span>
+<span id="cb19-677"><a href="glm-1.html#cb19-677" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(conmask_zerothresh_yn) 0</span></span>
+<span id="cb19-678"><a href="glm-1.html#cb19-678" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-679"><a href="glm-1.html#cb19-679" aria-hidden="true" tabindex="-1"></a><span class="st"># Mask real contrast/F-test 1 with real contrast/F-test 2?</span></span>
+<span id="cb19-680"><a href="glm-1.html#cb19-680" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(conmask1_2) 0</span></span>
+<span id="cb19-681"><a href="glm-1.html#cb19-681" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-682"><a href="glm-1.html#cb19-682" aria-hidden="true" tabindex="-1"></a><span class="st"># Mask real contrast/F-test 1 with real contrast/F-test 3?</span></span>
+<span id="cb19-683"><a href="glm-1.html#cb19-683" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(conmask1_3) 0</span></span>
+<span id="cb19-684"><a href="glm-1.html#cb19-684" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-685"><a href="glm-1.html#cb19-685" aria-hidden="true" tabindex="-1"></a><span class="st"># Mask real contrast/F-test 1 with real contrast/F-test 4?</span></span>
+<span id="cb19-686"><a href="glm-1.html#cb19-686" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(conmask1_4) 0</span></span>
+<span id="cb19-687"><a href="glm-1.html#cb19-687" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-688"><a href="glm-1.html#cb19-688" aria-hidden="true" tabindex="-1"></a><span class="st"># Mask real contrast/F-test 2 with real contrast/F-test 1?</span></span>
+<span id="cb19-689"><a href="glm-1.html#cb19-689" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(conmask2_1) 0</span></span>
+<span id="cb19-690"><a href="glm-1.html#cb19-690" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-691"><a href="glm-1.html#cb19-691" aria-hidden="true" tabindex="-1"></a><span class="st"># Mask real contrast/F-test 2 with real contrast/F-test 3?</span></span>
+<span id="cb19-692"><a href="glm-1.html#cb19-692" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(conmask2_3) 0</span></span>
+<span id="cb19-693"><a href="glm-1.html#cb19-693" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-694"><a href="glm-1.html#cb19-694" aria-hidden="true" tabindex="-1"></a><span class="st"># Mask real contrast/F-test 2 with real contrast/F-test 4?</span></span>
+<span id="cb19-695"><a href="glm-1.html#cb19-695" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(conmask2_4) 0</span></span>
+<span id="cb19-696"><a href="glm-1.html#cb19-696" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-697"><a href="glm-1.html#cb19-697" aria-hidden="true" tabindex="-1"></a><span class="st"># Mask real contrast/F-test 3 with real contrast/F-test 1?</span></span>
+<span id="cb19-698"><a href="glm-1.html#cb19-698" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(conmask3_1) 0</span></span>
+<span id="cb19-699"><a href="glm-1.html#cb19-699" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-700"><a href="glm-1.html#cb19-700" aria-hidden="true" tabindex="-1"></a><span class="st"># Mask real contrast/F-test 3 with real contrast/F-test 2?</span></span>
+<span id="cb19-701"><a href="glm-1.html#cb19-701" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(conmask3_2) 0</span></span>
+<span id="cb19-702"><a href="glm-1.html#cb19-702" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-703"><a href="glm-1.html#cb19-703" aria-hidden="true" tabindex="-1"></a><span class="st"># Mask real contrast/F-test 3 with real contrast/F-test 4?</span></span>
+<span id="cb19-704"><a href="glm-1.html#cb19-704" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(conmask3_4) 0</span></span>
+<span id="cb19-705"><a href="glm-1.html#cb19-705" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-706"><a href="glm-1.html#cb19-706" aria-hidden="true" tabindex="-1"></a><span class="st"># Mask real contrast/F-test 4 with real contrast/F-test 1?</span></span>
+<span id="cb19-707"><a href="glm-1.html#cb19-707" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(conmask4_1) 0</span></span>
+<span id="cb19-708"><a href="glm-1.html#cb19-708" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-709"><a href="glm-1.html#cb19-709" aria-hidden="true" tabindex="-1"></a><span class="st"># Mask real contrast/F-test 4 with real contrast/F-test 2?</span></span>
+<span id="cb19-710"><a href="glm-1.html#cb19-710" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(conmask4_2) 0</span></span>
+<span id="cb19-711"><a href="glm-1.html#cb19-711" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-712"><a href="glm-1.html#cb19-712" aria-hidden="true" tabindex="-1"></a><span class="st"># Mask real contrast/F-test 4 with real contrast/F-test 3?</span></span>
+<span id="cb19-713"><a href="glm-1.html#cb19-713" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(conmask4_3) 0</span></span>
+<span id="cb19-714"><a href="glm-1.html#cb19-714" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-715"><a href="glm-1.html#cb19-715" aria-hidden="true" tabindex="-1"></a><span class="st"># Do contrast masking at all?</span></span>
+<span id="cb19-716"><a href="glm-1.html#cb19-716" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(conmask1_1) 0</span></span>
+<span id="cb19-717"><a href="glm-1.html#cb19-717" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-718"><a href="glm-1.html#cb19-718" aria-hidden="true" tabindex="-1"></a><span class="st">##########################################################</span></span>
+<span id="cb19-719"><a href="glm-1.html#cb19-719" aria-hidden="true" tabindex="-1"></a><span class="st"># Now options that do not appear in the GUI</span></span>
+<span id="cb19-720"><a href="glm-1.html#cb19-720" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-721"><a href="glm-1.html#cb19-721" aria-hidden="true" tabindex="-1"></a><span class="st"># Alternative (to BETting) mask image</span></span>
+<span id="cb19-722"><a href="glm-1.html#cb19-722" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(alternative_mask) &quot;&quot;</span></span>
+<span id="cb19-723"><a href="glm-1.html#cb19-723" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-724"><a href="glm-1.html#cb19-724" aria-hidden="true" tabindex="-1"></a><span class="st"># Initial structural space registration initialisation transform</span></span>
+<span id="cb19-725"><a href="glm-1.html#cb19-725" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(init_initial_highres) &quot;&quot;</span></span>
+<span id="cb19-726"><a href="glm-1.html#cb19-726" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-727"><a href="glm-1.html#cb19-727" aria-hidden="true" tabindex="-1"></a><span class="st"># Structural space registration initialisation transform</span></span>
+<span id="cb19-728"><a href="glm-1.html#cb19-728" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(init_highres) &quot;&quot;</span></span>
+<span id="cb19-729"><a href="glm-1.html#cb19-729" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-730"><a href="glm-1.html#cb19-730" aria-hidden="true" tabindex="-1"></a><span class="st"># Standard space registration initialisation transform</span></span>
+<span id="cb19-731"><a href="glm-1.html#cb19-731" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(init_standard) &quot;&quot;</span></span>
+<span id="cb19-732"><a href="glm-1.html#cb19-732" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-733"><a href="glm-1.html#cb19-733" aria-hidden="true" tabindex="-1"></a><span class="st"># For full FEAT analysis: overwrite existing .feat output dir?</span></span>
+<span id="cb19-734"><a href="glm-1.html#cb19-734" aria-hidden="true" tabindex="-1"></a><span class="st">set fmri(overwrite_yn) 0</span></span>
+<span id="cb19-735"><a href="glm-1.html#cb19-735" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span></code></pre></div>
+<p>Now, we define the function that creates the fsf-file by filling the placeholders and writing to file.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="glm-1.html#cb20-1" aria-hidden="true" tabindex="-1"></a>create_fsf <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">fsf =</span> dsgn, <span class="at">placeholder =</span> <span class="fu">c</span>(<span class="st">&quot;@n_vols@&quot;</span>), <span class="at">replace_with =</span> <span class="fu">c</span>(<span class="st">&quot;666&quot;</span>), <span class="at">out_fn =</span> <span class="cn">NA</span>){</span>
+<span id="cb20-2"><a href="glm-1.html#cb20-2" aria-hidden="true" tabindex="-1"></a>  assertthat<span class="sc">::</span><span class="fu">are_equal</span>(<span class="fu">length</span>(placeholder), <span class="fu">length</span>(replace_with))</span>
+<span id="cb20-3"><a href="glm-1.html#cb20-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb20-4"><a href="glm-1.html#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># loop over the placeholders and fill them with info</span></span>
+<span id="cb20-5"><a href="glm-1.html#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(placeholder)){</span>
+<span id="cb20-6"><a href="glm-1.html#cb20-6" aria-hidden="true" tabindex="-1"></a>    fsf <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="at">pattern=</span>placeholder[i], <span class="at">replacement =</span> replace_with[i], <span class="at">x=</span>fsf)    </span>
+<span id="cb20-7"><a href="glm-1.html#cb20-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb20-8"><a href="glm-1.html#cb20-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb20-9"><a href="glm-1.html#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># write fsf file</span></span>
+<span id="cb20-10"><a href="glm-1.html#cb20-10" aria-hidden="true" tabindex="-1"></a>  con<span class="ot">&lt;-</span><span class="fu">file</span>(out_fn)</span>
+<span id="cb20-11"><a href="glm-1.html#cb20-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">writeLines</span>(fsf, con)</span>
+<span id="cb20-12"><a href="glm-1.html#cb20-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">close</span>(con)</span>
+<span id="cb20-13"><a href="glm-1.html#cb20-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Next, for each run and periodicity, let’s replace the placeholders with the required variables.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="glm-1.html#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># these are the placeholders in the fsf</span></span>
+<span id="cb21-2"><a href="glm-1.html#cb21-2" aria-hidden="true" tabindex="-1"></a>to_replace <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;@out_dir@&quot;</span>, </span>
+<span id="cb21-3"><a href="glm-1.html#cb21-3" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;@func_fn@&quot;</span>, </span>
+<span id="cb21-4"><a href="glm-1.html#cb21-4" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;@tr@&quot;</span>,</span>
+<span id="cb21-5"><a href="glm-1.html#cb21-5" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;@n_vols@&quot;</span>, </span>
+<span id="cb21-6"><a href="glm-1.html#cb21-6" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;@navi_ev_fn@&quot;</span>, </span>
+<span id="cb21-7"><a href="glm-1.html#cb21-7" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;@sine_ev_fn@&quot;</span>, </span>
+<span id="cb21-8"><a href="glm-1.html#cb21-8" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;@cosine_ev_fn@&quot;</span>,</span>
+<span id="cb21-9"><a href="glm-1.html#cb21-9" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;@feedback_ev_fn@&quot;</span>,</span>
+<span id="cb21-10"><a href="glm-1.html#cb21-10" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;@conf_ev_fn@&quot;</span>)</span>
+<span id="cb21-11"><a href="glm-1.html#cb21-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-12"><a href="glm-1.html#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i_sub <span class="cf">in</span> subjects){</span>
+<span id="cb21-13"><a href="glm-1.html#cb21-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i_run <span class="cf">in</span> runs){ </span>
+<span id="cb21-14"><a href="glm-1.html#cb21-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb21-15"><a href="glm-1.html#cb21-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># current functional data and find number of volumes in case they differ</span></span>
+<span id="cb21-16"><a href="glm-1.html#cb21-16" aria-hidden="true" tabindex="-1"></a>    func_fn <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;FunctionalScans&quot;</span>, <span class="st">&quot;4D&quot;</span>, i_sub, i_run, <span class="fu">paste0</span>(i_run, <span class="st">&quot;_masked.nii.gz&quot;</span>))</span>
+<span id="cb21-17"><a href="glm-1.html#cb21-17" aria-hidden="true" tabindex="-1"></a>    hdr <span class="ot">&lt;-</span> <span class="fu">fslhd</span>(func_fn, <span class="at">verbose =</span><span class="cn">FALSE</span>)</span>
+<span id="cb21-18"><a href="glm-1.html#cb21-18" aria-hidden="true" tabindex="-1"></a>    hdr <span class="ot">&lt;-</span> hdr[<span class="fu">grep</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">bdim4</span><span class="sc">\\</span><span class="st">b&quot;</span>, hdr)]</span>
+<span id="cb21-19"><a href="glm-1.html#cb21-19" aria-hidden="true" tabindex="-1"></a>    n_vols <span class="ot">&lt;-</span> <span class="fu">regmatches</span>(hdr, <span class="fu">gregexpr</span>(<span class="st">&quot;[[:digit:]]+&quot;</span>, hdr))[[<span class="dv">1</span>]][<span class="dv">2</span>]</span>
+<span id="cb21-20"><a href="glm-1.html#cb21-20" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb21-21"><a href="glm-1.html#cb21-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (i_period <span class="cf">in</span> periodicities){</span>
+<span id="cb21-22"><a href="glm-1.html#cb21-22" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb21-23"><a href="glm-1.html#cb21-23" aria-hidden="true" tabindex="-1"></a>      <span class="co"># folder to write the fsf-files to</span></span>
+<span id="cb21-24"><a href="glm-1.html#cb21-24" aria-hidden="true" tabindex="-1"></a>      fsf_dir <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;glm1&quot;</span>, <span class="st">&quot;glm1_firsthalf&quot;</span>, <span class="st">&quot;feat_design&quot;</span>, </span>
+<span id="cb21-25"><a href="glm-1.html#cb21-25" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">paste0</span>(i_period, <span class="st">&quot;fold&quot;</span>), i_sub, i_run)</span>
+<span id="cb21-26"><a href="glm-1.html#cb21-26" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span>(<span class="sc">!</span><span class="fu">dir.exists</span>(fsf_dir)){<span class="fu">dir.create</span>(fsf_dir, <span class="at">recursive =</span> <span class="cn">TRUE</span>)}</span>
+<span id="cb21-27"><a href="glm-1.html#cb21-27" aria-hidden="true" tabindex="-1"></a>          </span>
+<span id="cb21-28"><a href="glm-1.html#cb21-28" aria-hidden="true" tabindex="-1"></a>      <span class="co"># collect the info we need</span></span>
+<span id="cb21-29"><a href="glm-1.html#cb21-29" aria-hidden="true" tabindex="-1"></a>      fsf_fn <span class="ot">&lt;-</span> <span class="fu">file.path</span>(fsf_dir, <span class="fu">sprintf</span>(<span class="st">&quot;%s_%s_%dfold.fsf&quot;</span>, i_sub, i_run, i_period))</span>
+<span id="cb21-30"><a href="glm-1.html#cb21-30" aria-hidden="true" tabindex="-1"></a>      out_dir <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;glm1&quot;</span>, <span class="st">&quot;glm1_firsthalf&quot;</span>, <span class="fu">paste0</span>(i_period, <span class="st">&quot;fold&quot;</span>), i_sub, i_run)</span>
+<span id="cb21-31"><a href="glm-1.html#cb21-31" aria-hidden="true" tabindex="-1"></a>      tr <span class="ot">&lt;-</span> <span class="fl">1.5</span></span>
+<span id="cb21-32"><a href="glm-1.html#cb21-32" aria-hidden="true" tabindex="-1"></a>      navi_ev_fn <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;glm1&quot;</span>, <span class="st">&quot;glm1_firsthalf&quot;</span>, <span class="st">&quot;feat_ev&quot;</span>, i_sub, i_run, <span class="st">&quot;translation.txt&quot;</span>)</span>
+<span id="cb21-33"><a href="glm-1.html#cb21-33" aria-hidden="true" tabindex="-1"></a>      sine_ev_fn <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;glm1&quot;</span>, <span class="st">&quot;glm1_firsthalf&quot;</span>, <span class="st">&quot;feat_ev&quot;</span>, i_sub, i_run,</span>
+<span id="cb21-34"><a href="glm-1.html#cb21-34" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">paste0</span>(<span class="st">&quot;translation_sine_&quot;</span>, i_period, <span class="st">&quot;fold_half1.txt&quot;</span>))</span>
+<span id="cb21-35"><a href="glm-1.html#cb21-35" aria-hidden="true" tabindex="-1"></a>      cosine_ev_fn <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;glm1&quot;</span>, <span class="st">&quot;glm1_firsthalf&quot;</span>, <span class="st">&quot;feat_ev&quot;</span>, i_sub, i_run, </span>
+<span id="cb21-36"><a href="glm-1.html#cb21-36" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">paste0</span>(<span class="st">&quot;translation_cosine_&quot;</span>, i_period, <span class="st">&quot;fold_half1.txt&quot;</span>))</span>
+<span id="cb21-37"><a href="glm-1.html#cb21-37" aria-hidden="true" tabindex="-1"></a>      feedback_ev_fn <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;glm1&quot;</span>, <span class="st">&quot;glm1_firsthalf&quot;</span>, <span class="st">&quot;feat_ev&quot;</span>, i_sub, i_run, <span class="st">&quot;feedback.txt&quot;</span>)</span>
+<span id="cb21-38"><a href="glm-1.html#cb21-38" aria-hidden="true" tabindex="-1"></a>      conf_ev_fn <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;AdditionalRegressors&quot;</span>, i_sub, </span>
+<span id="cb21-39"><a href="glm-1.html#cb21-39" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">paste0</span>(<span class="st">&quot;realignmentParameters_&quot;</span>, i_run ,<span class="st">&quot;.txt&quot;</span>))</span>
+<span id="cb21-40"><a href="glm-1.html#cb21-40" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb21-41"><a href="glm-1.html#cb21-41" aria-hidden="true" tabindex="-1"></a>      <span class="co"># collect the filler items. CAVE: Must be in same order as to_replace</span></span>
+<span id="cb21-42"><a href="glm-1.html#cb21-42" aria-hidden="true" tabindex="-1"></a>      fillers <span class="ot">&lt;-</span> <span class="fu">c</span>(out_dir, </span>
+<span id="cb21-43"><a href="glm-1.html#cb21-43" aria-hidden="true" tabindex="-1"></a>                   func_fn, </span>
+<span id="cb21-44"><a href="glm-1.html#cb21-44" aria-hidden="true" tabindex="-1"></a>                   tr, </span>
+<span id="cb21-45"><a href="glm-1.html#cb21-45" aria-hidden="true" tabindex="-1"></a>                   n_vols, </span>
+<span id="cb21-46"><a href="glm-1.html#cb21-46" aria-hidden="true" tabindex="-1"></a>                   navi_ev_fn, </span>
+<span id="cb21-47"><a href="glm-1.html#cb21-47" aria-hidden="true" tabindex="-1"></a>                   sine_ev_fn, </span>
+<span id="cb21-48"><a href="glm-1.html#cb21-48" aria-hidden="true" tabindex="-1"></a>                   cosine_ev_fn, </span>
+<span id="cb21-49"><a href="glm-1.html#cb21-49" aria-hidden="true" tabindex="-1"></a>                   feedback_ev_fn, </span>
+<span id="cb21-50"><a href="glm-1.html#cb21-50" aria-hidden="true" tabindex="-1"></a>                   conf_ev_fn)</span>
+<span id="cb21-51"><a href="glm-1.html#cb21-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-52"><a href="glm-1.html#cb21-52" aria-hidden="true" tabindex="-1"></a>      <span class="co"># create the fsf file</span></span>
+<span id="cb21-53"><a href="glm-1.html#cb21-53" aria-hidden="true" tabindex="-1"></a>      <span class="fu">create_fsf</span>(<span class="at">fsf =</span> dsgn, <span class="at">placeholder =</span> to_replace, <span class="at">replace_with =</span> fillers, <span class="at">out_fn =</span> fsf_fn)</span>
+<span id="cb21-54"><a href="glm-1.html#cb21-54" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb21-55"><a href="glm-1.html#cb21-55" aria-hidden="true" tabindex="-1"></a>      <span class="co"># create GLM design files to use with film_gls</span></span>
+<span id="cb21-56"><a href="glm-1.html#cb21-56" aria-hidden="true" tabindex="-1"></a>      <span class="fu">system</span>(<span class="fu">sprintf</span>(<span class="st">&quot;%s/bin/feat_model %s %s&quot;</span>, </span>
+<span id="cb21-57"><a href="glm-1.html#cb21-57" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">fsldir</span>(), tools<span class="sc">::</span><span class="fu">file_path_sans_ext</span>(fsf_fn), conf_ev_fn))</span>
+<span id="cb21-58"><a href="glm-1.html#cb21-58" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb21-59"><a href="glm-1.html#cb21-59" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb21-60"><a href="glm-1.html#cb21-60" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+<div id="run-glm1" class="section level3" number="3.1.3">
+<h3><span class="header-section-number">3.1.3</span> Run GLM1</h3>
+<p>We are ready to run GLM1. We can do so using FEAT or the bare <code>film_gls</code> command.
+NB: For this to work, make sure FSL is correctly configured. On MacOS that might mean starting RStudio from the terminal (<code>open -na Rstudio</code>).</p>
+<div id="feat" class="section level4" number="3.1.3.1">
+<h4><span class="header-section-number">3.1.3.1</span> FEAT</h4>
+<p>We start by running GLM1 using FEAT.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="glm-1.html#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i_sub <span class="cf">in</span> subjects){</span>
+<span id="cb22-2"><a href="glm-1.html#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (i_run <span class="cf">in</span> runs){ </span>
+<span id="cb22-3"><a href="glm-1.html#cb22-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> (i_period <span class="cf">in</span> periodicities){</span>
+<span id="cb22-4"><a href="glm-1.html#cb22-4" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb22-5"><a href="glm-1.html#cb22-5" aria-hidden="true" tabindex="-1"></a>          <span class="co"># check if the zstat of the F-contrast exists, this should be one of the last files written</span></span>
+<span id="cb22-6"><a href="glm-1.html#cb22-6" aria-hidden="true" tabindex="-1"></a>          fn <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;glm1&quot;</span>, <span class="st">&quot;glm1_firsthalf&quot;</span>, <span class="fu">paste0</span>(i_period, <span class="st">&quot;fold&quot;</span>), </span>
+<span id="cb22-7"><a href="glm-1.html#cb22-7" aria-hidden="true" tabindex="-1"></a>                     i_sub, <span class="fu">paste0</span>(i_run, <span class="st">&quot;.feat&quot;</span>), <span class="st">&quot;stats&quot;</span>, <span class="st">&quot;zfstat1.nii.gz&quot;</span>)</span>
+<span id="cb22-8"><a href="glm-1.html#cb22-8" aria-hidden="true" tabindex="-1"></a>          <span class="cf">if</span> (<span class="sc">!</span><span class="fu">file.exists</span>(fn)){</span>
+<span id="cb22-9"><a href="glm-1.html#cb22-9" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb22-10"><a href="glm-1.html#cb22-10" aria-hidden="true" tabindex="-1"></a>            <span class="co"># build the command and run</span></span>
+<span id="cb22-11"><a href="glm-1.html#cb22-11" aria-hidden="true" tabindex="-1"></a>            fsf_fn <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;glm1&quot;</span>, <span class="st">&quot;glm1_firsthalf&quot;</span>, <span class="st">&quot;feat_design&quot;</span>, </span>
+<span id="cb22-12"><a href="glm-1.html#cb22-12" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">paste0</span>(i_period, <span class="st">&quot;fold&quot;</span>), i_sub, i_run,</span>
+<span id="cb22-13"><a href="glm-1.html#cb22-13" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">sprintf</span>(<span class="st">&quot;%s_%s_%dfold.fsf&quot;</span>, i_sub, i_run, i_period))</span>
+<span id="cb22-14"><a href="glm-1.html#cb22-14" aria-hidden="true" tabindex="-1"></a>            cmd <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">&quot;%s/bin/feat %s&quot;</span>, <span class="fu">fsldir</span>(), fsf_fn)</span>
+<span id="cb22-15"><a href="glm-1.html#cb22-15" aria-hidden="true" tabindex="-1"></a>            <span class="fu">system</span>(cmd, <span class="at">intern =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb22-16"><a href="glm-1.html#cb22-16" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb22-17"><a href="glm-1.html#cb22-17" aria-hidden="true" tabindex="-1"></a>            <span class="co"># remove the residuals file to clear some space</span></span>
+<span id="cb22-18"><a href="glm-1.html#cb22-18" aria-hidden="true" tabindex="-1"></a>            <span class="fu">system</span>(<span class="fu">sprintf</span>(<span class="st">&quot;rm %s&quot;</span>, </span>
+<span id="cb22-19"><a href="glm-1.html#cb22-19" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;glm1&quot;</span>, <span class="st">&quot;glm1_firsthalf&quot;</span>, <span class="fu">paste0</span>(i_period, <span class="st">&quot;fold&quot;</span>), </span>
+<span id="cb22-20"><a href="glm-1.html#cb22-20" aria-hidden="true" tabindex="-1"></a>                                i_sub, <span class="fu">paste0</span>(i_run, <span class="st">&quot;.feat&quot;</span>), <span class="st">&quot;stats&quot;</span>, <span class="st">&quot;res4d.nii.gz&quot;</span>)))</span>
+<span id="cb22-21"><a href="glm-1.html#cb22-21" aria-hidden="true" tabindex="-1"></a>          }</span>
+<span id="cb22-22"><a href="glm-1.html#cb22-22" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb22-23"><a href="glm-1.html#cb22-23" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb22-24"><a href="glm-1.html#cb22-24" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Here is the design matrix as visualized by FEAT:</p>
+<div class="figure">
+<img src="data/glm1/glm1_firsthalf/6fold/sub01/run02.feat/design.png" alt="" />
+<p class="caption">GLM1 design matrix</p>
+</div>
+<p>Covariance matrix &amp; design efficiency:
+<img src="data/glm1/glm1_firsthalf/6fold/sub01/run02.feat/design_cov.png" alt="GLM1 covariance matrix" /></p>
+</div>
+<div id="film_gls" class="section level4" number="3.1.3.2">
+<h4><span class="header-section-number">3.1.3.2</span> FILM_GLS</h4>
+<p>The command here is based on the command used by FEAT. The results should thus be identical.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="glm-1.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i_sub <span class="cf">in</span> subjects){</span>
+<span id="cb23-2"><a href="glm-1.html#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i_run <span class="cf">in</span> runs){ </span>
+<span id="cb23-3"><a href="glm-1.html#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (i_period <span class="cf">in</span> periodicities){</span>
+<span id="cb23-4"><a href="glm-1.html#cb23-4" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb23-5"><a href="glm-1.html#cb23-5" aria-hidden="true" tabindex="-1"></a>      <span class="co"># files and folders to be used as input for film_gls</span></span>
+<span id="cb23-6"><a href="glm-1.html#cb23-6" aria-hidden="true" tabindex="-1"></a>      func_fn <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;FunctionalScans&quot;</span>, <span class="st">&quot;4D&quot;</span>, i_sub, i_run, <span class="fu">paste0</span>(i_run, <span class="st">&quot;_masked.nii.gz&quot;</span>))</span>
+<span id="cb23-7"><a href="glm-1.html#cb23-7" aria-hidden="true" tabindex="-1"></a>      out_dir <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;glm1&quot;</span>, <span class="st">&quot;glm1_firsthalf&quot;</span>, <span class="fu">paste0</span>(i_period, <span class="st">&quot;fold&quot;</span>), i_sub, i_run)</span>
+<span id="cb23-8"><a href="glm-1.html#cb23-8" aria-hidden="true" tabindex="-1"></a>      pd_fn <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;glm1&quot;</span>, <span class="st">&quot;glm1_firsthalf&quot;</span>, <span class="st">&quot;feat_design&quot;</span>, </span>
+<span id="cb23-9"><a href="glm-1.html#cb23-9" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">paste0</span>(i_period, <span class="st">&quot;fold&quot;</span>), i_sub, i_run,</span>
+<span id="cb23-10"><a href="glm-1.html#cb23-10" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">sprintf</span>(<span class="st">&quot;%s_%s_%dfold.mat&quot;</span>, i_sub, i_run, i_period))</span>
+<span id="cb23-11"><a href="glm-1.html#cb23-11" aria-hidden="true" tabindex="-1"></a>      con_fn <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;glm1&quot;</span>, <span class="st">&quot;glm1_firsthalf&quot;</span>, <span class="st">&quot;feat_design&quot;</span>, </span>
+<span id="cb23-12"><a href="glm-1.html#cb23-12" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">paste0</span>(i_period, <span class="st">&quot;fold&quot;</span>), i_sub, i_run,</span>
+<span id="cb23-13"><a href="glm-1.html#cb23-13" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">sprintf</span>(<span class="st">&quot;%s_%s_%dfold.con&quot;</span>, i_sub, i_run, i_period))</span>
+<span id="cb23-14"><a href="glm-1.html#cb23-14" aria-hidden="true" tabindex="-1"></a>      fcon_fn <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;glm1&quot;</span>, <span class="st">&quot;glm1_firsthalf&quot;</span>, <span class="st">&quot;feat_design&quot;</span>, </span>
+<span id="cb23-15"><a href="glm-1.html#cb23-15" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">paste0</span>(i_period, <span class="st">&quot;fold&quot;</span>), i_sub, i_run,</span>
+<span id="cb23-16"><a href="glm-1.html#cb23-16" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">sprintf</span>(<span class="st">&quot;%s_%s_%dfold.fts&quot;</span>, i_sub, i_run, i_period))</span>
+<span id="cb23-17"><a href="glm-1.html#cb23-17" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb23-18"><a href="glm-1.html#cb23-18" aria-hidden="true" tabindex="-1"></a>      <span class="co"># check if the zstat of the F-contrast exists, this should be one of the last files written</span></span>
+<span id="cb23-19"><a href="glm-1.html#cb23-19" aria-hidden="true" tabindex="-1"></a>      fn <span class="ot">&lt;-</span> <span class="fu">file.path</span>(out_dir, <span class="st">&quot;zfstat1.nii.gz&quot;</span>)</span>
+<span id="cb23-20"><a href="glm-1.html#cb23-20" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (<span class="sc">!</span><span class="fu">file.exists</span>(fn)){</span>
+<span id="cb23-21"><a href="glm-1.html#cb23-21" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb23-22"><a href="glm-1.html#cb23-22" aria-hidden="true" tabindex="-1"></a>        <span class="co"># build the command and run</span></span>
+<span id="cb23-23"><a href="glm-1.html#cb23-23" aria-hidden="true" tabindex="-1"></a>        cmd <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">&quot;%s/bin/film_gls --in=%s --rn=%s --pd=%s --thr=61 --sa --ms=5 --con=%s --fcon=%s&quot;</span>,</span>
+<span id="cb23-24"><a href="glm-1.html#cb23-24" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">fsldir</span>(), func_fn, out_dir, pd_fn, con_fn, fcon_fn)</span>
+<span id="cb23-25"><a href="glm-1.html#cb23-25" aria-hidden="true" tabindex="-1"></a>        <span class="fu">system</span>(cmd)</span>
+<span id="cb23-26"><a href="glm-1.html#cb23-26" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb23-27"><a href="glm-1.html#cb23-27" aria-hidden="true" tabindex="-1"></a>        <span class="co"># remove the residuals file to clear some space</span></span>
+<span id="cb23-28"><a href="glm-1.html#cb23-28" aria-hidden="true" tabindex="-1"></a>        <span class="fu">system</span>(<span class="fu">sprintf</span>(<span class="st">&quot;rm %s&quot;</span>, <span class="fu">file.path</span>(out_dir, <span class="st">&quot;res4d.nii.gz&quot;</span>)))</span>
+<span id="cb23-29"><a href="glm-1.html#cb23-29" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb23-30"><a href="glm-1.html#cb23-30" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb23-31"><a href="glm-1.html#cb23-31" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb23-32"><a href="glm-1.html#cb23-32" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+</div>
+<div id="results-glm-1" class="section level3" number="3.1.4">
+<h3><span class="header-section-number">3.1.4</span> Results GLM 1</h3>
+<div id="compare-results-from-feat-and-film" class="section level4" number="3.1.4.1">
+<h4><span class="header-section-number">3.1.4.1</span> Compare results from FEAT and FILM</h4>
+<p>After running the analysis using FEAT and via film_gls directly, let’s check if the results are comparable. We simply load the images with the results of the F-Test of the periodic sine and cosine regressors and correlate the F-values across voxels.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="glm-1.html#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i_sub <span class="cf">in</span> subjects){</span>
+<span id="cb24-2"><a href="glm-1.html#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i_run <span class="cf">in</span> runs){ </span>
+<span id="cb24-3"><a href="glm-1.html#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (i_period <span class="cf">in</span> periodicities){</span>
+<span id="cb24-4"><a href="glm-1.html#cb24-4" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb24-5"><a href="glm-1.html#cb24-5" aria-hidden="true" tabindex="-1"></a>      <span class="co"># load  the F-Stat images</span></span>
+<span id="cb24-6"><a href="glm-1.html#cb24-6" aria-hidden="true" tabindex="-1"></a>      fn1 <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;glm1&quot;</span>, <span class="st">&quot;glm1_firsthalf&quot;</span>, <span class="fu">paste0</span>(i_period, <span class="st">&quot;fold&quot;</span>), </span>
+<span id="cb24-7"><a href="glm-1.html#cb24-7" aria-hidden="true" tabindex="-1"></a>                 i_sub, <span class="fu">paste0</span>(i_run, <span class="st">&quot;.feat&quot;</span>), <span class="st">&quot;stats&quot;</span>, <span class="st">&quot;fstat1.nii.gz&quot;</span>)</span>
+<span id="cb24-8"><a href="glm-1.html#cb24-8" aria-hidden="true" tabindex="-1"></a>      fn2 <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;glm1&quot;</span>, <span class="st">&quot;glm1_firsthalf&quot;</span>, <span class="fu">paste0</span>(i_period, <span class="st">&quot;fold&quot;</span>), </span>
+<span id="cb24-9"><a href="glm-1.html#cb24-9" aria-hidden="true" tabindex="-1"></a>                 i_sub, i_run, <span class="st">&quot;fstat1.nii.gz&quot;</span>)</span>
+<span id="cb24-10"><a href="glm-1.html#cb24-10" aria-hidden="true" tabindex="-1"></a>      feat_nii <span class="ot">&lt;-</span> <span class="fu">readNIfTI2</span>(fn1)</span>
+<span id="cb24-11"><a href="glm-1.html#cb24-11" aria-hidden="true" tabindex="-1"></a>      film_nii <span class="ot">&lt;-</span> <span class="fu">readNIfTI2</span>(fn2)</span>
+<span id="cb24-12"><a href="glm-1.html#cb24-12" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb24-13"><a href="glm-1.html#cb24-13" aria-hidden="true" tabindex="-1"></a>      <span class="co"># store in data frame</span></span>
+<span id="cb24-14"><a href="glm-1.html#cb24-14" aria-hidden="true" tabindex="-1"></a>      stat_df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">feat =</span> <span class="fu">c</span>(feat_nii), <span class="at">film =</span> <span class="fu">c</span>(film_nii))</span>
+<span id="cb24-15"><a href="glm-1.html#cb24-15" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb24-16"><a href="glm-1.html#cb24-16" aria-hidden="true" tabindex="-1"></a>      <span class="co"># diagnostic plot</span></span>
+<span id="cb24-17"><a href="glm-1.html#cb24-17" aria-hidden="true" tabindex="-1"></a>      p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(stat_df, <span class="fu">aes</span>(<span class="at">x=</span>feat, <span class="at">y=</span>film)) <span class="sc">+</span></span>
+<span id="cb24-18"><a href="glm-1.html#cb24-18" aria-hidden="true" tabindex="-1"></a>        <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb24-19"><a href="glm-1.html#cb24-19" aria-hidden="true" tabindex="-1"></a>        <span class="fu">theme_cowplot</span>() <span class="sc">+</span></span>
+<span id="cb24-20"><a href="glm-1.html#cb24-20" aria-hidden="true" tabindex="-1"></a>        <span class="fu">theme</span>(<span class="at">aspect.ratio =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb24-21"><a href="glm-1.html#cb24-21" aria-hidden="true" tabindex="-1"></a>        <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;F-Statistics from FEAT and FILM&quot;</span>,</span>
+<span id="cb24-22"><a href="glm-1.html#cb24-22" aria-hidden="true" tabindex="-1"></a>             <span class="at">subtitle =</span> <span class="fu">sprintf</span>(<span class="st">&quot;%s, %s, %d-fold: r=%.3f&quot;</span>, </span>
+<span id="cb24-23"><a href="glm-1.html#cb24-23" aria-hidden="true" tabindex="-1"></a>                                i_sub, i_run, i_period, <span class="fu">cor</span>(stat_df<span class="sc">$</span>feat, stat_df<span class="sc">$</span>film)))</span>
+<span id="cb24-24"><a href="glm-1.html#cb24-24" aria-hidden="true" tabindex="-1"></a>      <span class="fu">print</span>(p1)</span>
+<span id="cb24-25"><a href="glm-1.html#cb24-25" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb24-26"><a href="glm-1.html#cb24-26" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb24-27"><a href="glm-1.html#cb24-27" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><img src="Hexadirectioal-analysis-pipeline_files/figure-html/glm1_compare_film_feat-1.png" width="672" /><img src="Hexadirectioal-analysis-pipeline_files/figure-html/glm1_compare_film_feat-2.png" width="672" /></p>
+</div>
+<div id="f-test-results" class="section level4" number="3.1.4.2">
+<h4><span class="header-section-number">3.1.4.2</span> F-Test results</h4>
+<p>Finally, we can plot the F-Test results onto the brain. This F-test is not unbiased, but is often used prominently in papers (c.f. Constantinescu et al., Science, 2016; Bongioanni et al., Nature, 2021). It is not the cross-validated (i.e. tested on an independent data partition), but Bongioanni et al. (Nature, 2021) developed a permutation-based test to use it for significance testing. Using the F-Test on periodic sine and cosine regressors fitted to the entire dataset might be the most powerful approach to demonstrate a hexadirectional signal.</p>
+<p>The plots below are arbitrarily thresholded at F &gt; 2.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="glm-1.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i_sub <span class="cf">in</span> subjects){</span>
+<span id="cb25-2"><a href="glm-1.html#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i_run <span class="cf">in</span> runs){ </span>
+<span id="cb25-3"><a href="glm-1.html#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (i_period <span class="cf">in</span> periodicities){</span>
+<span id="cb25-4"><a href="glm-1.html#cb25-4" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb25-5"><a href="glm-1.html#cb25-5" aria-hidden="true" tabindex="-1"></a>      <span class="co"># load  the mean functional and F-Stat image</span></span>
+<span id="cb25-6"><a href="glm-1.html#cb25-6" aria-hidden="true" tabindex="-1"></a>      fn <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;glm1&quot;</span>, <span class="st">&quot;glm1_firsthalf&quot;</span>, <span class="fu">paste0</span>(i_period, <span class="st">&quot;fold&quot;</span>), </span>
+<span id="cb25-7"><a href="glm-1.html#cb25-7" aria-hidden="true" tabindex="-1"></a>                 i_sub, <span class="fu">paste0</span>(i_run, <span class="st">&quot;.feat&quot;</span>), <span class="st">&quot;mean_func.nii.gz&quot;</span>)</span>
+<span id="cb25-8"><a href="glm-1.html#cb25-8" aria-hidden="true" tabindex="-1"></a>      mean_func_nii <span class="ot">&lt;-</span> <span class="fu">readNIfTI2</span>(fn)</span>
+<span id="cb25-9"><a href="glm-1.html#cb25-9" aria-hidden="true" tabindex="-1"></a>      fn <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;glm1&quot;</span>, <span class="st">&quot;glm1_firsthalf&quot;</span>, <span class="fu">paste0</span>(i_period, <span class="st">&quot;fold&quot;</span>), </span>
+<span id="cb25-10"><a href="glm-1.html#cb25-10" aria-hidden="true" tabindex="-1"></a>                 i_sub, i_run, <span class="st">&quot;fstat1.nii.gz&quot;</span>)</span>
+<span id="cb25-11"><a href="glm-1.html#cb25-11" aria-hidden="true" tabindex="-1"></a>      f_nii <span class="ot">&lt;-</span> <span class="fu">readNIfTI2</span>(fn)</span>
+<span id="cb25-12"><a href="glm-1.html#cb25-12" aria-hidden="true" tabindex="-1"></a>      f_nii[f_nii <span class="sc">&lt;</span> <span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb25-13"><a href="glm-1.html#cb25-13" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb25-14"><a href="glm-1.html#cb25-14" aria-hidden="true" tabindex="-1"></a>      <span class="co"># overlay F-test on mean func</span></span>
+<span id="cb25-15"><a href="glm-1.html#cb25-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ortho2</span>(mean_func_nii, f_nii, <span class="at">xyz =</span> <span class="fu">c</span>(<span class="dv">46</span>,<span class="dv">46</span>,<span class="dv">15</span>),</span>
+<span id="cb25-16"><a href="glm-1.html#cb25-16" aria-hidden="true" tabindex="-1"></a>             <span class="at">ycolorbar =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb25-17"><a href="glm-1.html#cb25-17" aria-hidden="true" tabindex="-1"></a>             <span class="at">col.y =</span> oro.nifti<span class="sc">::</span><span class="fu">hotmetal</span>(<span class="dv">10</span>), </span>
+<span id="cb25-18"><a href="glm-1.html#cb25-18" aria-hidden="true" tabindex="-1"></a>             <span class="at">ybreaks =</span> <span class="fu">seq</span>(<span class="dv">2</span>,<span class="dv">7</span>,<span class="fl">0.5</span>))</span>
+<span id="cb25-19"><a href="glm-1.html#cb25-19" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb25-20"><a href="glm-1.html#cb25-20" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb25-21"><a href="glm-1.html#cb25-21" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><img src="Hexadirectioal-analysis-pipeline_files/figure-html/glm1_brainplot_ftest-1.png" width="672" /><img src="Hexadirectioal-analysis-pipeline_files/figure-html/glm1_brainplot_ftest-2.png" width="672" /></p>
+
+</div>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="example-data.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="estimate-orientation.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
