@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>4 Estimate orientation | Detecting Hexadirectional Signals in the Human Brain using R and FSL</title>
   <meta name="description" content="4 Estimate orientation | Detecting Hexadirectional Signals in the Human Brain using R and FSL" />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
 
   <meta property="og:title" content="4 Estimate orientation | Detecting Hexadirectional Signals in the Human Brain using R and FSL" />
   <meta property="og:type" content="book" />
-  
   
   
   
@@ -32,7 +31,6 @@
   
 <link rel="prev" href="glm-1.html"/>
 <link rel="next" href="glm-2.html"/>
-<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -50,8 +48,9 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -198,8 +197,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.2" data-path="credit.html"><a href="credit.html#hosting-on-gitpages"><i class="fa fa-check"></i><b>6.2</b> Hosting on GitPages</a></li>
 <li class="chapter" data-level="6.3" data-path="credit.html"><a href="credit.html#publishing-on-github-pages"><i class="fa fa-check"></i><b>6.3</b> Publishing on GitHub Pages</a></li>
 <li class="chapter" data-level="6.4" data-path="credit.html"><a href="credit.html#list-of-r-packages"><i class="fa fa-check"></i><b>6.4</b> List of R packages</a></li>
-<li class="chapter" data-level="6.5" data-path="credit.html"><a href="credit.html#references"><i class="fa fa-check"></i><b>6.5</b> References</a></li>
-<li class="chapter" data-level="6.6" data-path="credit.html"><a href="credit.html#session-info"><i class="fa fa-check"></i><b>6.6</b> Session Info</a></li>
+<li class="chapter" data-level="6.5" data-path="credit.html"><a href="credit.html#session-info"><i class="fa fa-check"></i><b>6.5</b> Session Info</a></li>
 </ul></li>
 </ul>
 
@@ -218,12 +216,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="estimate-orientation" class="section level1" number="4">
-<h1><span class="header-section-number">4</span> Estimate orientation</h1>
+<div id="estimate-orientation" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">4</span> Estimate orientation<a href="estimate-orientation.html#estimate-orientation" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Based on the parameter estimates for the sine and cosine regressor we will now estimate the orientation of the n-fold symmetric signal. This estimated orientation then forms the basis for GLM2, where we look for signal modulations as a function of angular difference to the estimated orientation.</p>
 <p>Typically, the orientation is averaged across runs and voxels in a region of interest such as the entorhinal cortex. This is also the approach we will implement here for now. A possible long-term goal is to use the voxelwise orientation for GLM2 for whole-brain/whole-surface analysis. However, I need to better understand how to implement voxelwise regression before I can do this.</p>
-<div id="load-pes-of-parametric-modulators" class="section level2" number="4.1">
-<h2><span class="header-section-number">4.1</span> Load PEs of parametric modulators</h2>
+<div id="load-pes-of-parametric-modulators" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> Load PEs of parametric modulators<a href="estimate-orientation.html#load-pes-of-parametric-modulators" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We begin by building a dataframe holding the parameter estimates (PEs) of the sine and cosine regressor for each subject, run and periodicity.</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="estimate-orientation.html#cb26-1" aria-hidden="true" tabindex="-1"></a>pmod_df <span class="ot">&lt;-</span> <span class="fu">tibble</span>()</span>
 <span id="cb26-2"><a href="estimate-orientation.html#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -262,8 +260,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb26-35"><a href="estimate-orientation.html#cb26-35" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb26-36"><a href="estimate-orientation.html#cb26-36" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </div>
-<div id="compute-voxelwise-orientation" class="section level2" number="4.2">
-<h2><span class="header-section-number">4.2</span> Compute Voxelwise Orientation</h2>
+<div id="compute-voxelwise-orientation" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> Compute Voxelwise Orientation<a href="estimate-orientation.html#compute-voxelwise-orientation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We can now compute the orientation for each voxel and periodicity. The resulting dataframe has orientation values in radians and in degrees. Note that these are in a range from 2*pi/periodicity and 360/periodicity, respectively.</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="estimate-orientation.html#cb27-1" aria-hidden="true" tabindex="-1"></a>orient_allvox <span class="ot">&lt;-</span> pmod_df <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(</span>
 <span id="cb27-2"><a href="estimate-orientation.html#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">orient_rad =</span> <span class="fu">atan2</span>(sin, cos), <span class="co"># estimate orientation in radians (range -pi to pi)</span></span>
@@ -299,8 +297,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb29-13"><a href="estimate-orientation.html#cb29-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-14"><a href="estimate-orientation.html#cb29-14" aria-hidden="true" tabindex="-1"></a>orient_allvox <span class="ot">&lt;-</span> <span class="fu">rbind</span>(orient_allvox, ori_df_avg)</span></code></pre></div>
 </div>
-<div id="average-grid-orientations" class="section level2" number="4.3">
-<h2><span class="header-section-number">4.3</span> Average grid orientations</h2>
+<div id="average-grid-orientations" class="section level2 hasAnchor" number="4.3">
+<h2><span class="header-section-number">4.3</span> Average grid orientations<a href="estimate-orientation.html#average-grid-orientations" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>To average the estimated orientations across voxels, let’s define a custom function. This is similar to the function in the GridCAT toolbox. It is written to be used with pipes, but probably this could be done more elegantly.</p>
 <p>Usage:</p>
 <ul>
@@ -354,8 +352,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb30-42"><a href="estimate-orientation.html#cb30-42" aria-hidden="true" tabindex="-1"></a>  out_df <span class="ot">&lt;-</span> out_df <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>theta, <span class="sc">-</span>x, <span class="sc">-</span>y)</span>
 <span id="cb30-43"><a href="estimate-orientation.html#cb30-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(out_df)</span>
 <span id="cb30-44"><a href="estimate-orientation.html#cb30-44" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<div id="wholebrain-average-orientation" class="section level3" number="4.3.1">
-<h3><span class="header-section-number">4.3.1</span> Wholebrain average orientation</h3>
+<div id="wholebrain-average-orientation" class="section level3 hasAnchor" number="4.3.1">
+<h3><span class="header-section-number">4.3.1</span> Wholebrain average orientation<a href="estimate-orientation.html#wholebrain-average-orientation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Let’s first compute the average grid orientation across all voxels.</p>
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="estimate-orientation.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># weighted average orientation across voxels for each participant, run and periodicity</span></span>
 <span id="cb31-2"><a href="estimate-orientation.html#cb31-2" aria-hidden="true" tabindex="-1"></a>avg_orient_weighted <span class="ot">&lt;-</span> orient_allvox <span class="sc">%&gt;%</span> </span>
@@ -415,8 +413,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>## Warning: Removed 2 row(s) containing missing values (geom_path).</code></pre>
 <p><img src="Hexadirectioal-analysis-pipeline_files/figure-html/plot_orient_hist_brainvox-1.png" width="672" /></p>
 </div>
-<div id="entorhinal-cortex-average-orientation" class="section level3" number="4.3.2">
-<h3><span class="header-section-number">4.3.2</span> Entorhinal Cortex average orientation</h3>
+<div id="entorhinal-cortex-average-orientation" class="section level3 hasAnchor" number="4.3.2">
+<h3><span class="header-section-number">4.3.2</span> Entorhinal Cortex average orientation<a href="estimate-orientation.html#entorhinal-cortex-average-orientation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Because our first steps here will focus on the right EC (to check results against the GridCAT tutorial), let’s look at the orientations in that ROI.</p>
 <div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="estimate-orientation.html#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># let&#39;s look at the EC voxels only</span></span>
 <span id="cb35-2"><a href="estimate-orientation.html#cb35-2" aria-hidden="true" tabindex="-1"></a>orient_ec <span class="ot">&lt;-</span> orient_allvox <span class="sc">%&gt;%</span> </span>
@@ -492,8 +490,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="Hexadirectioal-analysis-pipeline_files/figure-html/plot_orient_hist_ecvox-1.png" width="672" /></p>
 </div>
 </div>
-<div id="brain-plot-of-estimated-orientations" class="section level2" number="4.4">
-<h2><span class="header-section-number">4.4</span> Brain plot of estimated orientations</h2>
+<div id="brain-plot-of-estimated-orientations" class="section level2 hasAnchor" number="4.4">
+<h2><span class="header-section-number">4.4</span> Brain plot of estimated orientations<a href="estimate-orientation.html#brain-plot-of-estimated-orientations" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The computations above have been done for each voxel in the entire brain. To see how estimated orientations are distributed throughout the brain, let’s plot the orientation for each voxel. As our brain mask is not very precise, this is not a very good plot, but serves as a proof-of-principle.</p>
 <div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="estimate-orientation.html#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># initialize a nifti object for the orientation values </span></span>
 <span id="cb41-2"><a href="estimate-orientation.html#cb41-2" aria-hidden="true" tabindex="-1"></a>orient_nii <span class="ot">&lt;-</span> brain_mask_nii</span>
@@ -510,8 +508,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb41-13"><a href="estimate-orientation.html#cb41-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">ybreaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">60</span>,<span class="dv">1</span>))</span></code></pre></div>
 <p><img src="Hexadirectioal-analysis-pipeline_files/figure-html/brainplot_orients-1.png" width="672" /></p>
 </div>
-<div id="store-estimated-grid-orientation" class="section level2" number="4.5">
-<h2><span class="header-section-number">4.5</span> Store estimated grid orientation</h2>
+<div id="store-estimated-grid-orientation" class="section level2 hasAnchor" number="4.5">
+<h2><span class="header-section-number">4.5</span> Store estimated grid orientation<a href="estimate-orientation.html#store-estimated-grid-orientation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Calculating GLM 2 requires one reference grid orientation. This could be one separate one per run, but for now, let’s go with the orientation resulting from the average across runs. We pick the amplitude-weighte values.</p>
 <div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="estimate-orientation.html#cb42-1" aria-hidden="true" tabindex="-1"></a>fn <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;glm1&quot;</span>, <span class="st">&quot;glm1_firsthalf&quot;</span>, <span class="st">&quot;avg_orient_ec.txt&quot;</span>)</span>
 <span id="cb42-2"><a href="estimate-orientation.html#cb42-2" aria-hidden="true" tabindex="-1"></a></span>

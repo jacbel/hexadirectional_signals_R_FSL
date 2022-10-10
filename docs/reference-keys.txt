@@ -51,5 +51,4 @@ gridcat
 hosting-on-gitpages
 publishing-on-github-pages
 list-of-r-packages
-references
 session-info

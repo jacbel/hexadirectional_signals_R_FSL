@@ -3,3 +3,4 @@ repo: https://github.com/
 output_dir: ["docs"]
 rmd_subdir: ["code"]
 new_session: no
+bibliography: grateful-refs.bib

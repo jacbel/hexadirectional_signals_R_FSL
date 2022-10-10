@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>2 Example Data | Detecting Hexadirectional Signals in the Human Brain using R and FSL</title>
   <meta name="description" content="2 Example Data | Detecting Hexadirectional Signals in the Human Brain using R and FSL" />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
 
   <meta property="og:title" content="2 Example Data | Detecting Hexadirectional Signals in the Human Brain using R and FSL" />
   <meta property="og:type" content="book" />
-  
   
   
   
@@ -32,7 +31,6 @@
   
 <link rel="prev" href="index.html"/>
 <link rel="next" href="glm-1.html"/>
-<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -50,8 +48,9 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -198,8 +197,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.2" data-path="credit.html"><a href="credit.html#hosting-on-gitpages"><i class="fa fa-check"></i><b>6.2</b> Hosting on GitPages</a></li>
 <li class="chapter" data-level="6.3" data-path="credit.html"><a href="credit.html#publishing-on-github-pages"><i class="fa fa-check"></i><b>6.3</b> Publishing on GitHub Pages</a></li>
 <li class="chapter" data-level="6.4" data-path="credit.html"><a href="credit.html#list-of-r-packages"><i class="fa fa-check"></i><b>6.4</b> List of R packages</a></li>
-<li class="chapter" data-level="6.5" data-path="credit.html"><a href="credit.html#references"><i class="fa fa-check"></i><b>6.5</b> References</a></li>
-<li class="chapter" data-level="6.6" data-path="credit.html"><a href="credit.html#session-info"><i class="fa fa-check"></i><b>6.6</b> Session Info</a></li>
+<li class="chapter" data-level="6.5" data-path="credit.html"><a href="credit.html#session-info"><i class="fa fa-check"></i><b>6.5</b> Session Info</a></li>
 </ul></li>
 </ul>
 
@@ -218,11 +216,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="example-data" class="section level1" number="2">
-<h1><span class="header-section-number">2</span> Example Data</h1>
+<div id="example-data" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">2</span> Example Data<a href="example-data.html#example-data" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>To run the analysis, we want to use example data provided with the <a href="https://www.nitrc.org/projects/gridcat">GridCAT toolbox</a>.</p>
-<div id="download-example-data" class="section level2" number="2.1">
-<h2><span class="header-section-number">2.1</span> Download Example Data</h2>
+<div id="download-example-data" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Download Example Data<a href="example-data.html#download-example-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="example-data.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create data folder if needed</span></span>
 <span id="cb2-2"><a href="example-data.html#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">dir.exists</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>))){<span class="fu">dir.create</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>))}</span>
 <span id="cb2-3"><a href="example-data.html#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -239,8 +237,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb2-14"><a href="example-data.html#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unzip</span>(zip_fn, <span class="at">exdir =</span> <span class="fu">here</span>(<span class="st">&quot;data&quot;</span>))</span>
 <span id="cb2-15"><a href="example-data.html#cb2-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </div>
-<div id="rearrange-data" class="section level2" number="2.2">
-<h2><span class="header-section-number">2.2</span> Rearrange data</h2>
+<div id="rearrange-data" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Rearrange data<a href="example-data.html#rearrange-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>To make things look a bit more realistic, let’s rearrange some of the folders. For now, we will only be operating with one subject that has two runs.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="example-data.html#cb3-1" aria-hidden="true" tabindex="-1"></a>subjects <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;sub01&quot;</span>)</span>
 <span id="cb3-2"><a href="example-data.html#cb3-2" aria-hidden="true" tabindex="-1"></a>runs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;run01&quot;</span>, <span class="st">&quot;run02&quot;</span>)</span></code></pre></div>
@@ -284,8 +282,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb4-38"><a href="example-data.html#cb4-38" aria-hidden="true" tabindex="-1"></a>                      <span class="at">to =</span> <span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;FunctionalScans&quot;</span>, <span class="st">&quot;3D&quot;</span>, <span class="st">&quot;sub01&quot;</span>, <span class="st">&quot;run02&quot;</span>)))</span>
 <span id="cb4-39"><a href="example-data.html#cb4-39" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </div>
-<div id="event-tables" class="section level2" number="2.3">
-<h2><span class="header-section-number">2.3</span> Event Tables</h2>
+<div id="event-tables" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> Event Tables<a href="example-data.html#event-tables" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The event tables in the example data are in a slightly strange format with some missing values (i.e. no angle information for feedback events). Because these missing values are not NAs but literally empty, loading the files results in warnings about parsing issues. We write them to a file where the missing values are replaced with NAs.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="example-data.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># initialize empty tibble to collect all event tables</span></span>
 <span id="cb5-2"><a href="example-data.html#cb5-2" aria-hidden="true" tabindex="-1"></a>event_table_full <span class="ot">&lt;-</span> <span class="fu">tibble</span>()</span>
@@ -309,8 +307,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb5-20"><a href="example-data.html#cb5-20" aria-hidden="true" tabindex="-1"></a>    }</span>
 <span id="cb5-21"><a href="example-data.html#cb5-21" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## Warning: One or more parsing issues, see `problems()` for details
-
-## Warning: One or more parsing issues, see `problems()` for details</code></pre>
+## One or more parsing issues, see `problems()` for details</code></pre>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="example-data.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(event_table_full)</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 6
 ##   name        onset duration angle subID run  
@@ -323,8 +320,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 6 translation 35.9      3.11 112.  sub01 run01</code></pre>
 <p>For each translation (navigation) event, the event table has a duration and and angle value. As we don’t have the raw navigation data, all we can do here is plot overview of the lengths and directions of the trajectories.</p>
 <p>When working with actual data, we will have to make decisions about how to define a trajectory event and how to label it with an angle. This is particularly complex if participants travel in long paths with curves so that they navigate in multiple directions in a translation event. We might want to do some reading here to check how other people did this.</p>
-<div id="trajectory-duration" class="section level3" number="2.3.1">
-<h3><span class="header-section-number">2.3.1</span> Trajectory duration</h3>
+<div id="trajectory-duration" class="section level3 hasAnchor" number="2.3.1">
+<h3><span class="header-section-number">2.3.1</span> Trajectory duration<a href="example-data.html#trajectory-duration" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="example-data.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># we are only interested in the trajectory events </span></span>
 <span id="cb9-2"><a href="example-data.html#cb9-2" aria-hidden="true" tabindex="-1"></a>trajectory_events <span class="ot">&lt;-</span> event_table_full <span class="sc">%&gt;%</span> <span class="fu">filter</span>(name <span class="sc">==</span> <span class="st">&quot;translation&quot;</span>)</span>
 <span id="cb9-3"><a href="example-data.html#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -336,8 +333,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb9-9"><a href="example-data.html#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_cowplot</span>()</span></code></pre></div>
 <p><img src="Hexadirectioal-analysis-pipeline_files/figure-html/trajectory_duration-1.png" width="672" /></p>
 </div>
-<div id="angular-sampling" class="section level3" number="2.3.2">
-<h3><span class="header-section-number">2.3.2</span> Angular Sampling</h3>
+<div id="angular-sampling" class="section level3 hasAnchor" number="2.3.2">
+<h3><span class="header-section-number">2.3.2</span> Angular Sampling<a href="example-data.html#angular-sampling" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>One thing we want to be sure of is that all trajectory directions were sampled somewhat evenly. To do visualize the angular sampling, we plot a polar histogram with 36 bins (10 degree width).</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="example-data.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make polar histogram across trajectory event angles</span></span>
 <span id="cb10-2"><a href="example-data.html#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(trajectory_events, <span class="fu">aes</span>(<span class="at">x=</span>angle)) <span class="sc">+</span></span>
@@ -360,10 +357,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## P-value:  0.7299</code></pre>
 </div>
 </div>
-<div id="fmri" class="section level2" number="2.4">
-<h2><span class="header-section-number">2.4</span> fMRI</h2>
-<div id="merge-images-of-each-run" class="section level3" number="2.4.1">
-<h3><span class="header-section-number">2.4.1</span> Merge images of each run</h3>
+<div id="fmri" class="section level2 hasAnchor" number="2.4">
+<h2><span class="header-section-number">2.4</span> fMRI<a href="example-data.html#fmri" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="merge-images-of-each-run" class="section level3 hasAnchor" number="2.4.1">
+<h3><span class="header-section-number">2.4.1</span> Merge images of each run<a href="example-data.html#merge-images-of-each-run" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>We have two runs of fMRI data from a navigation task. Because the toolbox is built for SPM, each volume is a separate file. Because this is annoying, let’s merge the images of each run to one 4-D file.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="example-data.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i_sub <span class="cf">in</span> subjects){</span>
 <span id="cb14-2"><a href="example-data.html#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i_run <span class="cf">in</span> runs){</span>
@@ -390,8 +387,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb14-23"><a href="example-data.html#cb14-23" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb14-24"><a href="example-data.html#cb14-24" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </div>
-<div id="calculate-tsnr" class="section level3" number="2.4.2">
-<h3><span class="header-section-number">2.4.2</span> Calculate tSNR</h3>
+<div id="calculate-tsnr" class="section level3 hasAnchor" number="2.4.2">
+<h3><span class="header-section-number">2.4.2</span> Calculate tSNR<a href="example-data.html#calculate-tsnr" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="example-data.html#cb15-1" aria-hidden="true" tabindex="-1"></a>calc_tSNR <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">fourD_fn=</span><span class="cn">NULL</span>, <span class="at">tMean_fn=</span><span class="cn">NULL</span>, <span class="at">tStd_fn=</span><span class="cn">NULL</span>, <span class="at">tSNR_fn=</span><span class="cn">NULL</span>){</span>
 <span id="cb15-2"><a href="example-data.html#cb15-2" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb15-3"><a href="example-data.html#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># calculate temporal mean for each voxel</span></span>
@@ -423,8 +420,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb15-29"><a href="example-data.html#cb15-29" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb15-30"><a href="example-data.html#cb15-30" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </div>
-<div id="create-quick-brain-mask" class="section level3" number="2.4.3">
-<h3><span class="header-section-number">2.4.3</span> Create quick brain mask</h3>
+<div id="create-quick-brain-mask" class="section level3 hasAnchor" number="2.4.3">
+<h3><span class="header-section-number">2.4.3</span> Create quick brain mask<a href="example-data.html#create-quick-brain-mask" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>To speed up the GLM, let’s quickly create a brain mask based on the temporal mean image that we can use to mask the functional images. After eye-balling the image, we use a value of 100 to create the mask.</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="example-data.html#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i_sub <span class="cf">in</span> subjects){</span>
 <span id="cb16-2"><a href="example-data.html#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i_run <span class="cf">in</span> runs){</span>
@@ -449,8 +446,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb16-21"><a href="example-data.html#cb16-21" aria-hidden="true" tabindex="-1"></a>         <span class="at">retimg =</span> <span class="cn">FALSE</span>, <span class="at">verbose=</span><span class="cn">FALSE</span>)</span>
 <span id="cb16-22"><a href="example-data.html#cb16-22" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </div>
-<div id="mask-4d-functionals" class="section level3" number="2.4.4">
-<h3><span class="header-section-number">2.4.4</span> Mask 4D functionals</h3>
+<div id="mask-4d-functionals" class="section level3 hasAnchor" number="2.4.4">
+<h3><span class="header-section-number">2.4.4</span> Mask 4D functionals<a href="example-data.html#mask-4d-functionals" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>To speed up the GLM, we use the mask created above to mask out non-brain voxels from the functional images.</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="example-data.html#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i_sub <span class="cf">in</span> subjects){</span>
 <span id="cb17-2"><a href="example-data.html#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i_run <span class="cf">in</span> runs){</span>

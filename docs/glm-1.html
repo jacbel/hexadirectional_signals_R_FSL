@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>3 GLM 1 | Detecting Hexadirectional Signals in the Human Brain using R and FSL</title>
   <meta name="description" content="3 GLM 1 | Detecting Hexadirectional Signals in the Human Brain using R and FSL" />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
 
   <meta property="og:title" content="3 GLM 1 | Detecting Hexadirectional Signals in the Human Brain using R and FSL" />
   <meta property="og:type" content="book" />
-  
   
   
   
@@ -32,7 +31,6 @@
   
 <link rel="prev" href="example-data.html"/>
 <link rel="next" href="estimate-orientation.html"/>
-<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -50,8 +48,9 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -198,8 +197,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.2" data-path="credit.html"><a href="credit.html#hosting-on-gitpages"><i class="fa fa-check"></i><b>6.2</b> Hosting on GitPages</a></li>
 <li class="chapter" data-level="6.3" data-path="credit.html"><a href="credit.html#publishing-on-github-pages"><i class="fa fa-check"></i><b>6.3</b> Publishing on GitHub Pages</a></li>
 <li class="chapter" data-level="6.4" data-path="credit.html"><a href="credit.html#list-of-r-packages"><i class="fa fa-check"></i><b>6.4</b> List of R packages</a></li>
-<li class="chapter" data-level="6.5" data-path="credit.html"><a href="credit.html#references"><i class="fa fa-check"></i><b>6.5</b> References</a></li>
-<li class="chapter" data-level="6.6" data-path="credit.html"><a href="credit.html#session-info"><i class="fa fa-check"></i><b>6.6</b> Session Info</a></li>
+<li class="chapter" data-level="6.5" data-path="credit.html"><a href="credit.html#session-info"><i class="fa fa-check"></i><b>6.5</b> Session Info</a></li>
 </ul></li>
 </ul>
 
@@ -218,19 +216,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="glm-1" class="section level1" number="3">
-<h1><span class="header-section-number">3</span> GLM 1</h1>
+<div id="glm-1" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">3</span> GLM 1<a href="glm-1.html#glm-1" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>The central step of GLM 1 is to run a model including a regressor for navigation periods (defined as translational movements) and two (linear) parametric modulators for that regressor. The parametric modulators are the sine and the cosine of the movement direction of the navigation periods. The beta estimates of these regressors will be used to estimate the orientation of a six-fold signal that will be subject to further analyses in GLM 2.</p>
 <p>GLM 1 and GLM 2 operate on independent data partitions and there are multiple ways to partition the data:<br />
 - use odd/even runs to train/test
 - split each run in half
 - use odd/even trajectories to train/test</p>
 <p>As far as I know, there are no systematic investigations into which method is best (most sensitive, most robust…). Depending on how the estimation and testing procedure is implemented, assumptions about the underlying grid can differ. If the data split is across runs, one assumes that the orientation of the hexadirectional signal is stable over multiple runs. This is not an unreasonable assumption given what we know about grid cells. On the other hand, if the split is within runs (odd/even trajectories or first/second half) it is in principle possible to estimate and test for each run separately, which relaxes the assumption of a grid that is stable over longer periods of time (i.e. runs).</p>
-<div id="first-half-of-each-run" class="section level2" number="3.1">
-<h2><span class="header-section-number">3.1</span> First half of each run</h2>
+<div id="first-half-of-each-run" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> First half of each run<a href="glm-1.html#first-half-of-each-run" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>In keeping with the GridCAT manual, let’s for now split each run in a first and a second half based on the number of navigation periods.</p>
-<div id="ev-files-for-feat" class="section level3" number="3.1.1">
-<h3><span class="header-section-number">3.1.1</span> EV files for FEAT</h3>
+<div id="ev-files-for-feat" class="section level3 hasAnchor" number="3.1.1">
+<h3><span class="header-section-number">3.1.1</span> EV files for FEAT<a href="glm-1.html#ev-files-for-feat" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>For each regressor, FSL FEAT expects an EV (EV = explanatory variable, i.e. regressor) file with 3-column format for each regressor. Let’s load the modified event file and write out the regressors we will want to use. These are:</p>
 <ul>
 <li>navigation EV for all timepoints of translational movement in the entire run</li>
@@ -293,8 +291,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb18-52"><a href="glm-1.html#cb18-52" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb18-53"><a href="glm-1.html#cb18-53" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </div>
-<div id="set-up-the-glm-using-fsl-feat" class="section level3" number="3.1.2">
-<h3><span class="header-section-number">3.1.2</span> Set up the GLM using FSL FEAT</h3>
+<div id="set-up-the-glm-using-fsl-feat" class="section level3 hasAnchor" number="3.1.2">
+<h3><span class="header-section-number">3.1.2</span> Set up the GLM using FSL FEAT<a href="glm-1.html#set-up-the-glm-using-fsl-feat" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The text below is based on clicking through the FEAT GUI for one run and copying the content of the resulting fsf-file to the chunk below. In this text, we replace lines/variables that need to be altered for each subject with a placeholder. These can then easily be filled in for each run of each subject. The chunk below could be shortened by removing the lines that are irrelevant for GLM 1, e.g. preprocessing, which is not carried out here.</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="glm-1.html#cb19-1" aria-hidden="true" tabindex="-1"></a>dsgn <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
 <span id="cb19-2"><a href="glm-1.html#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="st"># FEAT version number</span></span>
@@ -1107,12 +1105,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb21-59"><a href="glm-1.html#cb21-59" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb21-60"><a href="glm-1.html#cb21-60" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </div>
-<div id="run-glm1" class="section level3" number="3.1.3">
-<h3><span class="header-section-number">3.1.3</span> Run GLM1</h3>
+<div id="run-glm1" class="section level3 hasAnchor" number="3.1.3">
+<h3><span class="header-section-number">3.1.3</span> Run GLM1<a href="glm-1.html#run-glm1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>We are ready to run GLM1. We can do so using FEAT or the bare <code>film_gls</code> command.
 NB: For this to work, make sure FSL is correctly configured. On MacOS that might mean starting RStudio from the terminal (<code>open -na Rstudio</code>).</p>
-<div id="feat" class="section level4" number="3.1.3.1">
-<h4><span class="header-section-number">3.1.3.1</span> FEAT</h4>
+<div id="feat" class="section level4 hasAnchor" number="3.1.3.1">
+<h4><span class="header-section-number">3.1.3.1</span> FEAT<a href="glm-1.html#feat" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>We start by running GLM1 using FEAT.</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="glm-1.html#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i_sub <span class="cf">in</span> subjects){</span>
 <span id="cb22-2"><a href="glm-1.html#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (i_run <span class="cf">in</span> runs){ </span>
@@ -1146,8 +1144,8 @@ NB: For this to work, make sure FSL is correctly configured. On MacOS that might
 <p>Covariance matrix &amp; design efficiency:
 <img src="data/glm1/glm1_firsthalf/6fold/sub01/run02.feat/design_cov.png" alt="GLM1 covariance matrix" /></p>
 </div>
-<div id="film_gls" class="section level4" number="3.1.3.2">
-<h4><span class="header-section-number">3.1.3.2</span> FILM_GLS</h4>
+<div id="film_gls" class="section level4 hasAnchor" number="3.1.3.2">
+<h4><span class="header-section-number">3.1.3.2</span> FILM_GLS<a href="glm-1.html#film_gls" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>The command here is based on the command used by FEAT. The results should thus be identical.</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="glm-1.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i_sub <span class="cf">in</span> subjects){</span>
 <span id="cb23-2"><a href="glm-1.html#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i_run <span class="cf">in</span> runs){ </span>
@@ -1183,10 +1181,10 @@ NB: For this to work, make sure FSL is correctly configured. On MacOS that might
 <span id="cb23-32"><a href="glm-1.html#cb23-32" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 </div>
-<div id="results-glm-1" class="section level3" number="3.1.4">
-<h3><span class="header-section-number">3.1.4</span> Results GLM 1</h3>
-<div id="compare-results-from-feat-and-film" class="section level4" number="3.1.4.1">
-<h4><span class="header-section-number">3.1.4.1</span> Compare results from FEAT and FILM</h4>
+<div id="results-glm-1" class="section level3 hasAnchor" number="3.1.4">
+<h3><span class="header-section-number">3.1.4</span> Results GLM 1<a href="glm-1.html#results-glm-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="compare-results-from-feat-and-film" class="section level4 hasAnchor" number="3.1.4.1">
+<h4><span class="header-section-number">3.1.4.1</span> Compare results from FEAT and FILM<a href="glm-1.html#compare-results-from-feat-and-film" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>After running the analysis using FEAT and via film_gls directly, let’s check if the results are comparable. We simply load the images with the results of the F-Test of the periodic sine and cosine regressors and correlate the F-values across voxels.</p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="glm-1.html#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i_sub <span class="cf">in</span> subjects){</span>
 <span id="cb24-2"><a href="glm-1.html#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i_run <span class="cf">in</span> runs){ </span>
@@ -1217,8 +1215,8 @@ NB: For this to work, make sure FSL is correctly configured. On MacOS that might
 <span id="cb24-27"><a href="glm-1.html#cb24-27" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p><img src="Hexadirectioal-analysis-pipeline_files/figure-html/glm1_compare_film_feat-1.png" width="672" /><img src="Hexadirectioal-analysis-pipeline_files/figure-html/glm1_compare_film_feat-2.png" width="672" /></p>
 </div>
-<div id="f-test-results" class="section level4" number="3.1.4.2">
-<h4><span class="header-section-number">3.1.4.2</span> F-Test results</h4>
+<div id="f-test-results" class="section level4 hasAnchor" number="3.1.4.2">
+<h4><span class="header-section-number">3.1.4.2</span> F-Test results<a href="glm-1.html#f-test-results" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Finally, we can plot the F-Test results onto the brain. This F-test is not unbiased, but is often used prominently in papers (c.f. Constantinescu et al., Science, 2016; Bongioanni et al., Nature, 2021). It is not the cross-validated (i.e. tested on an independent data partition), but Bongioanni et al. (Nature, 2021) developed a permutation-based test to use it for significance testing. Using the F-Test on periodic sine and cosine regressors fitted to the entire dataset might be the most powerful approach to demonstrate a hexadirectional signal.</p>
 <p>The plots below are arbitrarily thresholded at F &gt; 2.</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="glm-1.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i_sub <span class="cf">in</span> subjects){</span>

@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>5 GLM 2 | Detecting Hexadirectional Signals in the Human Brain using R and FSL</title>
   <meta name="description" content="5 GLM 2 | Detecting Hexadirectional Signals in the Human Brain using R and FSL" />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
 
   <meta property="og:title" content="5 GLM 2 | Detecting Hexadirectional Signals in the Human Brain using R and FSL" />
   <meta property="og:type" content="book" />
-  
   
   
   
@@ -32,7 +31,6 @@
   
 <link rel="prev" href="estimate-orientation.html"/>
 <link rel="next" href="credit.html"/>
-<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -50,8 +48,9 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -198,8 +197,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.2" data-path="credit.html"><a href="credit.html#hosting-on-gitpages"><i class="fa fa-check"></i><b>6.2</b> Hosting on GitPages</a></li>
 <li class="chapter" data-level="6.3" data-path="credit.html"><a href="credit.html#publishing-on-github-pages"><i class="fa fa-check"></i><b>6.3</b> Publishing on GitHub Pages</a></li>
 <li class="chapter" data-level="6.4" data-path="credit.html"><a href="credit.html#list-of-r-packages"><i class="fa fa-check"></i><b>6.4</b> List of R packages</a></li>
-<li class="chapter" data-level="6.5" data-path="credit.html"><a href="credit.html#references"><i class="fa fa-check"></i><b>6.5</b> References</a></li>
-<li class="chapter" data-level="6.6" data-path="credit.html"><a href="credit.html#session-info"><i class="fa fa-check"></i><b>6.6</b> Session Info</a></li>
+<li class="chapter" data-level="6.5" data-path="credit.html"><a href="credit.html#session-info"><i class="fa fa-check"></i><b>6.5</b> Session Info</a></li>
 </ul></li>
 </ul>
 
@@ -218,8 +216,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="glm-2" class="section level1" number="5">
-<h1><span class="header-section-number">5</span> GLM 2</h1>
+<div id="glm-2" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">5</span> GLM 2<a href="glm-2.html#glm-2" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>GLM 2 aims to quantify responses to navigation events as function of angular difference of the running direction to the orientation estimated based on GLM 1. This can be done using different ways.
 For now, we will implement the parametric modulation and the aligned vs. misaligned approach.</p>
 <p>Let’s start by loading the estimated orientation to use as reference</p>
@@ -232,13 +230,13 @@ For now, we will implement the parametric modulation and the aligned vs. misali
 ##   subID run     periodicity     r avg_ori_deg avg_ori_rad weighted
 ##   &lt;fct&gt; &lt;fct&gt;   &lt;fct&gt;       &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;   
 ## 1 sub01 average 6           0.220        29.3       0.512 weighted</code></pre>
-<div id="second-half-of-each-run" class="section level2" number="5.1">
-<h2><span class="header-section-number">5.1</span> Second half of each run</h2>
+<div id="second-half-of-each-run" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> Second half of each run<a href="glm-2.html#second-half-of-each-run" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We need to run GLM 2 on a data partition that is independent from the one used to estimate GLM 1. In this example case, this is the second half of each run.</p>
-<div id="parametric-modulation-with-cosine-regressor" class="section level3" number="5.1.1">
-<h3><span class="header-section-number">5.1.1</span> Parametric modulation with cosine regressor</h3>
-<div id="ev-files-for-feat-1" class="section level4" number="5.1.1.1">
-<h4><span class="header-section-number">5.1.1.1</span> EV files for FEAT</h4>
+<div id="parametric-modulation-with-cosine-regressor" class="section level3 hasAnchor" number="5.1.1">
+<h3><span class="header-section-number">5.1.1</span> Parametric modulation with cosine regressor<a href="glm-2.html#parametric-modulation-with-cosine-regressor" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="ev-files-for-feat-1" class="section level4 hasAnchor" number="5.1.1.1">
+<h4><span class="header-section-number">5.1.1.1</span> EV files for FEAT<a href="glm-2.html#ev-files-for-feat-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>For each regressor, FSL FEAT expects an EV file with 3-column format for each regressor. Let’s load the modified event file and write out the regressors we will want to use. For the parametric modulation approach these are:</p>
 <ul>
 <li>navigation EV for all timepoints of translational movement in the entire run</li>
@@ -303,8 +301,8 @@ For now, we will implement the parametric modulation and the aligned vs. misali
 <span id="cb45-56"><a href="glm-2.html#cb45-56" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 </div>
-<div id="set-up-the-glm-using-fsl-feat-1" class="section level3" number="5.1.2">
-<h3><span class="header-section-number">5.1.2</span> Set up the GLM using FSL FEAT</h3>
+<div id="set-up-the-glm-using-fsl-feat-1" class="section level3 hasAnchor" number="5.1.2">
+<h3><span class="header-section-number">5.1.2</span> Set up the GLM using FSL FEAT<a href="glm-2.html#set-up-the-glm-using-fsl-feat-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The text below is based on clicking through the FEAT GUI for one run and copying the content of the resulting fsf-file to the chunk below. In this text, we replace lines/variables that need to be altered for each subject with a placeholder. These can then easily be filled in for each run of each subject. The chunk below could be shortened by removing the lines that are irrelevant for GLM 1, e.g. preprocessing, which is not carried out here.</p>
 <div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="glm-2.html#cb46-1" aria-hidden="true" tabindex="-1"></a>dsgn <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
 <span id="cb46-2"><a href="glm-2.html#cb46-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -894,11 +892,11 @@ For now, we will implement the parametric modulation and the aligned vs. misali
 <span id="cb48-59"><a href="glm-2.html#cb48-59" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb48-60"><a href="glm-2.html#cb48-60" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </div>
-<div id="run-glm2" class="section level3" number="5.1.3">
-<h3><span class="header-section-number">5.1.3</span> Run GLM2</h3>
+<div id="run-glm2" class="section level3 hasAnchor" number="5.1.3">
+<h3><span class="header-section-number">5.1.3</span> Run GLM2<a href="glm-2.html#run-glm2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>We are ready to run GLM2. We will do so using FSL FEAT and the bare <code>film_gls</code> command.</p>
-<div id="feat-1" class="section level4" number="5.1.3.1">
-<h4><span class="header-section-number">5.1.3.1</span> FEAT</h4>
+<div id="feat-1" class="section level4 hasAnchor" number="5.1.3.1">
+<h4><span class="header-section-number">5.1.3.1</span> FEAT<a href="glm-2.html#feat-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Let’s start by running the GLM using FEAT.</p>
 <div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="glm-2.html#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i_sub <span class="cf">in</span> subjects){</span>
 <span id="cb49-2"><a href="glm-2.html#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i_run <span class="cf">in</span> runs){ </span>
@@ -933,8 +931,8 @@ For now, we will implement the parametric modulation and the aligned vs. misali
 <p>Covariance matrix &amp; design efficiency:
 <img src="data/glm2/glm2_secondhalf/cosine_pmod/6fold/sub01/run02.feat/design_cov.png" alt="GLM2 covariance matrix" /></p>
 </div>
-<div id="film_gls-1" class="section level4" number="5.1.3.2">
-<h4><span class="header-section-number">5.1.3.2</span> FILM_GLS</h4>
+<div id="film_gls-1" class="section level4 hasAnchor" number="5.1.3.2">
+<h4><span class="header-section-number">5.1.3.2</span> FILM_GLS<a href="glm-2.html#film_gls-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>The command here is based on the command used by FEAT. The results should thus be identical.</p>
 <p>NB: For this to work, make sure FSL is correctly configured. On MacOS that might mean starting RStudio from the terminal (<code>open -na Rstudio</code>).</p>
 <div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="glm-2.html#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i_sub <span class="cf">in</span> subjects){</span>
@@ -974,10 +972,10 @@ For now, we will implement the parametric modulation and the aligned vs. misali
 <span id="cb50-35"><a href="glm-2.html#cb50-35" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 </div>
-<div id="glm-2-results" class="section level3" number="5.1.4">
-<h3><span class="header-section-number">5.1.4</span> GLM 2 results</h3>
-<div id="check-if-results-are-the-same" class="section level4" number="5.1.4.1">
-<h4><span class="header-section-number">5.1.4.1</span> Check if results are the same</h4>
+<div id="glm-2-results" class="section level3 hasAnchor" number="5.1.4">
+<h3><span class="header-section-number">5.1.4</span> GLM 2 results<a href="glm-2.html#glm-2-results" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="check-if-results-are-the-same" class="section level4 hasAnchor" number="5.1.4.1">
+<h4><span class="header-section-number">5.1.4.1</span> Check if results are the same<a href="glm-2.html#check-if-results-are-the-same" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>After running the analysis using FEAT and via film_gls directly, let’s check if the results are comparable.</p>
 <div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="glm-2.html#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i_sub <span class="cf">in</span> subjects){</span>
 <span id="cb51-2"><a href="glm-2.html#cb51-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i_run <span class="cf">in</span> runs){ </span>
@@ -1007,8 +1005,8 @@ For now, we will implement the parametric modulation and the aligned vs. misali
 <span id="cb51-26"><a href="glm-2.html#cb51-26" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p><img src="Hexadirectioal-analysis-pipeline_files/figure-html/glm2_compare_film_feat-1.png" width="672" /><img src="Hexadirectioal-analysis-pipeline_files/figure-html/glm2_compare_film_feat-2.png" width="672" /></p>
 </div>
-<div id="brain-plot" class="section level4" number="5.1.4.2">
-<h4><span class="header-section-number">5.1.4.2</span> Brain plot</h4>
+<div id="brain-plot" class="section level4 hasAnchor" number="5.1.4.2">
+<h4><span class="header-section-number">5.1.4.2</span> Brain plot<a href="glm-2.html#brain-plot" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>On the whole-brain level, we can plot the t-values of the parametric modulator across voxels.
 The plots below are arbitrarily thresholded at t &gt; 1.5.</p>
 <div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="glm-2.html#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i_sub <span class="cf">in</span> subjects){</span>
@@ -1034,8 +1032,8 @@ The plots below are arbitrarily thresholded at t &gt; 1.5.</p>
 <span id="cb52-21"><a href="glm-2.html#cb52-21" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p><img src="Hexadirectioal-analysis-pipeline_files/figure-html/cosine_pmod_brain-1.png" width="672" /><img src="Hexadirectioal-analysis-pipeline_files/figure-html/cosine_pmod_brain-2.png" width="672" /></p>
 </div>
-<div id="ec-results" class="section level4" number="5.1.4.3">
-<h4><span class="header-section-number">5.1.4.3</span> EC results</h4>
+<div id="ec-results" class="section level4 hasAnchor" number="5.1.4.3">
+<h4><span class="header-section-number">5.1.4.3</span> EC results<a href="glm-2.html#ec-results" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Let’s load the EC results into a dataframe.</p>
 <div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="glm-2.html#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># tibble to store output</span></span>
 <span id="cb53-2"><a href="glm-2.html#cb53-2" aria-hidden="true" tabindex="-1"></a>stat_df <span class="ot">&lt;-</span> <span class="fu">tibble</span>()</span>
