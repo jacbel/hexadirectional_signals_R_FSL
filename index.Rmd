@@ -1,6 +1,6 @@
 ---
 title: "Detecting Hexadirectional Signals in the Human Brain using R and FSL"
-author: "Jacob Bellmund"
+author: "Dr. Jacob L. S. Bellmund"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: grateful-refs.bib
