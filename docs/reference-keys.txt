@@ -17,7 +17,6 @@ calculate-tsnr
 create-quick-brain-mask
 mask-4d-functionals
 glm-1
-first-half-of-each-run
 ev-files-for-feat
 set-up-the-glm-using-fsl-feat
 run-glm1
@@ -35,7 +34,6 @@ entorhinal-cortex-average-orientation
 brain-plot-of-estimated-orientations
 store-estimated-grid-orientation
 glm-2
-second-half-of-each-run
 parametric-modulation-with-cosine-regressor
 ev-files-for-feat-1
 set-up-the-glm-using-fsl-feat-1
@@ -48,7 +46,7 @@ brain-plot
 ec-results
 credit
 gridcat
-hosting-on-gitpages
 publishing-on-github-pages
 list-of-r-packages
 session-info
+bibliography
