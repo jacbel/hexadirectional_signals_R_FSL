@@ -1,5 +1,5 @@
 book_filename: "Hexadirectioal analysis pipeline"
-repo: https://github.com/
+repo: https://github.com/jacbel/hexadirectional_signals_R_FSL
 output_dir: ["docs"]
 rmd_subdir: ["code"]
 new_session: no
