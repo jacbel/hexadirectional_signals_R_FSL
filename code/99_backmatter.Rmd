@@ -10,8 +10,6 @@ Here is the reference to the toolbox:
 
 The data can be downloaded from [here](https://www.nitrc.org/projects/gridcat/).
 
-## Hosting on GitPages
-
 ## Publishing on GitHub Pages
 
 To be able to host the HTML output using GitPages, we need to include a file called ```.nojekyll``` in the docs folder where the HTML documentation is stored.
@@ -39,26 +37,9 @@ if(!file.exists(here("code", "apa-6th-edition.csl"))){
 }
 
 pkgs <- grateful::cite_packages(citation.style = "apa-6th-edition", output = "table")
-kable(pkgs)
-#grateful::cite_packages(all.pkg = FALSE, include.rmd=FALSE, style = "apa-6th-edition",
-#                        out.format = "md", out.dir = here("code"))
+knitr::kable(pkgs)
 ```
 
-```{r print_bibliography, results = 'asis', eval = FALSE}
-used_pkgs <-readLines(here("code", "grateful-citations.md"))
-
-# the chunk above produced some output we delete because we don't need it
-file.remove(here("code", "apa-6th-edition.csl"))
-#file.remove(here("apa-6th-edition.csl"))
-#file.remove(here("code", "grateful-refs.bib"))
-file.remove(here("code", "grateful-citations.md"))
-
-# print the references
-ref_line <- which(used_pkgs=="References")
-used_pkgs[ref_line] <- "### References {-}"
-used_pkgs[ref_line+1] <- ""
-paste(used_pkgs, collapse = '\n') %>% cat()
-```
 
 ## Session Info
 
@@ -67,3 +48,6 @@ Lastly, we run session info, using the version from the devtools package.
 ```{r session_info}
 sessionInfo()
 ```
+
+
+## Bibliography

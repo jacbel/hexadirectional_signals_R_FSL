@@ -1,8 +1,27 @@
 
 # GLM 2
 
-GLM 2 aims to quantify responses to navigation events as function of angular difference of the running direction to the orientation estimated based on GLM 1. This can be done using different ways.
-For now, we will implement the parametric modulation and the aligned vs. misaligned approach.
+In the held-out validation data, hexadirectional signal modulations based on the direction of trajectories relative to the estimated orientation $\varphi$  are tested in a new GLM (GLM2, see figure below). These modulations can be tested for in two slightly  different ways: In a continuous approach using parametric regression or in an approach based on binning the data. Both approaches are described below. In either case, you will typically use the result of GLM2 for your group-level statistics.
+
+![Two approaches to testing for hexadirectional signals in GLM2](./static/hexadirectional_analysis_logic_glm2.png)
+
+**Parametric regression looking for sinusoidal modulation**  
+
+In this approach, a parametric regressor testing for a six-fold sinusoidal modulation $(cos(6[\theta(t)-\varphi]))$ will be fitted in GLM2 (see top of the figure above).
+
+From [Doeller et al. (Nature, 2010)](https://www.nature.com/articles/nature08704):
+
+>"We looked for sinusoidal modulation of activation with six-fold rotational symmetry aligned with each participant's mean grid orientation across the whole brain (using the regressor $(cos(6[\theta(t)-\varphi]))$) where $\theta(t)$ is running direction..."
+
+**Contrast of aligned vs. misaligned trajectories**
+
+An alternative approach is to use separate regressors for trajectories that are "aligned" (within ± 15° of the nearest axis of the hexadirectional orientation) and "misaligned" (more than ± 15° from the hexadirectional orientation $\varphi$) in GLM2 (see bottom of the figure above).
+
+From the methods of [Kunz et al. (Science, 2015)](https://www.science.org/doi/10.1126/science.aac8128):
+
+>"...a second GLM was applied to the a priori defined second half of data (sessions 2, 4, and 6) containing regressors for "aligned" (within ± 15° of the nearest axis of the grid) and "misaligned" (more than ± 15° from a grid axis) movements in the virtual arena (Fig. 2A, right panel; Table S5). Contrast values (aligned \> misaligned) were extracted from the right EC ROI and averaged across voxels within participants."
+
+For now, the code below implements the parametric modulations approach.
 
 Let's start by loading the estimated orientation to use as reference
 ```{r load_orient}
@@ -13,13 +32,11 @@ ref_orient <- read_delim(file = fn, delim = "\t",
 head(ref_orient)
 ```
 
-## Second half of each run
-
 We need to run GLM 2 on a data partition that is independent from the one used to estimate GLM 1. In this example case, this is the second half of each run.
 
-### Parametric modulation with cosine regressor
+## Parametric modulation with cosine regressor
 
-#### EV files for FEAT
+### EV files for FEAT
 
 For each regressor, FSL FEAT expects an EV file with 3-column format for each regressor. Let's load the modified event file and write out the regressors we will want to use. For the parametric modulation approach these are:  
 

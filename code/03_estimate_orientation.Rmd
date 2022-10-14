@@ -1,11 +1,24 @@
 
 # Estimate orientation
 
-Based on the parameter estimates for the sine and cosine regressor we will now estimate the orientation of the n-fold symmetric signal. This estimated orientation then forms the basis for GLM2, where we look for signal modulations as a function of angular difference to the estimated orientation.  
+The beta estimates resulting from GLM1 can be used to estimate the orientation of the hexadirectional signal using $$\varphi = [arctan(\beta2/\beta1)]/6$$ This is illustrated in the figure below.
 
-Typically, the orientation is averaged across runs and voxels in a region of interest such as the entorhinal cortex. This is also the approach we will implement here for now. A possible long-term goal is to use the voxelwise orientation for GLM2 for whole-brain/whole-surface analysis. However, I need to better understand how to implement voxelwise regression before I can do this.
+![Estimating the hexadirectional signal orientation.](./static/hexadirectional_analysis_logic_estimate.png)
+
+The orientation is typically estimated based on beta images that are averaged across voxels in a region of interest such as the entorhinal cortex. Often, a weighted average is used with the weight being the amplitude of the sinusoidal modulation. 
+
+
+From [Doeller et al. (Nature, 2010)](https://www.nature.com/articles/nature08704):
+
+>"The ‘mean grid orientation’ for the region ($\varphi$) was defined as the population vector (vector average of grid orientations in each voxel weighted by the amplitude of sinusoidal modulation in that voxel, or $[arctan(<\beta2>/<\beta1>)]/6$ where <> denotes the mean across voxels)..."
+
+From [Kunz et al. (Science, 2015)](https://www.science.org/doi/10.1126/science.aac8128):
+
+>"Next, the $\beta$-values of the two parametric modulators were extracted from the right EC ROI to calculate its putative mean grid orientation in 60° space (varying between -180° and 180°): mean grid orientation $\varphi = arctan(\beta1/\beta2)$, where $\beta1$ = averaged beta value for $sin[\theta(t) * 6]$ and $\beta2$ = averaged beta value for $cos[\theta(t) * 6]$ across voxels of the right EC ROI."
 
 ## Load PEs of parametric modulators
+
+Based on the parameter estimates for the sine and cosine regressor we will now estimate the orientation of the n-fold symmetric signal. This estimated orientation then forms the basis for GLM2, where we look for signal modulations as a function of angular difference to the estimated orientation.  
 
 We begin by building a dataframe holding the parameter estimates (PEs) of the sine and cosine regressor for each subject, run and periodicity.
 ```{r load_PEs}

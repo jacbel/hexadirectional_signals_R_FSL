@@ -1,20 +1,19 @@
 
 # GLM 1
 
-The central step of GLM 1 is to run a model including a regressor for navigation periods (defined as translational movements) and two (linear) parametric modulators for that regressor. The parametric modulators are the sine and the cosine of the movement direction of the navigation periods. The beta estimates of these regressors will be used to estimate the orientation of a six-fold signal that will be subject to further analyses in GLM 2.  
+For the estimation set, a GLM (let's call it GLM1) is implemented that includes two parametric modulators (see figure below): the sine and the cosine of the movement direction through space ($sin(6\theta(t)$ and $cos(6\theta(t)$, where $\theta(t)$ is the direction of trajectory t), e.g. the virtual environment. The angles are multiplied by six because we are interested in six-fold symmetric signals. This value needs to be varied for control symmetries. 
 
-GLM 1 and GLM 2 operate on independent data partitions and there are multiple ways to partition the data:  
-- use odd/even runs to train/test
-- split each run in half
-- use odd/even trajectories to train/test
+From [Kunz et al. (Science, 2015)](https://www.science.org/doi/10.1126/science.aac8128):
 
-As far as I know, there are no systematic investigations into which method is best (most sensitive, most robust...). Depending on how the estimation and testing procedure is implemented, assumptions about the underlying grid can differ. If the data split is across runs, one assumes that the orientation of the hexadirectional signal is stable over multiple runs. This is not an unreasonable assumption given what we know about grid cells. On the other hand, if the split is within runs (odd/even trajectories or first/second half) it is in principle possible to estimate and test for each run separately, which relaxes the assumption of a grid that is stable over longer periods of time (i.e. runs).
+>"Multiplying by six transforms the movement directions into 60° space to account for the six-fold rotational symmetry of potential grid-cell-like representations. In other words, the factor 6 means that these regressors are sensitive to activation showing a six-fold rotational symmetry in running direction (i.e., activation with six evenly spaced peaks as a function of running direction will produce parameter estimates $\beta1$ and $\beta2$ for the two regressors with large amplitude $\sqrt{\beta1² + \beta2²)}$."
 
-## First half of each run
+Note that $\beta1$ and $\beta2$ correspond to the parameter estimates for the cosine and sine regressor, respectively.
 
-In keeping with the GridCAT manual, let's for now split each run in a first and a second half based on the number of navigation periods.
+![Illustration of parametric modulators included in GLM1 ](./static/hexadirectional_analysis_logic_glm1.png)
 
-### EV files for FEAT
+In keeping with the GridCAT manual, let's split each run in a first and a second half based on the number of navigation periods.
+
+## EV files for FEAT
 
 For each regressor, FSL FEAT expects an EV (EV = explanatory variable, i.e. regressor) file with 3-column format for each regressor. Let's load the modified event file and write out the regressors we will want to use. These are:  
 
@@ -82,7 +81,7 @@ for (i_sub in subjects){
 ```
 
 
-### Set up the GLM using FSL FEAT
+## Set up the GLM using FSL FEAT
 
 The text below is based on clicking through the FEAT GUI for one run and copying the content of the resulting fsf-file to the chunk below. In this text, we replace lines/variables that need to be altered for each subject with a placeholder. These can then easily be filled in for each run of each subject. The chunk below could be shortened by removing the lines that are irrelevant for GLM 1, e.g. preprocessing, which is not carried out here.
 
@@ -908,13 +907,12 @@ for (i_sub in subjects){
 }
 ```
 
-### Run GLM1 
+## Run GLM1 
 
 We are ready to run GLM1. We can do so using FEAT or the bare ```film_gls``` command.
 NB: For this to work, make sure FSL is correctly configured. On MacOS that might mean starting RStudio from the terminal (```open -na Rstudio```).
 
-
-#### FEAT
+### FEAT
 
 We start by running GLM1 using FEAT.
 
@@ -954,7 +952,7 @@ Covariance matrix & design efficiency:
 ![GLM1 covariance matrix](`r here("data", "glm1", "glm1_firsthalf", paste0(i_period, "fold"), i_sub, paste0(i_run, ".feat"), "design_cov.png")`)
 
 
-#### FILM_GLS
+### FILM_GLS
 
 The command here is based on the command used by FEAT. The results should thus be identical.
 
@@ -982,7 +980,7 @@ for (i_sub in subjects){
       if (!file.exists(fn)){
         
         # build the command and run
-        cmd <- sprintf("%s/bin/film_gls --in=%s --rn=%s --pd=%s --thr=61 --sa --ms=5 --con=%s --fcon=%s",
+        cmd <- sprintf("%s/bin/film_gls --in=%s --rn=%s --pd=%s --thr=61 --sa --ms=5 --con=%s --fcon=%s", # note that you may want to change these options!
                        fsldir(), func_fn, out_dir, pd_fn, con_fn, fcon_fn)
         system(cmd)
         
@@ -994,8 +992,8 @@ for (i_sub in subjects){
 }
 ```
 
-### Results GLM 1
-#### Compare results from FEAT and FILM
+## Results GLM 1
+### Compare results from FEAT and FILM
 
 After running the analysis using FEAT and via film_gls directly, let's check if the results are comparable. We simply load the images with the results of the F-Test of the periodic sine and cosine regressors and correlate the F-values across voxels. 
 
@@ -1031,7 +1029,7 @@ for (i_sub in subjects){
 
 ```
 
-#### F-Test results
+### F-Test results
 
 Finally, we can plot the F-Test results onto the brain. This F-test is not unbiased, but is often used prominently in papers (c.f. Constantinescu et al., Science, 2016; Bongioanni et al., Nature, 2021). It is not the cross-validated (i.e. tested on an independent data partition), but Bongioanni et al. (Nature, 2021)  developed a permutation-based test to use it for significance testing. Using the F-Test on periodic sine and cosine regressors fitted to the entire dataset might be the most powerful approach to demonstrate a hexadirectional signal. 
 
