@@ -287,17 +287,53 @@ Visualization by Jacob Bellmund, licensed under <a href="https://creativecommons
 <div id="required-packages" class="section level2 hasAnchor" number="1.3">
 <h2><span class="header-section-number">1.3</span> Required packages<a href="index.html#required-packages" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We begin by loading the required packages (after installing them if necessary).</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="index.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(bookdown)){<span class="fu">install.packages</span>(<span class="st">&quot;bookdown&quot;</span>); <span class="fu">library</span>(<span class="st">&quot;bookdown&quot;</span>)}</span>
-<span id="cb1-2"><a href="index.html#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(tidyverse)){<span class="fu">install.packages</span>(<span class="st">&quot;tidyverse&quot;</span>); <span class="fu">library</span>(<span class="st">&quot;tidyverse&quot;</span>)}</span>
-<span id="cb1-3"><a href="index.html#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(here)){<span class="fu">install.packages</span>(<span class="st">&quot;here&quot;</span>); <span class="fu">library</span>(<span class="st">&quot;here&quot;</span>)}</span>
-<span id="cb1-4"><a href="index.html#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(fslr)){<span class="fu">install.packages</span>(<span class="st">&quot;fslr&quot;</span>); <span class="fu">library</span>(<span class="st">&quot;fslr&quot;</span>)}</span>
-<span id="cb1-5"><a href="index.html#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(oro.nifti)){<span class="fu">install.packages</span>(<span class="st">&quot;oro.nifti&quot;</span>); <span class="fu">library</span>(<span class="st">&quot;oro.nifti&quot;</span>)}</span>
-<span id="cb1-6"><a href="index.html#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(cowplot)){<span class="fu">install.packages</span>(<span class="st">&quot;cowplot&quot;</span>); <span class="fu">library</span>(<span class="st">&quot;cowplot&quot;</span>)}</span>
-<span id="cb1-7"><a href="index.html#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(useful)){<span class="fu">install.packages</span>(<span class="st">&quot;useful&quot;</span>); <span class="fu">library</span>(<span class="st">&quot;useful&quot;</span>)}</span>
-<span id="cb1-8"><a href="index.html#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(circular)){<span class="fu">install.packages</span>(<span class="st">&quot;circular&quot;</span>); <span class="fu">library</span>(<span class="st">&quot;circular&quot;</span>)}</span>
-<span id="cb1-9"><a href="index.html#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(remotes)){<span class="fu">install.packages</span>(<span class="st">&quot;remotes&quot;</span>); <span class="fu">library</span>(<span class="st">&quot;remotes&quot;</span>)}</span>
-<span id="cb1-10"><a href="index.html#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(grateful)){remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;Pakillo/grateful&quot;</span>); <span class="fu">library</span>(<span class="st">&quot;grateful&quot;</span>)}</span>
-<span id="cb1-11"><a href="index.html#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">#if (!require(tidylog)){install.packages(&quot;tidylog&quot;); library(&quot;tidylog&quot;, warn.conflicts = FALSE)} # very helpful logs of dplyr functions, but too much output for now</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="index.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(bookdown)){<span class="fu">install.packages</span>(<span class="st">&quot;bookdown&quot;</span>); <span class="fu">library</span>(<span class="st">&quot;bookdown&quot;</span>)}</span></code></pre></div>
+<pre><code>## Loading required package: bookdown</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="index.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(tidyverse)){<span class="fu">install.packages</span>(<span class="st">&quot;tidyverse&quot;</span>); <span class="fu">library</span>(<span class="st">&quot;tidyverse&quot;</span>)}</span></code></pre></div>
+<pre><code>## Loading required package: tidyverse</code></pre>
+<pre><code>## ── Attaching packages ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
+<pre><code>## ✔ ggplot2 3.3.6     ✔ purrr   0.3.4
+## ✔ tibble  3.1.7     ✔ dplyr   1.0.9
+## ✔ tidyr   1.2.0     ✔ stringr 1.4.0
+## ✔ readr   2.1.2     ✔ forcats 0.5.1</code></pre>
+<pre><code>## ── Conflicts ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="index.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(here)){<span class="fu">install.packages</span>(<span class="st">&quot;here&quot;</span>); <span class="fu">library</span>(<span class="st">&quot;here&quot;</span>)}</span></code></pre></div>
+<pre><code>## Loading required package: here</code></pre>
+<pre><code>## here() starts at /data/tu_bellmund/projects/hexadirectional_signals_R_FSL</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="index.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(fslr)){<span class="fu">install.packages</span>(<span class="st">&quot;fslr&quot;</span>); <span class="fu">library</span>(<span class="st">&quot;fslr&quot;</span>)}</span></code></pre></div>
+<pre><code>## Loading required package: fslr</code></pre>
+<pre><code>## Loading required package: oro.nifti</code></pre>
+<pre><code>## oro.nifti 0.11.4</code></pre>
+<pre><code>## 
+## Attaching package: &#39;oro.nifti&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     slice</code></pre>
+<pre><code>## Loading required package: neurobase</code></pre>
+<pre><code>## Please cite the fslr package using:
+## Jenkinson M, Beckmann CF, Behrens TE, Woolrich MW, Smith SM (2012). &quot;FSL.&quot; _Neuroimage_, *62*(2), 782-790.
+## 
+## Muschelli J, Sweeney E, Lindquist M, Crainiceanu C (2015). &quot;fslr: Connecting the FSL Software with R.&quot; _The R Journal_, *7*(1), 163-175.</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="index.html#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(oro.nifti)){<span class="fu">install.packages</span>(<span class="st">&quot;oro.nifti&quot;</span>); <span class="fu">library</span>(<span class="st">&quot;oro.nifti&quot;</span>)}</span>
+<span id="cb19-2"><a href="index.html#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(cowplot)){<span class="fu">install.packages</span>(<span class="st">&quot;cowplot&quot;</span>); <span class="fu">library</span>(<span class="st">&quot;cowplot&quot;</span>)}</span></code></pre></div>
+<pre><code>## Loading required package: cowplot</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="index.html#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(useful)){<span class="fu">install.packages</span>(<span class="st">&quot;useful&quot;</span>); <span class="fu">library</span>(<span class="st">&quot;useful&quot;</span>)}</span></code></pre></div>
+<pre><code>## Loading required package: useful</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="index.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(circular)){<span class="fu">install.packages</span>(<span class="st">&quot;circular&quot;</span>); <span class="fu">library</span>(<span class="st">&quot;circular&quot;</span>)}</span></code></pre></div>
+<pre><code>## Loading required package: circular</code></pre>
+<pre><code>## Package &#39;circular&#39;, 0.4-95 (2022-04-26). Type &#39;help(Circular)&#39; for summary information.</code></pre>
+<pre><code>## 
+## Attaching package: &#39;circular&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     sd, var</code></pre>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="index.html#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(remotes)){<span class="fu">install.packages</span>(<span class="st">&quot;remotes&quot;</span>); <span class="fu">library</span>(<span class="st">&quot;remotes&quot;</span>)}</span></code></pre></div>
+<pre><code>## Loading required package: remotes</code></pre>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="index.html#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(grateful)){remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;Pakillo/grateful&quot;</span>); <span class="fu">library</span>(<span class="st">&quot;grateful&quot;</span>)}</span></code></pre></div>
+<pre><code>## Loading required package: grateful</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="index.html#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co">#if (!require(tidylog)){install.packages(&quot;tidylog&quot;); library(&quot;tidylog&quot;, warn.conflicts = FALSE)} # very helpful logs of dplyr functions, but too much output for now</span></span></code></pre></div>
 
 </div>
 </div>
